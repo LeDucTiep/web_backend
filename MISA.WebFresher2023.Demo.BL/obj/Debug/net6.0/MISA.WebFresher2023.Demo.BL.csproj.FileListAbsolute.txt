@@ -1,0 +1,17 @@
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.BL.deps.json
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.BL.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.BL.pdb
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.BL.csproj.AssemblyReference.cache
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.BL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.BL.AssemblyInfoInputs.cache
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.BL.AssemblyInfo.cs
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.BL.csproj.CoreCompileInputs.cache
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.BL.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\refint\MISA.WebFresher2023.Demo.BL.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.BL.pdb
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\ref\MISA.WebFresher2023.Demo.BL.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.Common.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.DL.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.Common.pdb
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.DL.pdb
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.BL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.BL.csproj.CopyComplete

@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "uiGhlxvkSED1EfnkdyymnvFAQhNoCe+rpP/KfdHuHNRpPGEjdAxATt1ZXSm/iV4HhyAOaPANmNffPyQRJFYXbg==",
+  "success": true,
+  "projectFilePath": "D:\\Misa\\ThucTap\\backend\\MISA.WebFresher2023.Demo\\MISA.WebFresher2023.Demo.DL\\MISA.WebFresher2023.Demo.DL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ADMIN\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\mysqlconnector\\2.2.6\\mysqlconnector.2.2.6.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

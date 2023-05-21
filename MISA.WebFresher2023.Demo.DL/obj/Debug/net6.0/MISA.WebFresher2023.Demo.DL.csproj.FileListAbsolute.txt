@@ -1,0 +1,15 @@
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.DL.csproj.AssemblyReference.cache
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.DL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.DL.AssemblyInfoInputs.cache
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.DL.AssemblyInfo.cs
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.DL.csproj.CoreCompileInputs.cache
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.DL.deps.json
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.DL.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.DL.pdb
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.Common.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\bin\Debug\net6.0\MISA.WebFresher2023.Demo.Common.pdb
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.DL.csproj.CopyComplete
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.DL.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\refint\MISA.WebFresher2023.Demo.DL.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\MISA.WebFresher2023.Demo.DL.pdb
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.DL\obj\Debug\net6.0\ref\MISA.WebFresher2023.Demo.DL.dll

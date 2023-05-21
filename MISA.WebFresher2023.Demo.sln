@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher2023.Demo", "MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.csproj", "{077B4102-08EB-4605-83CC-18D35739BAB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher2023.Demo.UnitTests", "MISA.WebFresher2023.Demo.UnitTests\MISA.WebFresher2023.Demo.UnitTests.csproj", "{B786BF27-5B0E-4029-9585-F7C1829D1036}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.WebFresher2023.Demo.BL", "MISA.WebFresher2023.Demo.BL\MISA.WebFresher2023.Demo.BL.csproj", "{0FE5E0D0-3BB1-431D-807A-5E330F9FB295}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.WebFresher2023.Demo.DL", "MISA.WebFresher2023.Demo.DL\MISA.WebFresher2023.Demo.DL.csproj", "{D5644ECC-056F-4229-AE1E-DE6FE3FE03A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.WebFresher2023.Demo.Common", "MISA.WebFresher2023.Demo.Common\MISA.WebFresher2023.Demo.Common.csproj", "{32039E98-5F6A-4F53-A72D-436E984F57C7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{077B4102-08EB-4605-83CC-18D35739BAB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{077B4102-08EB-4605-83CC-18D35739BAB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{077B4102-08EB-4605-83CC-18D35739BAB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{077B4102-08EB-4605-83CC-18D35739BAB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B786BF27-5B0E-4029-9585-F7C1829D1036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B786BF27-5B0E-4029-9585-F7C1829D1036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B786BF27-5B0E-4029-9585-F7C1829D1036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B786BF27-5B0E-4029-9585-F7C1829D1036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FE5E0D0-3BB1-431D-807A-5E330F9FB295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FE5E0D0-3BB1-431D-807A-5E330F9FB295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FE5E0D0-3BB1-431D-807A-5E330F9FB295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FE5E0D0-3BB1-431D-807A-5E330F9FB295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5644ECC-056F-4229-AE1E-DE6FE3FE03A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5644ECC-056F-4229-AE1E-DE6FE3FE03A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5644ECC-056F-4229-AE1E-DE6FE3FE03A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5644ECC-056F-4229-AE1E-DE6FE3FE03A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32039E98-5F6A-4F53-A72D-436E984F57C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32039E98-5F6A-4F53-A72D-436E984F57C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32039E98-5F6A-4F53-A72D-436E984F57C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32039E98-5F6A-4F53-A72D-436E984F57C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F729410C-89E7-4ADE-9955-0157833F19BF}
+	EndGlobalSection
+EndGlobal
