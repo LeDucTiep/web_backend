@@ -11,7 +11,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PositionController : BaseController<PositionDto, PositionUpdateDto>
+    public class PositionController : BaseController<Position, PositionDto, PositionCreateDto, PositionUpdateDto>
     {
         private readonly IPositionService _positionService;
 

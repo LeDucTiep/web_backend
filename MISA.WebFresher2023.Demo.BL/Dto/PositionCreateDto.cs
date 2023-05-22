@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Dto
 {
-    public class PositionDto
+    public class PositionCreateDto
     {
-        public Guid PositionId { get; set; }
         public string? PositionName { get; set; }
     }
 }

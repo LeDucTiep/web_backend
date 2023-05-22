@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MISA.WebFresher2023.Demo.BL.Dto;
 using MISA.WebFresher2023.Demo.BL.Service;
 using MISA.WebFresher2023.Demo.DL.Entity;
+using MISA.WebFresher2023.Demo.DL.Model;
 using MISA.WebFresher2023.Demo.DL.Repository;
 using MySqlConnector;
 using System.Data;
@@ -14,7 +15,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
 {
     [Route("api/v1/[controller]s")]
     [ApiController]
-    public class EmployeeController : BaseController<EmployeeDto, EmployeeUpdateDto>
+    public class EmployeeController : BaseController<Employee, EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
     {
         protected readonly IEmployeeService _employeeService;
         public EmployeeController(
@@ -31,7 +32,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <returns></returns>
         [Route("is-existed-code")]
         [HttpGet]
-        public async Task<bool> CheckIsExistedCode(string code)
+        public async Task<bool> CheckIsExistedCodeAsync(string code)
         {
             // Tạo connection
             return await _employeeService.CheckEmployeeCode(code);
@@ -47,7 +48,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         // GET: api/employees/filter
         [Route("filter")]
         [HttpGet]
-        public async Task<EmployeePageDto> GetPage(int pageSize, int pageNumber, string? employeeFilter)
+        public async Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeFilter)
         {
             return await _employeeService.GetPage(pageSize, pageNumber, employeeFilter);
         }
@@ -59,7 +60,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         // GET api/v1/Employees/NewEmployeeCode
         [Route("NewEmployeeCode")]
         [HttpGet]
-        public async Task<string> GetNewEmployeeCode()
+        public async Task<string> GetNewEmployeeCodeAsync()
         {
             return await _employeeService.GetNewEmployeeCode();
         }
@@ -71,9 +72,27 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <returns>Mã kết quả</returns>
         // POST api/<EmployeeController>
         [HttpPost]
-        public async Task<int> Post(Employee employee)
+        public async Task<IActionResult> PostAsync(EmployeeCreateDto employee)
         {
-            return await _employeeService.PostAsync(employee);
+            EmployeeReturner employeeReturner = await _employeeService.PostAsync(employee);
+            return employeeReturner.ErrorCode switch
+            {
+                1 => StatusCode(400,
+                                        new
+                                        {
+                                            Message = "Không tồn tại departmentId"
+                                        }),
+                2 => StatusCode(400,
+                        new
+                        {
+                            Message = "Không tồn tại positionId"
+                        }),
+                _ => StatusCode(200,
+                        new
+                        {
+                            employeeReturner.Employee.EmployeeId,
+                        }),
+            };
         }
 
         /// <summary>
@@ -87,20 +106,6 @@ namespace MISA.WebFresher2023.Demo.Controllers
         public async Task<IActionResult> PutAsync(Guid id, [FromBody] EmployeeUpdateDto employeeUpdateDto)
         {
             return Ok(await _baseService.UpdateAsync(id, employeeUpdateDto));
-            
-
-        }
-
-        /// <summary>
-        /// API xóa một nhân viên
-        /// </summary>
-        /// <param name="id">Mã của nhân viên cần xóa </param>
-        /// <returns>Mã lỗi trả về</returns>
-        // DELETE api/<EmployeeController>/5
-        [HttpDelete("{id}")]
-        public override async Task<int> DeleteAsync(Guid id)
-        {
-            return await _employeeService.DeleteAsync(id);
         }
     }
 }

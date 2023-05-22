@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public class PositionService : BaseService<Department, DepartmentDto, DepartmentUpdateDto>, IPositionService
+    public class PositionService : BaseService<Position, PositionDto, PositionCreateDto, PositionUpdateDto>, IPositionService
     {
-        public PositionService(IBaseRepository<Department> baseRepository, IMapper mapper) : base(baseRepository, mapper)
+        public PositionService(IBaseRepository<Position> baseRepository, IMapper mapper) : base(baseRepository, mapper)
         {
         }
         public async Task<IEnumerable<Position>> GetAllAsync()
@@ -35,7 +35,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             throw new NotImplementedException();
         }
 
-        Task<PositionDto?> IBaseService<PositionDto, PositionUpdateDto>.GetAsync(Guid id)
+        Task<PositionDto?> IBaseService<Position, PositionDto, PositionCreateDto, PositionUpdateDto>.GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

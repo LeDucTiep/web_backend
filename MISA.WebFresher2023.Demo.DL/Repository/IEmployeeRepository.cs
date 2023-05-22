@@ -1,15 +1,13 @@
 ﻿using MISA.WebFresher2023.Demo.DL.Entity;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MISA.WebFresher2023.Demo.DL.Model;
 
 namespace MISA.WebFresher2023.Demo.DL.Repository
 {
     public interface IEmployeeRepository : IBaseRepository<Employee>
     {
-        Task<bool> CheckEmployeeCode(string employeeCode);
+        public Task<bool> CheckEmployeeCode(string employeeCode);
+        public Task<string> GetNewEmployeeCode();
+        public Task<EmployeePage> GetPage(int pageSize, int pageNumber, string? employeeFilter);
+        public new Task<EmployeeReturner> PostAsync(Employee employee);
     }
 }

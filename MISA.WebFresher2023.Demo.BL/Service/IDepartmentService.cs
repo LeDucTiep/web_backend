@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public interface IDepartmentService : IBaseService<DepartmentDto, DepartmentUpdateDto>
+    public interface IDepartmentService : IBaseService<Department, DepartmentDto, DepartmentCreateDto, DepartmentUpdateDto>
     {
         public Task<IEnumerable<Department>> GetAllAsync();
     }

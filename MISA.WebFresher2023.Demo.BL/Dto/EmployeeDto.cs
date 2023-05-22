@@ -22,7 +22,5 @@ namespace MISA.WebFresher2023.Demo.BL.Dto
         public string? IdentityPlace { get; set; }
         public Guid? PositionId { get; set; }
         public Guid? DepartmentId { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public string? CreatedBy { get; set; }
     }
 }

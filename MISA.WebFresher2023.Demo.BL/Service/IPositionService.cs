@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public interface IPositionService : IBaseService<PositionDto, PositionUpdateDto>
+    public interface IPositionService : IBaseService<Position, PositionDto, PositionCreateDto, PositionUpdateDto>
     {
         public Task<IEnumerable<Position>> GetAllAsync();
     }

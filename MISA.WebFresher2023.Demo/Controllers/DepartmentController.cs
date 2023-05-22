@@ -10,7 +10,7 @@ using System.Data;
 namespace MISA.WebFresher2023.Demo.Controllers
 {
     [Route("api/v1/[controller]s")]
-    public class DepartmentController : BaseController<DepartmentDto, DepartmentUpdateDto>
+    public class DepartmentController : BaseController<Department, DepartmentDto, DepartmentCreateDto, DepartmentUpdateDto>
     {
         private readonly IDepartmentService _departmentService;
 

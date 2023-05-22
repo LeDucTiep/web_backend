@@ -8,5 +8,6 @@ namespace MISA.WebFresher2023.Demo.BL.Dto
 {
     public class PositionUpdateDto
     {
+        public string? PositionName { get; set; }
     }
 }

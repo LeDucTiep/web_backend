@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MISA.WebFresher2023.Demo.DL.Entity;
 
-namespace MISA.WebFresher2023.Demo.DL.Entity
+namespace MISA.WebFresher2023.Demo.DL.Model
 {
-    public class EmployeePageDto
+    public class EmployeePage
     {
-        public EmployeePageDto(int totalRecord, IEnumerable<Employee> employees)
+        public EmployeePage(int totalRecord, IEnumerable<Employee> employees)
         {
             TotalRecord = totalRecord;
             Data = employees;
