@@ -52,7 +52,12 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 
             return result;
         }
-
+        /// <summary>
+        /// Hàm update một bản ghi
+        /// </summary>
+        /// <param name="id">Id của bản ghi</param>
+        /// <param name="entity">Giá trị bản ghi</param>
+        /// <returns>Mã lỗi</returns>
         public virtual async Task<int?> UpdateAsync(Guid id, TEntityUpdateDto entity)
         {
             TEntity e = _mapper.Map<TEntity>(entity);

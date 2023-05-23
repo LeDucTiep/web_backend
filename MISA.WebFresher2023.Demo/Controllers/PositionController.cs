@@ -9,8 +9,7 @@ using System.Data;
 
 namespace MISA.WebFresher2023.Demo.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("api/v1/[controller]s")]
     public class PositionController : BaseController<Position, PositionDto, PositionCreateDto, PositionUpdateDto>
     {
         private readonly IPositionService _positionService;
@@ -21,6 +20,11 @@ namespace MISA.WebFresher2023.Demo.Controllers
             _positionService = positionService;
         }
 
+        /// <summary>
+        /// API lấy tất cả chức vụ
+        /// </summary>
+        /// <returns>Danh sách chức vụ</returns>
+        /// Author: LeDucTiep (23/05/2023)
         // GET api/<PositionController>/5
         [HttpGet]
         public async Task<IEnumerable<Position>> GetAllAsync()

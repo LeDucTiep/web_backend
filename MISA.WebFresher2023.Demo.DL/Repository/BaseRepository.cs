@@ -26,6 +26,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// </summary>
         /// <param name="id">Id của bản ghi</param>
         /// <returns>Mã lỗi</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<int> DeleteAsync(Guid id)
         {
             var table = typeof(TEntity).Name;
@@ -37,7 +38,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             {
                 var dynamicParams = new DynamicParameters();
                 dynamicParams.Add("errorCode", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                dynamicParams.Add($"{table.ToLower()}Id", id);
+                dynamicParams.Add($"{table}Id", id);
 
                 await connection.QueryAsync(
                     procedure,
@@ -55,6 +56,12 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             }
         }
 
+        /// <summary>
+        /// Hàm lấy một bản ghi
+        /// </summary>
+        /// <param name="id">Id của bản ghi</param>
+        /// <returns>Giá trị của bản ghi</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<TEntity?> GetAsync(Guid id)
         {
             var table = typeof(TEntity).Name;
@@ -77,6 +84,11 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             }
         }
 
+        /// <summary>
+        /// Hàm tạo kết nối đến cơ sở dữ liệu
+        /// </summary>
+        /// <returns>Kết nối đến database</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<DbConnection> GetOpenConnectionAsync()
         {
             var connection = new MySqlConnection(_connectionString);
@@ -84,6 +96,12 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             return connection;
         }
 
+        /// <summary>
+        /// Hàm thêm một bản ghi
+        /// </summary>
+        /// <param name="entity">Giá trị của bản ghi</param>
+        /// <returns>Mã lỗi</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<int?> PostAsync(TEntity entity)
         {
             var table = typeof(TEntity).Name;
@@ -98,20 +116,20 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
 
                 // Tạo id mới
                 Guid newId = Guid.NewGuid();
-                
 
-                foreach (System.Reflection.PropertyInfo property in entity.GetType().GetProperties())
+                var properties = entity.GetType().GetProperties();
+                foreach (System.Reflection.PropertyInfo property in properties)
                 {
                     var name = property.Name;
 
-                    if(name == $"{table.ToLower()}Id")
+                    if(name == $"{table}Id")
                     {
                         property.SetValue(entity, newId, null);
 
-                        dynamicParams.Add($"{table.ToLower()}Id", newId);
+                        dynamicParams.Add($"{table}Id", newId);
                     }
 
-                    if (name == "modifiedBy" || name == "modifiedDate")
+                    if (name == "ModifiedBy" || name == "ModifiedDate")
                         continue;
 
                     var value = property.GetValue(entity);
@@ -138,6 +156,13 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             }
         }
 
+        /// <summary>
+        /// Hàm update một bản ghi
+        /// </summary>
+        /// <param name="id">Id của bản ghi</param>
+        /// <param name="entity">Giá trị của bản ghi</param>
+        /// <returns>Mã lỗi</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<int?> UpdateAsync(Guid id, TEntity entity)
         {
             var table = typeof(TEntity).Name;
@@ -150,25 +175,26 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 var dynamicParams = new DynamicParameters();
                 dynamicParams.Add("errorCode", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                
-                foreach (System.Reflection.PropertyInfo property in entity.GetType().GetProperties())
+                var properties = entity.GetType().GetProperties();
+                foreach (System.Reflection.PropertyInfo property in properties)
                 {
                     var name = property.Name;
 
-                    if (name == $"{table.ToLower()}Id")
+                    if (name == $"{table}Id")
                     {
-                        dynamicParams.Add($"{table.ToLower()}Id", id);
+                        dynamicParams.Add($"{table}Id", id);
+                        continue;
                     }
 
-                    if (name == "createdBy" || name == "createdDate")
+                    if (name == "CreatedBy" || name == "CreatedDate")
                         continue;
 
                     var value = property.GetValue(entity);
                     dynamicParams.Add(name, value);
                 }
 
-                dynamicParams.Add("modifiedBy", User.Name);
-                dynamicParams.Add("modifiedDate", DateTime.Now);
+                dynamicParams.Add("ModifiedBy", User.Name);
+                dynamicParams.Add("ModifiedDate", DateTime.Now);
 
                 await connection.QueryAsync(
                     procedure,

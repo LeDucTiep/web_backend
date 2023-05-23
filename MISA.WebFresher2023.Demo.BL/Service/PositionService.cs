@@ -15,7 +15,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 {
     public class PositionService : BaseService<Position, PositionDto, PositionCreateDto, PositionUpdateDto>, IPositionService
     {
-        public PositionService(IBaseRepository<Position> baseRepository, IMapper mapper) : base(baseRepository, mapper)
+        public PositionService(IPositionRepository positionRepository, IMapper mapper) : base(positionRepository, mapper)
         {
         }
         public async Task<IEnumerable<Position>> GetAllAsync()
@@ -28,16 +28,6 @@ namespace MISA.WebFresher2023.Demo.BL.Service
                 "Proc_Position_GetAll",
                 commandType: CommandType.StoredProcedure
             );
-        }
-
-        public Task<PositionDto?> UpdateAsync(Guid id, PositionUpdateDto updateDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<PositionDto?> IBaseService<Position, PositionDto, PositionCreateDto, PositionUpdateDto>.GetAsync(Guid id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

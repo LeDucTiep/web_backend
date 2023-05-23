@@ -18,6 +18,11 @@ namespace MISA.WebFresher2023.Demo.Controllers
         {
             _departmentService = departmentService;
         }
+        /// <summary>
+        /// API lấy tất cả danh sách phòng ban
+        /// </summary>
+        /// <returns>Danh sách phòng ban</returns>
+        /// Author: LeDucTiep (23/05/2023)
         [HttpGet]
         public async Task<IEnumerable<Department>> Get()
         {

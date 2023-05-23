@@ -18,6 +18,11 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         public DepartmentService(IDepartmentRepository departmentRepository, IMapper mapper) : base(departmentRepository, mapper)
         {
         }
+        /// <summary>
+        /// Hàm lấy tất cả phòng ban
+        /// </summary>
+        /// <returns>Danh sách phòng ban</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public async Task<IEnumerable<Department>> GetAllAsync()
         {
             // Tạo connection

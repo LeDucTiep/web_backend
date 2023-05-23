@@ -9,12 +9,12 @@ namespace MISA.WebFresher2023.Demo.DL.Model
 {
     public class EmployeePage
     {
-        public EmployeePage(int totalRecord, IEnumerable<Employee> employees)
+        public EmployeePage(int totalRecord, IEnumerable<EmployeeOutPage> employees)
         {
             TotalRecord = totalRecord;
             Data = employees;
         }
         public int TotalRecord { get; set; }
-        public IEnumerable<Employee> Data { get; set; }
+        public IEnumerable<EmployeeOutPage> Data { get; set; }
     }
 }

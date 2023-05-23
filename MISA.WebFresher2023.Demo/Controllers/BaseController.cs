@@ -19,6 +19,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// </summary>
         /// <param name="id">Id của nhân viên cần lấy</param>
         /// <returns>Thông tin của nhân viên đó</returns>
+        /// Author: LeDucTiep (23/05/2023)
         // GET api/<EmployeeController>/guid
         [HttpGet("{id}")]
         public virtual async Task<TEntityDto?> GetAsync(Guid id)
@@ -32,6 +33,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// </summary>
         /// <param name="id">Mã của nhân viên cần xóa </param>
         /// <returns>Mã lỗi trả về</returns>
+        /// Author: LeDucTiep (23/05/2023)
         [HttpDelete("{id}")]
         public virtual async Task<int?> DeleteAsync(Guid id)
         {

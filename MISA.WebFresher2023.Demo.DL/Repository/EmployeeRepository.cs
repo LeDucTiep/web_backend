@@ -22,6 +22,12 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         {
         }
 
+        /// <summary>
+        /// Hàm kiểm tra mã EmployeeCode đã tồn tại chưa
+        /// </summary>
+        /// <param name="employeeCode">EmployeeCode</param>
+        /// <returns>bool</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public async Task<bool> CheckEmployeeCode(string employeeCode)
         {
             // Tạo connection
@@ -48,6 +54,11 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             }
         }
 
+        /// <summary>
+        /// Hàm tạo ra mã employeeCode
+        /// </summary>
+        /// <returns>Mã employeeCode mới</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public async Task<string> GetNewEmployeeCode()
         {
             // Tạo connection
@@ -88,6 +99,14 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             }
         }
 
+        /// <summary>
+        /// Hàm lấy một trang thông tin nhân viên
+        /// </summary>
+        /// <param name="pageSize">Số lượng nhân viên trong một trang</param>
+        /// <param name="pageNumber">Số thứ tự trang</param>
+        /// <param name="employeeFilter">Từ khóa cần tìm kiếm theo tên hoặc theo mã nhân viên</param>
+        /// <returns>Trang nhân viên</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public async Task<EmployeePage> GetPage(int pageSize, int pageNumber, string? employeeFilter)
         {
             // Tạo connection
@@ -106,7 +125,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             parameters.Add("totalRecord", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
             // Gọi procedure 
-            var res = await connection.QueryAsync<Employee>(
+            var res = await connection.QueryAsync<EmployeeOutPage>(
                 "Proc_Employee_PagingByFullNameOrEmployeeCode",
                 param: parameters,
                 commandType: CommandType.StoredProcedure
@@ -121,7 +140,12 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             // trả về kết quả
             return new EmployeePage(totalRecord, res);
         }
-
+        /// <summary>
+        /// Hàm thêm một nhân viên mới
+        /// </summary>
+        /// <param name="employee">Thông tin của nhân viên mới</param>
+        /// <returns></returns>
+        /// Author: LeDucTiep (23/05/2023)
         async Task<EmployeeReturner> IEmployeeRepository.PostAsync(Employee employee)
         {
             int? errorCode = await base.PostAsync(employee);

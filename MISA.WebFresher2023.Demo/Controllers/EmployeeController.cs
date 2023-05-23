@@ -14,7 +14,6 @@ using System.Data.SqlTypes;
 namespace MISA.WebFresher2023.Demo.Controllers
 {
     [Route("api/v1/[controller]s")]
-    [ApiController]
     public class EmployeeController : BaseController<Employee, EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
     {
         protected readonly IEmployeeService _employeeService;
@@ -30,6 +29,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
+        /// Author: LeDucTiep (23/05/2023)
         [Route("is-existed-code")]
         [HttpGet]
         public async Task<bool> CheckIsExistedCodeAsync(string code)
@@ -45,6 +45,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <param name="pageNumber">Thứ tự của trang</param>
         /// <param name="employeeFilter">Từ khóa để lọc</param>
         /// <returns>Tổng số bản ghi, danh sách nhân viên</returns>
+        /// Author: LeDucTiep (23/05/2023)
         // GET: api/employees/filter
         [Route("filter")]
         [HttpGet]
@@ -57,6 +58,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// API lấy mã nhân viên mới 
         /// </summary>
         /// <returns>Mã nhân viên mới</returns>
+        /// Author: LeDucTiep (23/05/2023)
         // GET api/v1/Employees/NewEmployeeCode
         [Route("NewEmployeeCode")]
         [HttpGet]
@@ -70,6 +72,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// </summary>
         /// <param name="employee">Thông tin nhân viên</param>
         /// <returns>Mã kết quả</returns>
+        /// Author: LeDucTiep (23/05/2023)
         // POST api/<EmployeeController>
         [HttpPost]
         public async Task<IActionResult> PostAsync(EmployeeCreateDto employee)
@@ -101,9 +104,10 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <param name="id">Mã của nhân viên cần sửa </param>
         /// <param name="employee">Thông tin nhân viên</param>
         /// <returns>Mã lỗi trả về</returns>
+        /// Author: LeDucTiep (23/05/2023)
         // PUT api/<EmployeeController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, [FromBody] EmployeeUpdateDto employeeUpdateDto)
+        public async Task<IActionResult> PutAsync([FromRoute]Guid id, EmployeeUpdateDto employeeUpdateDto)
         {
             return Ok(await _baseService.UpdateAsync(id, employeeUpdateDto));
         }
