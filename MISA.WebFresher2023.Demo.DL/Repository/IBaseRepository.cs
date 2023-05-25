@@ -30,7 +30,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="entity">Giá trị của bản ghi</param>
         /// <returns>TEntity</returns>
         /// Created by: LeDucTiep (21/05/2023)
-        Task<int?> UpdateAsync(Guid id, TEntity entity);
+        Task<int> UpdateAsync(Guid id, TEntity entity);
         /// <summary>
         /// Hàm xóa một bàn ghi
         /// </summary>
@@ -44,6 +44,6 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="id">Id của bản ghi</param>
         /// <returns>Mã lỗi</returns>
         /// Created by: LeDucTiep (22/05/2023)
-        Task<int?> PostAsync(TEntity entity);
+        Task<int> PostAsync(TEntity entity);
     }
 }

@@ -102,7 +102,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="entity">Giá trị của bản ghi</param>
         /// <returns>Mã lỗi</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public virtual async Task<int?> PostAsync(TEntity entity)
+        public virtual async Task<int> PostAsync(TEntity entity)
         {
             var table = typeof(TEntity).Name;
 
@@ -163,7 +163,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="entity">Giá trị của bản ghi</param>
         /// <returns>Mã lỗi</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public virtual async Task<int?> UpdateAsync(Guid id, TEntity entity)
+        public virtual async Task<int> UpdateAsync(Guid id, TEntity entity)
         {
             var table = typeof(TEntity).Name;
 

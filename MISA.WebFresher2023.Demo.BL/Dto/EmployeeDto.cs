@@ -10,8 +10,8 @@ namespace MISA.WebFresher2023.Demo.BL.Dto
     public class EmployeeDto
     {
         public Guid EmployeeId { get; set; }
-        public string? EmployeeCode { get; set; }
-        public string? FullName { get; set; }
+        public string EmployeeCode { get; set; }
+        public string FullName { get; set; }
         public Gender? Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? Email { get; set; }
@@ -21,6 +21,6 @@ namespace MISA.WebFresher2023.Demo.BL.Dto
         public DateTime? IdentityDate { get; set; }
         public string? IdentityPlace { get; set; }
         public Guid? PositionId { get; set; }
-        public Guid? DepartmentId { get; set; }
+        public Guid DepartmentId { get; set; }
     }
 }

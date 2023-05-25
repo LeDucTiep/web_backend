@@ -1,13 +1,11 @@
-﻿using Dapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MISA.WebFresher2023.Demo.BL.Dto;
 using MISA.WebFresher2023.Demo.BL.Service;
+using MISA.WebFresher2023.Demo.Common.Constant;
+using MISA.WebFresher2023.Demo.Common.MyException;
+using MISA.WebFresher2023.Demo.Common.Resource;
 using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Model;
-using MISA.WebFresher2023.Demo.DL.Repository;
-using MySqlConnector;
-using System.Data;
-using System.Data.SqlTypes;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -51,6 +49,15 @@ namespace MISA.WebFresher2023.Demo.Controllers
         [HttpGet]
         public async Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeFilter)
         {
+            if (pageSize <= 0)
+            {
+                throw new PagingArgumentException("EmployeeController.GetPageAsync", ErrorCodeConst.PagingInvalidPageSize);
+            }
+            if (pageNumber <= 0)
+            {
+                throw new PagingArgumentException("EmployeeController.GetPageAsync", ErrorCodeConst.PagingInvalidPageNumber);
+            }
+
             return await _employeeService.GetPage(pageSize, pageNumber, employeeFilter);
         }
 
@@ -78,24 +85,11 @@ namespace MISA.WebFresher2023.Demo.Controllers
         public async Task<IActionResult> PostAsync(EmployeeCreateDto employee)
         {
             EmployeeReturner employeeReturner = await _employeeService.PostAsync(employee);
-            return employeeReturner.ErrorCode switch
-            {
-                1 => StatusCode(400,
-                                        new
-                                        {
-                                            Message = "Không tồn tại departmentId"
-                                        }),
-                2 => StatusCode(400,
-                        new
-                        {
-                            Message = "Không tồn tại positionId"
-                        }),
-                _ => StatusCode(200,
+            return StatusCode(200,
                         new
                         {
                             employeeReturner.Employee.EmployeeId,
-                        }),
-            };
+                        });
         }
 
         /// <summary>
@@ -107,9 +101,14 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// Author: LeDucTiep (23/05/2023)
         // PUT api/<EmployeeController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync([FromRoute]Guid id, EmployeeUpdateDto employeeUpdateDto)
+        public async Task<IActionResult> PutAsync([FromRoute] Guid id, EmployeeUpdateDto employeeUpdateDto)
         {
-            return Ok(await _baseService.UpdateAsync(id, employeeUpdateDto));
+            await _baseService.UpdateAsync(id, employeeUpdateDto);
+            return StatusCode(200,
+                        new
+                        {
+                            
+                        });
         }
     }
 }

@@ -118,7 +118,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             // IN employeeFilter: Từ khóa tìm kiếm, theo employeeCode hoặc FullName
             // OUT TotalRecord: Tổng số bản ghi tìm thấy
             var parameters = new DynamicParameters();
-            int offset = pageNumber <= 0 ? 0 : (pageNumber - 1) * pageSize;
+            int offset = (pageNumber - 1) * pageSize;
             parameters.Add("_offset", offset);
             parameters.Add("_limit", pageSize);
             parameters.Add("employeeFilter", employeeFilter ?? "");
@@ -148,7 +148,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Author: LeDucTiep (23/05/2023)
         async Task<EmployeeReturner> IEmployeeRepository.PostAsync(Employee employee)
         {
-            int? errorCode = await base.PostAsync(employee);
+            int errorCode = await base.PostAsync(employee);
 
             return new EmployeeReturner(errorCode, employee);
         }

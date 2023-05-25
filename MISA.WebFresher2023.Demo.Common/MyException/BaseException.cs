@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MISA.WebFresher2023.Demo.Common.Constant;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,7 @@ namespace MISA.WebFresher2023.Demo.Common.MyException
 {
     public class BaseException
     {
-        public int ErrorCode { get; set; }
-        public string? UserMessage { get; set; }
+        public ErrorCodeConst ErrorCode { get; set; }
         public string? DevMessage { get; set; }
         public string? TraceId { get; set; }
         public string? MoreInfo { get; set; }

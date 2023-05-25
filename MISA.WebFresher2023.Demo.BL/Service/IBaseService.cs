@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public interface IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto>
+    public interface IBaseService<TEntityDto, TEntityCreateDto, TEntityUpdateDto>
     {
-        Task<int?> PostAsync(TEntityCreateDto employee);
+        Task<int> PostAsync(TEntityCreateDto employee);
         Task<TEntityDto?> GetAsync(Guid id);
-        Task<int?> UpdateAsync(Guid id, TEntityUpdateDto updateDto);
-        Task<int?> DeleteAsync(Guid id);
+        Task UpdateAsync(Guid id, TEntityUpdateDto updateDto);
+        Task DeleteAsync(Guid id);
     }
 }

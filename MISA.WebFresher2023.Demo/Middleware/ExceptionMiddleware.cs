@@ -14,13 +14,13 @@ namespace MISA.WebFresher2023.Demo.Middleware
         {
             _next = next;
         }
-        
+
 
         public async Task Invoke(HttpContext context)
         {
             try
             {
-            await _next(context);
+                await _next(context);
 
             }
             catch (Exception exception)
@@ -32,28 +32,41 @@ namespace MISA.WebFresher2023.Demo.Middleware
         {
             context.Response.ContentType = "application/json";
 
-            if(exception is NotFoundException)
+            if (exception is NotFoundException exception1)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
 
                 await context.Response.WriteAsync(
                     text: new BaseException()
                     {
-                        ErrorCode = ((NotFoundException)exception).ErrorCode,
-                        UserMessage = "Không tìm thấy tài nguyên",
+                        ErrorCode = exception1.ErrorCode,
                         DevMessage = exception.Message,
                         TraceId = context.TraceIdentifier,
                         MoreInfo = exception.HelpLink,
                     }.ToString()
                     );
-            }else if (exception is InternalException)
+            }
+            else if (exception is InternalException)
             {
-                context.Response.StatusCode= (int)HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 await context.Response.WriteAsync(
                     text: new BaseException()
                     {
                         ErrorCode = ((NotFoundException)exception).ErrorCode,
-                        UserMessage = "Lỗi hệ thống",
+                        DevMessage = exception.Message,
+                        TraceId = context.TraceIdentifier,
+                        MoreInfo = exception.HelpLink,
+                    }.ToString()
+                    );
+            }
+            else if (
+                exception is PagingArgumentException)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                await context.Response.WriteAsync(
+                    text: new BaseException()
+                    {
+                        ErrorCode = ((NotFoundException)exception).ErrorCode,
                         DevMessage = exception.Message,
                         TraceId = context.TraceIdentifier,
                         MoreInfo = exception.HelpLink,

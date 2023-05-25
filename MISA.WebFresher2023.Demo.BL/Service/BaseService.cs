@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public class BaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto>
+    public class BaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntityDto, TEntityCreateDto, TEntityUpdateDto>
     {
         protected readonly IBaseRepository<TEntity> _baseRepository;
         protected readonly IMapper _mapper;
@@ -23,11 +23,12 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             _mapper = mapper;
         }
 
-        public virtual async Task<int?> DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(Guid id)
         {
-            int? result = await _baseRepository.DeleteAsync(id);
+            int result = await _baseRepository.DeleteAsync(id);
 
-            return result;
+            if (result != 0)
+                throw new NotFoundException("BaseService.DeleteAsync", (ErrorCodeConst)result);
         }
 
         public virtual async Task<TEntityDto?> GetAsync(Guid id)
@@ -44,13 +45,16 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             return entityDto;
         }
 
-        public virtual async Task<int?> PostAsync(TEntityCreateDto entity)
+        public virtual async Task PostAsync(TEntityCreateDto entity)
         {
             TEntity ent = _mapper.Map<TEntity>(entity);
 
-            int? result = await _baseRepository.PostAsync(ent);
+            int errorCode = await _baseRepository.PostAsync(ent);
 
-            return result;
+            if (errorCode != 0)
+                throw new NotFoundException("EmployeeService.PostAsync", (ErrorCodeConst)errorCode);
+            else if (errorCode == 1002)
+                throw new ExsistedException("EmployeeService.PostAsync", (ErrorCodeConst)errorCode);
         }
         /// <summary>
         /// Hàm update một bản ghi
@@ -58,13 +62,20 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="id">Id của bản ghi</param>
         /// <param name="entity">Giá trị bản ghi</param>
         /// <returns>Mã lỗi</returns>
-        public virtual async Task<int?> UpdateAsync(Guid id, TEntityUpdateDto entity)
+        public virtual async Task UpdateAsync(Guid id, TEntityUpdateDto entity)
         {
             TEntity e = _mapper.Map<TEntity>(entity);
 
-            int? result = await _baseRepository.UpdateAsync(id, e);
+            int result = await _baseRepository.UpdateAsync(id, e);
 
-            return result;
+            if (result == 1002)
+            {
+                throw new ExsistedException("BaseService.UpdateAsync", (ErrorCodeConst)result);
+            }
+            else
+            {
+                throw new NotFoundException("BaseService.UpdateAsync", (ErrorCodeConst)result);
+            }
         }
     }
 }

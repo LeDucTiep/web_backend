@@ -9,10 +9,10 @@ namespace MISA.WebFresher2023.Demo.DL.Model
 {
     public class EmployeeReturner
     {
-        public int? ErrorCode;
+        public int ErrorCode;
         public Employee Employee;
 
-        public EmployeeReturner(int? errorCode, Employee employee)
+        public EmployeeReturner(int errorCode, Employee employee)
         {
             ErrorCode = errorCode;
             Employee = employee;
