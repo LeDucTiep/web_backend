@@ -12,11 +12,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public interface IEmployeeService : IBaseService<EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
+    public interface IEmployeeService : IBaseService<Employee, EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
     {
         Task<bool> CheckEmployeeCode(string employeeCode);
         public Task<EmployeePage> GetPage(int pageSize, int pageNumber, string? employeeFilter);
         public Task<string> GetNewEmployeeCode();
-        public new Task<EmployeeReturner> PostAsync(EmployeeCreateDto entity);
     }
 }

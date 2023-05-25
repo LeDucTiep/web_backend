@@ -82,14 +82,10 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// Author: LeDucTiep (23/05/2023)
         // POST api/<EmployeeController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync(EmployeeCreateDto employee)
+        public async Task<IActionResult> PostAsync(EmployeeCreateDto employeeCreateDto)
         {
-            EmployeeReturner employeeReturner = await _employeeService.PostAsync(employee);
-            return StatusCode(200,
-                        new
-                        {
-                            employeeReturner.Employee.EmployeeId,
-                        });
+            Employee employee = await _employeeService.PostAsync(employeeCreateDto);
+            return StatusCode(200, employee.EmployeeId);
         }
 
         /// <summary>
@@ -107,7 +103,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
             return StatusCode(200,
                         new
                         {
-                            
+
                         });
         }
     }

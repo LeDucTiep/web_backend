@@ -8,6 +8,6 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         public Task<bool> CheckEmployeeCode(string employeeCode);
         public Task<string> GetNewEmployeeCode();
         public Task<EmployeePage> GetPage(int pageSize, int pageNumber, string? employeeFilter);
-        public new Task<EmployeeReturner> PostAsync(Employee employee);
+        public new Task<int> PostAsync(Employee employee);
     }
 }

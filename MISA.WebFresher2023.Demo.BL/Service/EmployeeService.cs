@@ -39,14 +39,5 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         {
             return await ((EmployeeRepository)_baseRepository).GetNewEmployeeCode();
         }
-
-        public async Task<EmployeeReturner> PostAsync(EmployeeCreateDto entity)
-        {
-            Employee employee = _mapper.Map<Employee>(entity);
-
-            await _baseRepository.PostAsync(employee);
-
-            return new EmployeeReturner(errorCode, employee);
-        }
     }
 }

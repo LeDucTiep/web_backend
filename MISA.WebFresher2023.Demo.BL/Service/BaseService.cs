@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public class BaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntityDto, TEntityCreateDto, TEntityUpdateDto>
+    public class BaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto>
     {
         protected readonly IBaseRepository<TEntity> _baseRepository;
         protected readonly IMapper _mapper;
@@ -45,16 +45,18 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             return entityDto;
         }
 
-        public virtual async Task PostAsync(TEntityCreateDto entity)
+        public virtual async Task<TEntity> PostAsync(TEntityCreateDto entity)
         {
             TEntity ent = _mapper.Map<TEntity>(entity);
 
             int errorCode = await _baseRepository.PostAsync(ent);
 
             if (errorCode != 0)
-                throw new NotFoundException("EmployeeService.PostAsync", (ErrorCodeConst)errorCode);
+                throw new NotFoundException("BaseService.PostAsync", (ErrorCodeConst)errorCode);
             else if (errorCode == 1002)
-                throw new ExsistedException("EmployeeService.PostAsync", (ErrorCodeConst)errorCode);
+                throw new ExsistedException("BaseService.PostAsync", (ErrorCodeConst)errorCode);
+
+            return ent;
         }
         /// <summary>
         /// Hàm update một bản ghi

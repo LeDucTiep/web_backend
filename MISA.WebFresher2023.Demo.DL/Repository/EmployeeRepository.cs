@@ -140,17 +140,5 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             // trả về kết quả
             return new EmployeePage(totalRecord, res);
         }
-        /// <summary>
-        /// Hàm thêm một nhân viên mới
-        /// </summary>
-        /// <param name="employee">Thông tin của nhân viên mới</param>
-        /// <returns></returns>
-        /// Author: LeDucTiep (23/05/2023)
-        async Task<EmployeeReturner> IEmployeeRepository.PostAsync(Employee employee)
-        {
-            int errorCode = await base.PostAsync(employee);
-
-            return new EmployeeReturner(errorCode, employee);
-        }
     }
 }
