@@ -7,11 +7,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher2023.Demo", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher2023.Demo.UnitTests", "MISA.WebFresher2023.Demo.UnitTests\MISA.WebFresher2023.Demo.UnitTests.csproj", "{B786BF27-5B0E-4029-9585-F7C1829D1036}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.WebFresher2023.Demo.BL", "MISA.WebFresher2023.Demo.BL\MISA.WebFresher2023.Demo.BL.csproj", "{0FE5E0D0-3BB1-431D-807A-5E330F9FB295}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher2023.Demo.BL", "MISA.WebFresher2023.Demo.BL\MISA.WebFresher2023.Demo.BL.csproj", "{0FE5E0D0-3BB1-431D-807A-5E330F9FB295}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.WebFresher2023.Demo.DL", "MISA.WebFresher2023.Demo.DL\MISA.WebFresher2023.Demo.DL.csproj", "{D5644ECC-056F-4229-AE1E-DE6FE3FE03A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher2023.Demo.DL", "MISA.WebFresher2023.Demo.DL\MISA.WebFresher2023.Demo.DL.csproj", "{D5644ECC-056F-4229-AE1E-DE6FE3FE03A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.WebFresher2023.Demo.Common", "MISA.WebFresher2023.Demo.Common\MISA.WebFresher2023.Demo.Common.csproj", "{32039E98-5F6A-4F53-A72D-436E984F57C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher2023.Demo.Common", "MISA.WebFresher2023.Demo.Common\MISA.WebFresher2023.Demo.Common.csproj", "{32039E98-5F6A-4F53-A72D-436E984F57C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{F1B24671-C31B-4A6A-8BE3-731DD3436F5E}"
+	ProjectSection(SolutionItems) = preProject
+		default.json = default.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

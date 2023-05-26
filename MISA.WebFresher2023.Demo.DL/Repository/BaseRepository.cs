@@ -16,11 +16,22 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
 {
     public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
     {
+        #region Field
+        /// <summary>
+        /// Chuỗi kết nối 
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
         protected readonly string _connectionString;
+        #endregion
+
+        #region Contructor
         public BaseRepository(IConfiguration configuration)
         {
             _connectionString = configuration["ConnectionString"] ?? "";
         }
+        #endregion
+
+        #region Method
         /// <summary>
         /// Hàm xóa một bản ghi
         /// </summary>
@@ -29,13 +40,17 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<int> DeleteAsync(Guid id)
         {
+            // Tên bảng 
             var table = typeof(TEntity).Name;
 
+            // Tên procedure
             string procedure = $"Proc_{table}_Delete";
 
+            // Connection với database 
             var connection = await GetOpenConnectionAsync();
             try
             {
+                // Khởi tạo các tham số 
                 var dynamicParams = new DynamicParameters();
                 dynamicParams.Add("errorCode", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 dynamicParams.Add($"{table}Id", id);
@@ -46,6 +61,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                     commandType: CommandType.StoredProcedure
                 );
 
+                // Mã lỗi trả về 
                 var result = dynamicParams.Get<int>("errorCode");
 
                 return result;
@@ -64,16 +80,20 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<TEntity?> GetAsync(Guid id)
         {
+            // Tên bảng
             var table = typeof(TEntity).Name;
+
+            // Kết nối với database
             var connection = await GetOpenConnectionAsync();
             try
             {
-
                 var sql = $"SELECT * FROM {table} Where {table}Id = @Id;";
 
+                // Tham số 
                 var dynamicParams = new DynamicParameters();
                 dynamicParams.Add("id", id);
 
+                // Bản ghi trả về 
                 var entity = await connection.QueryFirstOrDefaultAsync<TEntity>(sql, dynamicParams);
 
                 return entity;
@@ -91,8 +111,13 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<DbConnection> GetOpenConnectionAsync()
         {
+            // Tạo kết nối
             var connection = new MySqlConnection(_connectionString);
+
+            // Mở kết nối 
             await connection.OpenAsync();
+
+            // Trả về kết nối
             return connection;
         }
 
@@ -104,13 +129,17 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<int> PostAsync(TEntity entity)
         {
+            // Tên bảng
             var table = typeof(TEntity).Name;
 
+            // Procedure
             string procedure = $"Proc_{table}_Add";
 
+            // Mở kết nối tới database
             var connection = await GetOpenConnectionAsync();
             try
             {
+                // Các tham số
                 var dynamicParams = new DynamicParameters();
                 dynamicParams.Add("errorCode", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
@@ -120,38 +149,49 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 var properties = entity.GetType().GetProperties();
                 foreach (System.Reflection.PropertyInfo property in properties)
                 {
+                    // Tên thuộc tính
                     var name = property.Name;
 
-                    if(name == $"{table}Id")
+                    // Gán id mới
+                    if (name == $"{table}Id")
                     {
                         property.SetValue(entity, newId, null);
 
                         dynamicParams.Add($"{table}Id", newId);
                     }
 
+                    // Bỏ qua ngày sửa và người sửa 
                     if (name == "ModifiedBy" || name == "ModifiedDate")
                         continue;
 
+                    // Giá trị của tham số 
                     var value = property.GetValue(entity);
 
+                    // Thêm tham số 
                     dynamicParams.Add(name, value);
                 }
 
+                // Thêm người tạo 
                 dynamicParams.Add("CreatedBy", User.Name);
+                // Thêm ngày tạo 
                 dynamicParams.Add("CreatedDate", DateTime.Now);
 
+                // Gọi procedure
                 await connection.QueryAsync(
                     procedure,
                     param: dynamicParams,
                     commandType: CommandType.StoredProcedure
                 );
 
-                var result = dynamicParams.Get<int>("errorCode");
+                // Lấy mã lỗi trả về 
+                var erroCode = dynamicParams.Get<int>("errorCode");
 
-                return result;
+                // return mã lỗi
+                return erroCode;
             }
             finally
             {
+                // Đóng kết nối 
                 await connection.CloseAsync();
             }
         }
@@ -165,51 +205,70 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<int> UpdateAsync(Guid id, TEntity entity)
         {
+            // Tên bảng 
             var table = typeof(TEntity).Name;
 
+            // Tên procedure
             string procedure = $"Proc_{table}_Edit";
 
+            // Mở kết nối tới database
             var connection = await GetOpenConnectionAsync();
             try
             {
+                // Khởi tạo tham số 
                 var dynamicParams = new DynamicParameters();
                 dynamicParams.Add("errorCode", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
+                // Duyệt qua tất cả thuộc tính của entity
                 var properties = entity.GetType().GetProperties();
                 foreach (System.Reflection.PropertyInfo property in properties)
                 {
+                    // Tên tham số
                     var name = property.Name;
 
+                    // Gán id truyền vào 
                     if (name == $"{table}Id")
                     {
                         dynamicParams.Add($"{table}Id", id);
                         continue;
                     }
 
+                    // Bỏ qua người tạo và ngày tạo
                     if (name == "CreatedBy" || name == "CreatedDate")
                         continue;
 
+                    // Giá trị của tham số 
                     var value = property.GetValue(entity);
+
+                    // Thêm tham số
                     dynamicParams.Add(name, value);
                 }
 
+                // Thêm người sửa 
                 dynamicParams.Add("ModifiedBy", User.Name);
+
+                // Thêm ngày sửa 
                 dynamicParams.Add("ModifiedDate", DateTime.Now);
 
+                // Gọi procedure
                 await connection.QueryAsync(
                     procedure,
                     param: dynamicParams,
                     commandType: CommandType.StoredProcedure
                 );
 
+                // Nhận mã lỗi
                 var result = dynamicParams.Get<int>("errorCode");
 
+                // Trả về mã lỗi
                 return result;
             }
             finally
             {
+                // Đóng connection
                 await connection.CloseAsync();
             }
         }
+        #endregion
     }
 }

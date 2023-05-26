@@ -5,7 +5,7 @@ using MISA.WebFresher2023.Demo.BL.Service;
 namespace MISA.WebFresher2023.Demo.Controllers
 {
     [ApiController]
-    public abstract class BaseController <TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : ControllerBase
+    public abstract class BaseController<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : ControllerBase
     {
         protected readonly IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> _baseService;
 

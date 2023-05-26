@@ -15,9 +15,13 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 {
     public class DepartmentService : BaseService<Department, DepartmentDto, DepartmentCreateDto, DepartmentUpdateDto>, IDepartmentService
     {
+        #region Contructor
         public DepartmentService(IDepartmentRepository departmentRepository, IMapper mapper) : base(departmentRepository, mapper)
         {
         }
+        #endregion
+
+        #region Method
         /// <summary>
         /// Hàm lấy tất cả phòng ban
         /// </summary>
@@ -28,11 +32,15 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             // Tạo connection
             var connection = await _baseRepository.GetOpenConnectionAsync();
 
+            // Tên procedure
+            string procedure = "Proc_Department_GetAll";
+
             // Gọi đến procedure
             return await connection.QueryAsync<Department>(
-                "Proc_Department_GetAll",
+                procedure,
                 commandType: CommandType.StoredProcedure
             );
         }
+        #endregion
     }
 }

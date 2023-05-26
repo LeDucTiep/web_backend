@@ -1,4 +1,4 @@
-using MISA.WebFresher2023.Demo.BL.Service;
+﻿using MISA.WebFresher2023.Demo.BL.Service;
 using MISA.WebFresher2023.Demo.DL.Repository;
 using MISA.WebFresher2023.Demo.Middleware;
 
@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+// Định dạnh các thuộc tính trả về là kiểu Pascal
 builder.Services.AddControllers().AddJsonOptions(option =>
 {
     option.JsonSerializerOptions.PropertyNamingPolicy = null;
@@ -18,17 +19,19 @@ builder.Services.AddControllers().AddJsonOptions(option =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Thêm Cors cho font-end
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "MyVueApp",
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:8080", "*")
+                          policy.WithOrigins("http://localhost:8080")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                       });
 });
 
+// Sử dụng automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
@@ -39,7 +42,7 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IPositionService, PositionService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
-var app = builder.Build();  
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

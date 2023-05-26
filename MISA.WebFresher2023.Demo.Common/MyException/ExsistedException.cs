@@ -9,19 +9,30 @@ namespace MISA.WebFresher2023.Demo.Common.MyException
 {
     public class ExsistedException : Exception
     {
-        public ErrorCodeConst ErrorCode { get; set; }
+        #region Field 
+        /// <summary>
+        /// Mã lỗi nội bộ
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public int ErrorCode { get; set; }
+        #endregion
+
+        #region Contructor
         public ExsistedException() { }
-        public ExsistedException(ErrorCodeConst errorCode)
+
+        public ExsistedException(int errorCode)
         {
             ErrorCode = errorCode;
-
         }
+
         public ExsistedException(string? message) : base(message)
         {
         }
-        public ExsistedException(string? message, ErrorCodeConst errorCode) : base(message)
+
+        public ExsistedException(string? message, int errorCode) : base(message)
         {
             ErrorCode = errorCode;
         }
+        #endregion
     }
 }

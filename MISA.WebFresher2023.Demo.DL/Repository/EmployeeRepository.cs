@@ -13,6 +13,7 @@ using MISA.WebFresher2023.Demo.Common.MyException;
 using System.IO;
 using System.Net;
 using MISA.WebFresher2023.Demo.DL.Model;
+using MISA.WebFresher2023.Demo.Common.Resource;
 
 namespace MISA.WebFresher2023.Demo.DL.Repository
 {
@@ -33,6 +34,9 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
 
+            // Tên procedure
+            string procedure = ResourceProcedure.EmployeeCheckExistCode;
+
             try
             {
                 // Tạo các tham số 
@@ -41,7 +45,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
 
                 // Gọi đến procedure
                 bool result = await connection.QueryFirstAsync<bool>(
-                    "Proc_Employee_CheckExistCode",
+                    procedure,
                     param: parameters,
                     commandType: CommandType.StoredProcedure
                 );
@@ -64,38 +68,49 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
 
+            // Tên procedure
+            string procedure = ResourceProcedure.EmployeeCheckExistCode;
+
             int i = 0;
-            int numberLength = 6;
-            while (true)
+            int numberLength = 4;
+
+            try
             {
-                i++;
-                if (i % 10 == 0)
+
+                while (true)
                 {
-                    numberLength++;
+                    i++;
+                    if (i % 10 == 0)
+                    {
+                        numberLength++;
+                    }
+                    // Tạo mã nhân viên mới
+                    int randomNumber = new Random().Next(1, numberLength * 10 - 1);
+                    string newEmployeeCode = "NV-" + $"{randomNumber}".PadLeft(numberLength, '0');
+
+                    // Tạo các tham số 
+                    var parameters = new DynamicParameters();
+                    parameters.Add("employeeCode", newEmployeeCode);
+
+                    // Gọi đến procedure
+                    var res = await connection.QueryAsync<bool>(
+                        procedure,
+                        param: parameters,
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    // Trả về kết quả
+                    bool isExitsted = res.FirstOrDefault();
+
+                    if (!isExitsted)
+                    {
+                        return newEmployeeCode;
+                    }
                 }
-                // Tạo mã nhân viên mới
-                int randomNumber = new Random().Next(1, numberLength * 10 - 1);
-                string newEmployeeCode = "NV-" + $"{randomNumber}".PadLeft(numberLength, '0');
-
-                // Tạo các tham số 
-                var parameters = new DynamicParameters();
-                parameters.Add("newCode", newEmployeeCode);
-
-                // Gọi đến procedure
-                var res = await connection.QueryAsync<bool>(
-                    "Proc_Employee_CheckNewCode",
-                    param: parameters,
-                    commandType: CommandType.StoredProcedure
-                );
-
-                // Trả về kết quả
-                bool x = res.FirstOrDefault();
-
-                if (x)
-                {
-                    await connection.CloseAsync();
-                    return newEmployeeCode;
-                }
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -111,34 +126,38 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         {
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
+            try
+            {
+                // Tạo tham số đầu vào 
+                // IN _offset: Số bản ghi bị bỏ qua
+                // IN _limit: Số bản ghi được lấy
+                // IN employeeFilter: Từ khóa tìm kiếm, theo employeeCode hoặc FullName
+                // OUT TotalRecord: Tổng số bản ghi tìm thấy
+                var parameters = new DynamicParameters();
+                int offset = (pageNumber - 1) * pageSize;
+                parameters.Add("_offset", offset);
+                parameters.Add("_limit", pageSize);
+                parameters.Add("employeeFilter", employeeFilter ?? "");
+                parameters.Add("totalRecord", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            // Tạo tham số đầu vào 
-            // IN _offset: Số bản ghi bị bỏ qua
-            // IN _limit: Số bản ghi được lấy
-            // IN employeeFilter: Từ khóa tìm kiếm, theo employeeCode hoặc FullName
-            // OUT TotalRecord: Tổng số bản ghi tìm thấy
-            var parameters = new DynamicParameters();
-            int offset = (pageNumber - 1) * pageSize;
-            parameters.Add("_offset", offset);
-            parameters.Add("_limit", pageSize);
-            parameters.Add("employeeFilter", employeeFilter ?? "");
-            parameters.Add("totalRecord", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                // Gọi procedure 
+                var res = await connection.QueryAsync<EmployeeOutPage>(
+                    "Proc_Employee_PagingByFullNameOrEmployeeCode",
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure
+                );
 
-            // Gọi procedure 
-            var res = await connection.QueryAsync<EmployeeOutPage>(
-                "Proc_Employee_PagingByFullNameOrEmployeeCode",
-                param: parameters,
-                commandType: CommandType.StoredProcedure
-            );
+                // Lấy tổng số trang 
+                var totalRecord = parameters.Get<int>("totalRecord");
 
-            // Lấy tổng số trang 
-            var totalRecord = parameters.Get<int>("totalRecord");
-
-            // Dong connection
-            await connection.CloseAsync();
-
-            // trả về kết quả
-            return new EmployeePage(totalRecord, res);
+                // trả về kết quả
+                return new EmployeePage(totalRecord, res);
+            }
+            finally
+            {
+                // Dong connection
+                await connection.CloseAsync();
+            }
         }
     }
 }

@@ -12,12 +12,22 @@ namespace MISA.WebFresher2023.Demo.Controllers
     [Route("api/v1/[controller]s")]
     public class DepartmentController : BaseController<Department, DepartmentDto, DepartmentCreateDto, DepartmentUpdateDto>
     {
+        #region Field
+        /// <summary>
+        /// DepartmentService
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
         private readonly IDepartmentService _departmentService;
+        #endregion
 
+        #region Contructor
         public DepartmentController(IDepartmentService departmentService) : base(departmentService)
         {
             _departmentService = departmentService;
         }
+        #endregion
+
+        #region Method
         /// <summary>
         /// API lấy tất cả danh sách phòng ban
         /// </summary>
@@ -28,5 +38,6 @@ namespace MISA.WebFresher2023.Demo.Controllers
         {
             return await _departmentService.GetAllAsync();
         }
+        #endregion
     }
 }

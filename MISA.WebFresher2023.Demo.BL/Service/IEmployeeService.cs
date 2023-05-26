@@ -14,8 +14,29 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 {
     public interface IEmployeeService : IBaseService<Employee, EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
     {
+        /// <summary>
+        /// Hàm kiểm tra mã nhân viên đã tồn tại
+        /// </summary>
+        /// <param name="employeeCode">Mã nhân viên </param>
+        /// <returns>bool</returns>
+        /// Author: LeDucTiep (23/05/2023)
         Task<bool> CheckEmployeeCode(string employeeCode);
+
+        /// <summary>
+        /// Hàm lấy danh sách nhân viên theo trang
+        /// </summary>
+        /// <param name="pageSize">Kích thước trang </param>
+        /// <param name="pageNumber">Số thứ tự trang </param>
+        /// <param name="employeeFilter">Từ khóa tìm kiếm </param>
+        /// <returns>Trang nhân viên</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public Task<EmployeePage> GetPage(int pageSize, int pageNumber, string? employeeFilter);
+
+        /// <summary>
+        /// Lấy mã nhân viên mới 
+        /// </summary>
+        /// <returns>Mã nhân viên mới </returns>
+        /// Author: LeDucTiep (23/05/2023)
         public Task<string> GetNewEmployeeCode();
     }
 }

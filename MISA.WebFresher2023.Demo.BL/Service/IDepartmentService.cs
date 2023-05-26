@@ -10,6 +10,10 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 {
     public interface IDepartmentService : IBaseService<Department, DepartmentDto, DepartmentCreateDto, DepartmentUpdateDto>
     {
+        /// <summary>
+        /// Hàm lấy tất cả phòng ban 
+        /// </summary>
+        /// <returns>Danh sách phòng ban</returns>
         public Task<IEnumerable<Department>> GetAllAsync();
     }
 }

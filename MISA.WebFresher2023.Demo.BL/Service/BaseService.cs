@@ -13,8 +13,12 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 {
     public class BaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto>
     {
+        #region Field
         protected readonly IBaseRepository<TEntity> _baseRepository;
         protected readonly IMapper _mapper;
+        #endregion
+
+        #region Contructor 
         public BaseService(
             IBaseRepository<TEntity> baseRepository,
             IMapper mapper)
@@ -22,15 +26,32 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             _baseRepository = baseRepository;
             _mapper = mapper;
         }
+        #endregion
 
+        #region Method
+
+        /// <summary>
+        /// Xóa một bản ghi theo id 
+        /// </summary>
+        /// <param name="id">Id của bản ghi </param>
+        /// <returns>Task</returns>
+        /// <exception cref="NotFoundException">Lỗi không tìm thấy </exception>
+        /// Author: LeDucTiep (23/05/2023)
         public virtual async Task DeleteAsync(Guid id)
         {
-            int result = await _baseRepository.DeleteAsync(id);
-
-            if (result != 0)
-                throw new NotFoundException("BaseService.DeleteAsync", (ErrorCodeConst)result);
+            /// Xóa và nhận về mã lỗi 
+            int errorCode = await _baseRepository.DeleteAsync(id);
+            /// nếu có lỗi xảy ra thì ném lỗi 
+            if (errorCode != 0)
+                throw new NotFoundException("BaseService.DeleteAsync", errorCode);
         }
 
+        /// <summary>
+        /// Hàm lấy một bản ghi
+        /// </summary>
+        /// <param name="id">Id của bản ghi cần lấy </param>
+        /// <returns>Task<TEmployeeId></returns>
+        /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<TEntityDto?> GetAsync(Guid id)
         {
             var entity = await _baseRepository.GetAsync(id);
@@ -45,6 +66,14 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             return entityDto;
         }
 
+        /// <summary>
+        /// Thêm một bản ghi
+        /// </summary>
+        /// <param name="entity">Loại bản ghi </param>
+        /// <returns>TEntity</returns>
+        /// <exception cref="NotFoundException">Lỗi không tìm thấy</exception>
+        /// <exception cref="ExsistedException">Lỗi đã tồn tại</exception>
+        /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<TEntity> PostAsync(TEntityCreateDto entity)
         {
             TEntity ent = _mapper.Map<TEntity>(entity);
@@ -52,9 +81,9 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             int errorCode = await _baseRepository.PostAsync(ent);
 
             if (errorCode != 0)
-                throw new NotFoundException("BaseService.PostAsync", (ErrorCodeConst)errorCode);
-            else if (errorCode == 1002)
-                throw new ExsistedException("BaseService.PostAsync", (ErrorCodeConst)errorCode);
+                throw new NotFoundException("BaseService.PostAsync", errorCode);
+            else if (errorCode.Equals(EmployeeErrorCode.CodeDuplicated))
+                throw new ExsistedException("BaseService.PostAsync", errorCode);
 
             return ent;
         }
@@ -64,20 +93,30 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="id">Id của bản ghi</param>
         /// <param name="entity">Giá trị bản ghi</param>
         /// <returns>Mã lỗi</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public virtual async Task UpdateAsync(Guid id, TEntityUpdateDto entity)
         {
-            TEntity e = _mapper.Map<TEntity>(entity);
+            TEntity _entity = _mapper.Map<TEntity>(entity);
 
-            int result = await _baseRepository.UpdateAsync(id, e);
+            int result = await _baseRepository.UpdateAsync(id, _entity);
 
-            if (result == 1002)
+            // Trùng mã nhân viên
+            if (result.Equals(EmployeeErrorCode.CodeDuplicated))
             {
-                throw new ExsistedException("BaseService.UpdateAsync", (ErrorCodeConst)result);
+                throw new ExsistedException("BaseService.UpdateAsync", result);
             }
-            else
+
+            else if (
+                // Không tìm thấy Id phòng ban 
+                result.Equals(DepartmentErrorCode.IdNotFound) ||
+                // Không tìm thấy Id chức vụ
+                result.Equals(PositionErrorCode.IdNotFound) ||
+                // Không tìm thấy Id nhân viên
+                result.Equals(EmployeeErrorCode.IdNotFound))
             {
-                throw new NotFoundException("BaseService.UpdateAsync", (ErrorCodeConst)result);
+                throw new NotFoundException("BaseService.UpdateAsync", result);
             }
         }
+        #endregion
     }
 }

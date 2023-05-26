@@ -1,43 +1,76 @@
 ﻿using AutoMapper;
-using Dapper;
 using MISA.WebFresher2023.Demo.BL.Dto;
 using MISA.WebFresher2023.Demo.Common.Constant;
 using MISA.WebFresher2023.Demo.Common.MyException;
 using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Model;
 using MISA.WebFresher2023.Demo.DL.Repository;
-using MySqlConnector;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Dapper.SqlMapper;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
     public class EmployeeService : BaseService<Employee, EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>, IEmployeeService
     {
-
+        #region Contructor
         public EmployeeService(
             IEmployeeRepository employeeRepository,
             IMapper mapper) : base(employeeRepository, mapper)
         {
         }
+        #endregion
 
+        #region Method
+
+        /// <summary>
+        /// Hàm kiểm tra mã nhân viên đã tồn tại chưa
+        /// </summary>
+        /// <param name="code">Mã nhân viên</param>
+        /// <returns>bool</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public async Task<bool> CheckEmployeeCode(string code)
         {
             return await ((EmployeeRepository)_baseRepository).CheckEmployeeCode(code);
         }
 
+        /// <summary>
+        /// Hàm phân lấy danh sách nhân viên theo trang 
+        /// </summary>
+        /// <param name="pageSize">Kích thước trang </param>
+        /// <param name="pageNumber">Số thứ tự trang</param>
+        /// <param name="employeeFilter">Từ khóa tìm kiếm</param>
+        /// <returns>EmployeePage</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public async Task<EmployeePage> GetPage(int pageSize, int pageNumber, string? employeeFilter)
         {
+            // Lỗi kích thước trang 
+            if (pageSize <= 0)
+            {
+                throw new PagingArgumentException("EmployeeController.GetPageAsync", (int)PagingErrorCode.InvalidPageSize);
+            }
+
+            // Lỗi số thứ tự trang 
+            if (pageNumber <= 0)
+            {
+                throw new PagingArgumentException("EmployeeController.GetPageAsync", (int)PagingErrorCode.InvalidPageNumber);
+            }
+
+            // Lỗi độ dài từ khóa tìm kiếm
+            if(employeeFilter != null && employeeFilter.Length > 255)
+            {
+                throw new PagingArgumentException("EmployeeController.GetPageAsync", (int)PagingErrorCode.InvalidEmployeeFilter);
+            }
+
             return await ((EmployeeRepository)_baseRepository).GetPage(pageSize, pageNumber, employeeFilter);
         }
+
+        /// <summary>
+        /// Hàm lấy mã nhân viên mới 
+        /// </summary>
+        /// <returns>Mã nhân viên mới </returns>
+        /// Author: LeDucTiep (23/05/2023)
         public async Task<string> GetNewEmployeeCode()
         {
             return await ((EmployeeRepository)_baseRepository).GetNewEmployeeCode();
         }
+        #endregion
     }
 }

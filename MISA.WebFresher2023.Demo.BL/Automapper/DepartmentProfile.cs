@@ -8,8 +8,11 @@ namespace MISA.WebFresher2023.Demo.BL.Automapper
     {
         public DepartmentProfile()
         {
+            // Map department sang departmentDto
             CreateMap<Department, DepartmentDto>();
+            // Map departmentCreateDto sang Department
             CreateMap<DepartmentCreateDto, Department>();
+            /// Map departmentUpdateDto sang department
             CreateMap<DepartmentUpdateDto, Department>();
         }
     }

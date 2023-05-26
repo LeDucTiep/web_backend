@@ -6,16 +6,60 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.Common.Constant
 {
-    public enum ErrorCodeConst
+    /// <summary>
+    /// Enum mã lỗi
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
+    public enum DepartmentErrorCode
     {
-         EmployeeIdNotFound = 1001,
-         EmployeeCodeDuplicated = 1002,
+        /// <summary>
+        /// Lỗi không tìm thấy Id phòng ban 
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        IdNotFound = 1003,
+    }
 
-         DepartmentIdNotFound = 1003,
+    public enum PositionErrorCode
+    {
+        /// <summary>
+        /// Lỗi không tìm thấy Id chức vụ
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        IdNotFound = 1004,
+    }
 
-         PositionIdNotFound = 1004,
+    public enum PagingErrorCode
+    {
+        /// <summary>
+        /// Lỗi kích thước trang không hợp lệ 
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        InvalidPageSize = 1005,
 
-         PagingInvalidPageSize = 1005,
-         PagingInvalidPageNumber = 1006,
+        /// <summary>
+        /// Lỗi số thứ tự trang không hợp lệ 
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        InvalidPageNumber = 1006,
+
+        /// <summary>
+        /// Lỗi độ dài từ khóa tìm kiếm
+        /// </summary>
+        InvalidEmployeeFilter = 1007,
+    }
+
+    public enum EmployeeErrorCode
+    {
+        /// <summary>
+        /// Lỗi không tìm thấy Id nhân viên
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        IdNotFound = 1001,
+
+        /// <summary>
+        /// Lỗi trùng mã nhân viên 
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        CodeDuplicated = 1002,
     }
 }

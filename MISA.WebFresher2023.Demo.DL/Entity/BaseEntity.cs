@@ -13,16 +13,19 @@ namespace MISA.WebFresher2023.Demo.DL.Entity
         /// </summary>
         /// Created by: LeDucTiep (21/05/2023)
         public DateTime? CreatedDate { get; set; }
+
         /// <summary>
         /// Người tạo
         /// </summary>
         /// Created by: LeDucTiep (21/05/2023)
         public string? CreatedBy { get; set; }
+
         /// <summary>
         /// Ngày sửa
         /// </summary>
         /// Created by: LeDucTiep (21/05/2023)
         public DateTime? ModifiedDate { get; set; }
+
         /// <summary>
         /// Người sửa
         /// </summary>

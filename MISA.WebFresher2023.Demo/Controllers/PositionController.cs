@@ -12,14 +12,23 @@ namespace MISA.WebFresher2023.Demo.Controllers
     [Route("api/v1/[controller]s")]
     public class PositionController : BaseController<Position, PositionDto, PositionCreateDto, PositionUpdateDto>
     {
+        #region Field
+        /// <summary>
+        /// PositionService
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
         private readonly IPositionService _positionService;
+        #endregion
 
+        #region Contructor
         public PositionController(IPositionService positionService
             ) : base(positionService)
         {
             _positionService = positionService;
         }
+        #endregion
 
+        #region Method
         /// <summary>
         /// API lấy tất cả chức vụ
         /// </summary>
@@ -31,5 +40,6 @@ namespace MISA.WebFresher2023.Demo.Controllers
         {
             return await _positionService.GetAllAsync();
         }
+        #endregion
     }
 }

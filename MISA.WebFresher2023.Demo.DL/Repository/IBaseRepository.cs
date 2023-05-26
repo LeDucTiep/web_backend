@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.DL.Repository
 {
-    public interface IBaseRepository <TEntity> 
+    public interface IBaseRepository<TEntity>
     {
         /// <summary>
         /// Hàm mở kết nối với database
@@ -16,6 +16,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <returns>DbConnection</returns>
         /// Created by: LeDucTiep (21/05/2023)
         Task<DbConnection> GetOpenConnectionAsync();
+
         /// <summary>
         /// Hàm lấy một bản ghi
         /// </summary>
@@ -23,6 +24,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <returns>TEntity</returns>
         /// Created by: LeDucTiep (21/05/2023)
         Task<TEntity?> GetAsync(Guid id);
+
         /// <summary>
         /// Hàm cập nhật một bản ghi
         /// </summary>
@@ -31,6 +33,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <returns>TEntity</returns>
         /// Created by: LeDucTiep (21/05/2023)
         Task<int> UpdateAsync(Guid id, TEntity entity);
+
         /// <summary>
         /// Hàm xóa một bàn ghi
         /// </summary>
@@ -38,6 +41,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <returns>Mã lỗi</returns>
         /// Created by: LeDucTiep (21/05/2023)
         Task<int> DeleteAsync(Guid id);
+
         /// <summary>
         /// Hàm tạo một bàn ghi
         /// </summary>

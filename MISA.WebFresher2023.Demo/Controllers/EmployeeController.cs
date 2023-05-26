@@ -3,7 +3,6 @@ using MISA.WebFresher2023.Demo.BL.Dto;
 using MISA.WebFresher2023.Demo.BL.Service;
 using MISA.WebFresher2023.Demo.Common.Constant;
 using MISA.WebFresher2023.Demo.Common.MyException;
-using MISA.WebFresher2023.Demo.Common.Resource;
 using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Model;
 
@@ -14,19 +13,29 @@ namespace MISA.WebFresher2023.Demo.Controllers
     [Route("api/v1/[controller]s")]
     public class EmployeeController : BaseController<Employee, EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
     {
+        #region Field
+        /// <summary>
+        /// EmployeeService
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
         protected readonly IEmployeeService _employeeService;
+        #endregion
+
+        #region Contructor
         public EmployeeController(
             IEmployeeService employeeService
             ) : base(employeeService)
         {
             _employeeService = employeeService;
         }
+        #endregion
 
+        #region Method
         /// <summary>
         /// API kiểm tra employee code đã tồn tại chưa
         /// </summary>
         /// <param name="code"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
         [Route("is-existed-code")]
         [HttpGet]
@@ -49,15 +58,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         [HttpGet]
         public async Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeFilter)
         {
-            if (pageSize <= 0)
-            {
-                throw new PagingArgumentException("EmployeeController.GetPageAsync", ErrorCodeConst.PagingInvalidPageSize);
-            }
-            if (pageNumber <= 0)
-            {
-                throw new PagingArgumentException("EmployeeController.GetPageAsync", ErrorCodeConst.PagingInvalidPageNumber);
-            }
-
+            // Trả về trang nhân viên
             return await _employeeService.GetPage(pageSize, pageNumber, employeeFilter);
         }
 
@@ -100,11 +101,8 @@ namespace MISA.WebFresher2023.Demo.Controllers
         public async Task<IActionResult> PutAsync([FromRoute] Guid id, EmployeeUpdateDto employeeUpdateDto)
         {
             await _baseService.UpdateAsync(id, employeeUpdateDto);
-            return StatusCode(200,
-                        new
-                        {
-
-                        });
+            return StatusCode(204);
         }
+        #endregion
     }
 }

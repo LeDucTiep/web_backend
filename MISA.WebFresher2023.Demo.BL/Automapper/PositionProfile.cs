@@ -13,8 +13,11 @@ namespace MISA.WebFresher2023.Demo.BL.Automapper
     {
         public PositionProfile()
         {
+            // Map position sang positionDto
             CreateMap<Position, PositionDto>();
+            // Map positionCreateDto sang Position
             CreateMap<PositionCreateDto, Position>();
+            // Map positionUpdateDto sang Position
             CreateMap<PositionUpdateDto, Position>();
         }
     }

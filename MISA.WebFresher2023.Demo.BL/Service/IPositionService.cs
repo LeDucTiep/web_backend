@@ -10,6 +10,11 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 {
     public interface IPositionService : IBaseService<Position, PositionDto, PositionCreateDto, PositionUpdateDto>
     {
+        /// <summary>
+        /// Lấy tất cả chức vụ 
+        /// </summary>
+        /// <returns>Danh sách chức vụ</returns>
+        /// Author: LeDucTiep (23/05/2023)
         public Task<IEnumerable<Position>> GetAllAsync();
     }
 }
