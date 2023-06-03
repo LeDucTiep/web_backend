@@ -11,6 +11,7 @@ namespace MISA.WebFresher2023.Demo.DL.Model
     {
 
         #region Contructor
+        public EmployeePage() { }
         public EmployeePage(int totalRecord, IEnumerable<EmployeeOutPage> employees)
         {
             TotalRecord = totalRecord;

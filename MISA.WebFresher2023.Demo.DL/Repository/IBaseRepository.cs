@@ -49,5 +49,12 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <returns>Mã lỗi</returns>
         /// Created by: LeDucTiep (22/05/2023)
         Task<int> PostAsync(TEntity entity);
+
+        /// <summary>
+        /// Hàm lấy tất cả bản ghi
+        /// </summary>
+        /// <returns>Danh sách bản ghi</returns>
+        /// Author: LeDucTiep (27/05/2023)
+        Task<IEnumerable<TEntity>> GetAllAsync();
     }
 }

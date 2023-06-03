@@ -27,6 +27,7 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
+          "D:\\Tai_lieu_mon_hoc_HAUI\\third_year\\Ky_chinh\\Ky_2\\ASP.net\\OnTapKtra\\Bai 11_Gui_sv_new": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -104,6 +105,7 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
+          "D:\\Tai_lieu_mon_hoc_HAUI\\third_year\\Ky_chinh\\Ky_2\\ASP.net\\OnTapKtra\\Bai 11_Gui_sv_new": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -164,6 +166,7 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
+          "D:\\Tai_lieu_mon_hoc_HAUI\\third_year\\Ky_chinh\\Ky_2\\ASP.net\\OnTapKtra\\Bai 11_Gui_sv_new": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -242,6 +245,7 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
+          "D:\\Tai_lieu_mon_hoc_HAUI\\third_year\\Ky_chinh\\Ky_2\\ASP.net\\OnTapKtra\\Bai 11_Gui_sv_new": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -267,6 +271,16 @@
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.1.0, )"
+            },
+            "NSubstitute": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "NSubstitute.Analyzers.CSharp": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.16, )"
             },
             "NUnit": {
               "target": "Package",
@@ -328,6 +342,7 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
+          "D:\\Tai_lieu_mon_hoc_HAUI\\third_year\\Ky_chinh\\Ky_2\\ASP.net\\OnTapKtra\\Bai 11_Gui_sv_new": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

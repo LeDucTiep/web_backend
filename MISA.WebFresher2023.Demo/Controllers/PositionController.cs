@@ -36,7 +36,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// Author: LeDucTiep (23/05/2023)
         // GET api/<PositionController>/5
         [HttpGet]
-        public async Task<IEnumerable<Position>> GetAllAsync()
+        public async Task<IEnumerable<PositionDto>> GetAllAsync()
         {
             return await _positionService.GetAllAsync();
         }

@@ -45,7 +45,7 @@ namespace MISA.WebFresher2023.Demo.Common.Constant
         /// <summary>
         /// Lỗi độ dài từ khóa tìm kiếm
         /// </summary>
-        InvalidEmployeeFilter = 1007,
+        InvalidEmployeeSearchTerm = 1007,
     }
 
     public enum EmployeeErrorCode

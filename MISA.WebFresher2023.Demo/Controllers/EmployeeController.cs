@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Any;
 using MISA.WebFresher2023.Demo.BL.Dto;
 using MISA.WebFresher2023.Demo.BL.Service;
-using MISA.WebFresher2023.Demo.Common.Constant;
-using MISA.WebFresher2023.Demo.Common.MyException;
 using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Model;
 
@@ -50,16 +49,16 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// </summary>
         /// <param name="pageSize">Kích thước trang</param>
         /// <param name="pageNumber">Thứ tự của trang</param>
-        /// <param name="employeeFilter">Từ khóa để lọc</param>
+        /// <param name="employeeSearchTerm">Từ khóa để lọc</param>
         /// <returns>Tổng số bản ghi, danh sách nhân viên</returns>
         /// Author: LeDucTiep (23/05/2023)
-        // GET: api/employees/filter
-        [Route("filter")]
+        // GET: api/employees/paging
+        [Route("paging")]
         [HttpGet]
-        public async Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeFilter)
+        public async Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeSearchTerm)
         {
             // Trả về trang nhân viên
-            return await _employeeService.GetPage(pageSize, pageNumber, employeeFilter);
+            return await _employeeService.GetPageAsync(pageSize, pageNumber, employeeSearchTerm);
         }
 
         /// <summary>
@@ -85,7 +84,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync(EmployeeCreateDto employeeCreateDto)
         {
-            Employee employee = await _employeeService.PostAsync(employeeCreateDto);
+            EmployeeDto employee = await _employeeService.PostAsync(employeeCreateDto);
             return StatusCode(200, employee.EmployeeId);
         }
 
@@ -103,6 +102,22 @@ namespace MISA.WebFresher2023.Demo.Controllers
             await _baseService.UpdateAsync(id, employeeUpdateDto);
             return StatusCode(204);
         }
+
+        /// <summary>
+        /// API xóa nhiều nhân viên
+        /// </summary>
+        /// <param name="ids">Mã của các nhân viên cần xóa </param>
+        /// Author: LeDucTiep (23/05/2023)
+        [Route("delete-many")]
+        [HttpDelete]
+        public virtual async Task DeleteManyAsync([FromBody] Guid[] Ids)
+        {
+            foreach (Guid value in Ids)
+            {
+                await _baseService.DeleteAsync(value);
+            }
+        }
+
         #endregion
     }
 }

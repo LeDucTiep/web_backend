@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using MISA.WebFresher2023.Demo.Common.MyException;
 using MISA.WebFresher2023.Demo.Common.Resource;
 using MISA.WebFresher2023.Demo.DL.Entity;
 using MySqlConnector;
@@ -44,10 +45,11 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var table = typeof(TEntity).Name;
 
             // Tên procedure
-            string procedure = $"Proc_{table}_Delete";
+            string procedure = ResourceProcedure.Delete(table) ;
 
             // Connection với database 
             var connection = await GetOpenConnectionAsync();
+
             try
             {
                 // Khởi tạo các tham số 
@@ -55,7 +57,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 dynamicParams.Add("errorCode", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 dynamicParams.Add($"{table}Id", id);
 
-                await connection.QueryAsync(
+                await connection.ExecuteAsync(
                     procedure,
                     param: dynamicParams,
                     commandType: CommandType.StoredProcedure
@@ -133,7 +135,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var table = typeof(TEntity).Name;
 
             // Procedure
-            string procedure = $"Proc_{table}_Add";
+            string procedure = ResourceProcedure.Add(table);
 
             // Mở kết nối tới database
             var connection = await GetOpenConnectionAsync();
@@ -176,12 +178,25 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 // Thêm ngày tạo 
                 dynamicParams.Add("CreatedDate", DateTime.Now);
 
-                // Gọi procedure
-                await connection.QueryAsync(
-                    procedure,
-                    param: dynamicParams,
-                    commandType: CommandType.StoredProcedure
-                );
+
+                using var myTransaction = await connection.BeginTransactionAsync();
+                try
+                {
+                    //Gọi procedure
+                    await connection.ExecuteAsync(
+                        procedure,
+                        param: dynamicParams,
+                        commandType: CommandType.StoredProcedure,
+                        transaction: myTransaction
+                    );
+
+                    myTransaction.Commit();
+                }
+                catch
+                {
+                    myTransaction.Rollback();
+                    throw new InternalException();
+                }
 
                 // Lấy mã lỗi trả về 
                 var erroCode = dynamicParams.Get<int>("errorCode");
@@ -209,7 +224,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var table = typeof(TEntity).Name;
 
             // Tên procedure
-            string procedure = $"Proc_{table}_Edit";
+            string procedure = ResourceProcedure.Update(table);
 
             // Mở kết nối tới database
             var connection = await GetOpenConnectionAsync();
@@ -220,7 +235,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 dynamicParams.Add("errorCode", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 // Duyệt qua tất cả thuộc tính của entity
-                var properties = entity.GetType().GetProperties();
+                System.Reflection.PropertyInfo[] properties = entity.GetType().GetProperties();
                 foreach (System.Reflection.PropertyInfo property in properties)
                 {
                     // Tên tham số
@@ -250,24 +265,58 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 // Thêm ngày sửa 
                 dynamicParams.Add("ModifiedDate", DateTime.Now);
 
-                // Gọi procedure
-                await connection.QueryAsync(
-                    procedure,
-                    param: dynamicParams,
-                    commandType: CommandType.StoredProcedure
-                );
+                using var myTransaction = await connection.BeginTransactionAsync();
+                try
+                {
+                    // Gọi procedure
+                    await connection.ExecuteAsync(
+                        procedure,
+                        param: dynamicParams,
+                        commandType: CommandType.StoredProcedure,
+                        transaction: myTransaction
+                    );
 
-                // Nhận mã lỗi
-                var result = dynamicParams.Get<int>("errorCode");
+                    myTransaction.Commit();
+                }
+                catch
+                {
+                    myTransaction.Rollback();
+                    throw new InternalException();
+                }
 
-                // Trả về mã lỗi
-                return result;
+                // Lấy mã lỗi trả về 
+                var erroCode = dynamicParams.Get<int>("errorCode");
+
+                // return mã lỗi
+                return erroCode;
             }
             finally
             {
                 // Đóng connection
-                await connection.CloseAsync();
             }
+        }
+
+        /// <summary>
+        /// Hàm lấy tất cả bản ghi
+        /// </summary>
+        /// <returns>Danh sách bản ghi</returns>
+        /// Author: LeDucTiep (27/05/2023)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            // Tên bảng
+            var table = typeof(TEntity).Name;
+
+            // Tạo connection
+            var connection = await GetOpenConnectionAsync();
+
+            // Tên procedure
+            string procedure = ResourceProcedure.GetAll(table);
+
+            // Gọi đến procedure
+            return await connection.QueryAsync<TEntity>(
+                procedure,
+                commandType: CommandType.StoredProcedure
+            );
         }
         #endregion
     }

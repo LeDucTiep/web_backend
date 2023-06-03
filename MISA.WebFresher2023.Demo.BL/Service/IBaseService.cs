@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public interface IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto>
+    public interface IBaseService<TEntityDto, TEntityCreateDto, TEntityUpdateDto>
     {
         /// <summary>
         /// Hàm thêm một bản ghi 
@@ -16,7 +16,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="entityCreateDto"></param>
         /// <returns>TEntity</returns>
         /// Author: LeDucTiep (23/05/2023)
-        Task<TEntity> PostAsync(TEntityCreateDto entityCreateDto);
+        Task<TEntityDto> PostAsync(TEntityCreateDto entityCreateDto);
 
         /// <summary>
         /// Lấy một bản ghi theo Id 

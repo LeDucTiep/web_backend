@@ -7,9 +7,9 @@ namespace MISA.WebFresher2023.Demo.Controllers
     [ApiController]
     public abstract class BaseController<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : ControllerBase
     {
-        protected readonly IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> _baseService;
+        protected readonly IBaseService<TEntityDto, TEntityCreateDto, TEntityUpdateDto> _baseService;
 
-        public BaseController(IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> baseService)
+        public BaseController(IBaseService<TEntityDto, TEntityCreateDto, TEntityUpdateDto> baseService)
         {
             _baseService = baseService;
         }
@@ -29,9 +29,9 @@ namespace MISA.WebFresher2023.Demo.Controllers
         }
 
         /// <summary>
-        /// API xóa một nhân viên
+        /// API xóa một bản ghi
         /// </summary>
-        /// <param name="id">Mã của nhân viên cần xóa </param>
+        /// <param name="id">Mã của bản ghi cần xóa </param>
         /// <returns>Mã lỗi trả về</returns>
         /// Author: LeDucTiep (23/05/2023)
         [HttpDelete("{id}")]
@@ -39,6 +39,5 @@ namespace MISA.WebFresher2023.Demo.Controllers
         {
             await _baseService.DeleteAsync(id);
         }
-
     }
 }

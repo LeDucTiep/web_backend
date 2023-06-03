@@ -10,6 +10,8 @@
         "dependencies": {
           "MISA.WebFresher2023.Demo": "1.0.0",
           "Microsoft.NET.Test.Sdk": "17.1.0",
+          "NSubstitute": "5.0.0",
+          "NSubstitute.Analyzers.CSharp": "1.0.16",
           "NUnit": "3.13.3",
           "NUnit.Analyzers": "3.3.0",
           "NUnit3TestAdapter": "4.2.1",
@@ -39,6 +41,17 @@
           "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {
             "assemblyVersion": "12.0.0.0",
             "fileVersion": "12.0.1.0"
+          }
+        }
+      },
+      "Castle.Core/5.0.0": {
+        "dependencies": {
+          "System.Diagnostics.EventLog": "6.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/Castle.Core.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.0.0"
           }
         }
       },
@@ -398,6 +411,18 @@
           }
         }
       },
+      "NSubstitute/5.0.0": {
+        "dependencies": {
+          "Castle.Core": "5.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/NSubstitute.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.0.0"
+          }
+        }
+      },
+      "NSubstitute.Analyzers.CSharp/1.0.16": {},
       "NuGet.Frameworks/5.11.0": {
         "runtime": {
           "lib/netstandard2.0/NuGet.Frameworks.dll": {
@@ -471,6 +496,7 @@
           "System.Runtime": "4.1.0"
         }
       },
+      "System.Diagnostics.EventLog/6.0.0": {},
       "System.Diagnostics.Tools/4.0.1": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -812,6 +838,13 @@
       "path": "automapper.extensions.microsoft.dependencyinjection/12.0.1",
       "hashPath": "automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512"
     },
+    "Castle.Core/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-edc8jjyXqzzy8jFdhs36FZdwmlDDTgqPb2Zy1Q5F/f2uAc88bu/VS/0Tpvgupmpl9zJOvOo5ZizVANb0ltN1NQ==",
+      "path": "castle.core/5.0.0",
+      "hashPath": "castle.core.5.0.0.nupkg.sha512"
+    },
     "coverlet.collector/3.1.2": {
       "type": "package",
       "serviceable": true,
@@ -938,6 +971,20 @@
       "path": "newtonsoft.json/9.0.1",
       "hashPath": "newtonsoft.json.9.0.1.nupkg.sha512"
     },
+    "NSubstitute/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CWGy4oXvcJcZzL7m5Rr/eMSejFXMDq1RRMlsbL6eltS3AuN/d8GH3ZzUcuStQcCSlcx+hpsgTxdnb3lhozWG6w==",
+      "path": "nsubstitute/5.0.0",
+      "hashPath": "nsubstitute.5.0.0.nupkg.sha512"
+    },
+    "NSubstitute.Analyzers.CSharp/1.0.16": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+sdWbGyEQl22A4fBWo17/T53TMdbxegNjqwCxdBUS5/tp8ESJwfvHvGdIGj83sR0jKxvpUQoHO35qcf9tdgmdw==",
+      "path": "nsubstitute.analyzers.csharp/1.0.16",
+      "hashPath": "nsubstitute.analyzers.csharp.1.0.16.nupkg.sha512"
+    },
     "NuGet.Frameworks/5.11.0": {
       "type": "package",
       "serviceable": true,
@@ -1007,6 +1054,13 @@
       "sha512": "sha512-w5U95fVKHY4G8ASs/K5iK3J5LY+/dLFd4vKejsnI/ZhBsWS9hQakfx3Zr7lRWKg4tAw9r4iktyvsTagWkqYCiw==",
       "path": "system.diagnostics.debug/4.0.11",
       "hashPath": "system.diagnostics.debug.4.0.11.nupkg.sha512"
+    },
+    "System.Diagnostics.EventLog/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lcyUiXTsETK2ALsZrX+nWuHSIQeazhqPphLfaRxzdGaG93+0kELqpgEHtwWOlQe7+jSFnKwaCAgL4kjeZCQJnw==",
+      "path": "system.diagnostics.eventlog/6.0.0",
+      "hashPath": "system.diagnostics.eventlog.6.0.0.nupkg.sha512"
     },
     "System.Diagnostics.Tools/4.0.1": {
       "type": "package",

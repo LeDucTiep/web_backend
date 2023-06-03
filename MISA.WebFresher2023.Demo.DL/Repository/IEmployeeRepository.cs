@@ -25,10 +25,10 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// </summary>
         /// <param name="pageSize">Kích thước trang </param>
         /// <param name="pageNumber">Số thứ tự trang </param>
-        /// <param name="employeeFilter">Từ khóa tìm kiếm</param>
+        /// <param name="employeeSearchTerm">Từ khóa tìm kiếm</param>
         /// <returns>EmployeePage</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public Task<EmployeePage> GetPage(int pageSize, int pageNumber, string? employeeFilter);
+        public Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeSearchTerm);
 
         /// <summary>
         /// Hàm thêm một bản ghi 

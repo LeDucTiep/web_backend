@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using MISA.WebFresher2023.Demo.Common;
 using MISA.WebFresher2023.Demo.Common.Constant;
 using MISA.WebFresher2023.Demo.Common.MyException;
+using MISA.WebFresher2023.Demo.Common.Resource;
 using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Repository;
 using System;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public class BaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto>
+    public class BaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntityDto, TEntityCreateDto, TEntityUpdateDto>
     {
         #region Field
         protected readonly IBaseRepository<TEntity> _baseRepository;
@@ -42,8 +44,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             /// Xóa và nhận về mã lỗi 
             int errorCode = await _baseRepository.DeleteAsync(id);
             /// nếu có lỗi xảy ra thì ném lỗi 
-            if (errorCode != 0)
-                throw new NotFoundException("BaseService.DeleteAsync", errorCode);
+            ProcessErrorCode.process(errorCode);
         }
 
         /// <summary>
@@ -74,18 +75,17 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <exception cref="NotFoundException">Lỗi không tìm thấy</exception>
         /// <exception cref="ExsistedException">Lỗi đã tồn tại</exception>
         /// Author: LeDucTiep (23/05/2023)
-        public virtual async Task<TEntity> PostAsync(TEntityCreateDto entity)
+        public virtual async Task<TEntityDto> PostAsync(TEntityCreateDto entity)
         {
-            TEntity ent = _mapper.Map<TEntity>(entity);
+            TEntity entity1 = _mapper.Map<TEntity>(entity);
 
-            int errorCode = await _baseRepository.PostAsync(ent);
+            int errorCode = await _baseRepository.PostAsync(entity1);
 
-            if (errorCode != 0)
-                throw new NotFoundException("BaseService.PostAsync", errorCode);
-            else if (errorCode.Equals(EmployeeErrorCode.CodeDuplicated))
-                throw new ExsistedException("BaseService.PostAsync", errorCode);
+            ProcessErrorCode.process(errorCode);
 
-            return ent;
+            TEntityDto entity2 = _mapper.Map<TEntityDto>(entity1);
+
+            return entity2;
         }
         /// <summary>
         /// Hàm update một bản ghi
@@ -98,24 +98,11 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         {
             TEntity _entity = _mapper.Map<TEntity>(entity);
 
-            int result = await _baseRepository.UpdateAsync(id, _entity);
+            int errorCode = await _baseRepository.UpdateAsync(id, _entity);
 
             // Trùng mã nhân viên
-            if (result.Equals(EmployeeErrorCode.CodeDuplicated))
-            {
-                throw new ExsistedException("BaseService.UpdateAsync", result);
-            }
 
-            else if (
-                // Không tìm thấy Id phòng ban 
-                result.Equals(DepartmentErrorCode.IdNotFound) ||
-                // Không tìm thấy Id chức vụ
-                result.Equals(PositionErrorCode.IdNotFound) ||
-                // Không tìm thấy Id nhân viên
-                result.Equals(EmployeeErrorCode.IdNotFound))
-            {
-                throw new NotFoundException("BaseService.UpdateAsync", result);
-            }
+            ProcessErrorCode.process(errorCode);
         }
         #endregion
     }

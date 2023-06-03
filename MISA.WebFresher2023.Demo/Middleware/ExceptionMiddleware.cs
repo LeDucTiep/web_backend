@@ -51,7 +51,7 @@ namespace MISA.WebFresher2023.Demo.Middleware
         /// <param name="exception">Lỗi</param>
         /// <returns>Task</returns>
         /// Author: LeDucTiep (23/05/2023)
-        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
 
@@ -71,7 +71,7 @@ namespace MISA.WebFresher2023.Demo.Middleware
                     }.ToString()
                     );
             }
-            else if (exception is InternalException)
+            else if (exception is InternalException exception2)
             {
                 // Ghi mã lỗi
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -79,7 +79,7 @@ namespace MISA.WebFresher2023.Demo.Middleware
                 await context.Response.WriteAsync(
                     text: new BaseException()
                     {
-                        ErrorCode = ((NotFoundException)exception).ErrorCode,
+                        ErrorCode = exception2.ErrorCode,
                         UserMessage = UserMessage.InternalError,
                         DevMessage = exception.Message,
                         TraceId = context.TraceIdentifier,
@@ -88,7 +88,7 @@ namespace MISA.WebFresher2023.Demo.Middleware
                     );
             }
             else if (
-                exception is PagingArgumentException)
+                exception is PagingArgumentException exception3)
             {
                 // Ghi mã lỗi
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -96,8 +96,24 @@ namespace MISA.WebFresher2023.Demo.Middleware
                 await context.Response.WriteAsync(
                     text: new BaseException()
                     {
-                        ErrorCode = ((NotFoundException)exception).ErrorCode,
+                        ErrorCode = exception3.ErrorCode,
                         UserMessage = UserMessage.PagingArgumentError,
+                        DevMessage = exception.Message,
+                        TraceId = context.TraceIdentifier,
+                        MoreInfo = exception.HelpLink,
+                    }.ToString()
+                    );
+            }
+            else if (exception is ExsistedException exception4)
+            {
+                // Ghi mã lỗi
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                // Ghi nội dung lỗi 
+                await context.Response.WriteAsync(
+                    text: new BaseException()
+                    {
+                        ErrorCode = exception4.ErrorCode,
+                        UserMessage = UserMessage.ExistedEmployeeCode,
                         DevMessage = exception.Message,
                         TraceId = context.TraceIdentifier,
                         MoreInfo = exception.HelpLink,

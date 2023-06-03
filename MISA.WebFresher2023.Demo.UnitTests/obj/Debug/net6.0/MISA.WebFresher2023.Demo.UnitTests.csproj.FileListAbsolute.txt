@@ -343,3 +343,5 @@ D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTe
 D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\obj\Debug\net6.0\MISA.WebFresher2023.Demo.UnitTests.pdb
 D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\obj\Debug\net6.0\MISA.WebFresher2023.Demo.UnitTests.genruntimeconfig.cache
 D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\obj\Debug\net6.0\ref\MISA.WebFresher2023.Demo.UnitTests.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\Castle.Core.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\NSubstitute.dll

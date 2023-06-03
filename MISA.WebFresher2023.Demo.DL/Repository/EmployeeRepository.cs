@@ -59,6 +59,17 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         }
 
         /// <summary>
+        /// Hàm chuyển chuỗi sang số 
+        /// </summary>
+        /// <param name="input">Chuỗi kí tự</param>
+        /// <returns>Số int</returns>
+        /// Author: LeDucTiep (27/05/2023)
+        static long GetNumbers(string input)
+        {
+            return long.Parse(new string(input.Where(c => char.IsDigit(c)).ToArray()));
+        }
+
+        /// <summary>
         /// Hàm tạo ra mã employeeCode
         /// </summary>
         /// <returns>Mã employeeCode mới</returns>
@@ -71,41 +82,39 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             // Tên procedure
             string procedure = ResourceProcedure.EmployeeCheckExistCode;
 
-            int i = 0;
-            int numberLength = 4;
+            int numberUp = 1;
 
             try
             {
+                // Tạo mã mới
+                string sql = "SELECT MAX(e.EmployeeCode) FROM employee e;";
+                IEnumerable<string> enumerable = await connection.QueryAsync<string>(sql);
+                string maxCode = enumerable.First();
+
+                long code = GetNumbers(maxCode);
 
                 while (true)
                 {
-                    i++;
-                    if (i % 10 == 0)
-                    {
-                        numberLength++;
-                    }
-                    // Tạo mã nhân viên mới
-                    int randomNumber = new Random().Next(1, numberLength * 10 - 1);
-                    string newEmployeeCode = "NV-" + $"{randomNumber}".PadLeft(numberLength, '0');
+                    code += numberUp;
+                    string newEmployeeCode = $"NV-{code.ToString().PadLeft(4, '0')}";
 
+                    // Kiểm tra mã mới có bị trùng không
                     // Tạo các tham số 
                     var parameters = new DynamicParameters();
                     parameters.Add("employeeCode", newEmployeeCode);
 
                     // Gọi đến procedure
-                    var res = await connection.QueryAsync<bool>(
+                    bool isExitsted = await connection.QueryFirstAsync<bool>(
                         procedure,
                         param: parameters,
                         commandType: CommandType.StoredProcedure
                     );
 
-                    // Trả về kết quả
-                    bool isExitsted = res.FirstOrDefault();
-
                     if (!isExitsted)
                     {
                         return newEmployeeCode;
                     }
+                    numberUp++;
                 }
             }
             finally
@@ -119,30 +128,33 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// </summary>
         /// <param name="pageSize">Số lượng nhân viên trong một trang</param>
         /// <param name="pageNumber">Số thứ tự trang</param>
-        /// <param name="employeeFilter">Từ khóa cần tìm kiếm theo tên hoặc theo mã nhân viên</param>
+        /// <param name="employeeSearchTerm">Từ khóa cần tìm kiếm theo tên hoặc theo mã nhân viên</param>
         /// <returns>Trang nhân viên</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<EmployeePage> GetPage(int pageSize, int pageNumber, string? employeeFilter)
+        public async Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeSearchTerm)
         {
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
+
+            string procedure = ResourceProcedure.PagingByFullNameOrEmployeeCode;
+
             try
             {
                 // Tạo tham số đầu vào 
                 // IN _offset: Số bản ghi bị bỏ qua
                 // IN _limit: Số bản ghi được lấy
-                // IN employeeFilter: Từ khóa tìm kiếm, theo employeeCode hoặc FullName
+                // IN employeeSearchTerm: Từ khóa tìm kiếm, theo employeeCode hoặc FullName
                 // OUT TotalRecord: Tổng số bản ghi tìm thấy
                 var parameters = new DynamicParameters();
                 int offset = (pageNumber - 1) * pageSize;
                 parameters.Add("_offset", offset);
                 parameters.Add("_limit", pageSize);
-                parameters.Add("employeeFilter", employeeFilter ?? "");
+                parameters.Add("employeeSearchTerm", employeeSearchTerm ?? "");
                 parameters.Add("totalRecord", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 // Gọi procedure 
                 var res = await connection.QueryAsync<EmployeeOutPage>(
-                    "Proc_Employee_PagingByFullNameOrEmployeeCode",
+                    procedure,
                     param: parameters,
                     commandType: CommandType.StoredProcedure
                 );
@@ -157,6 +169,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             {
                 // Dong connection
                 await connection.CloseAsync();
+                
             }
         }
     }

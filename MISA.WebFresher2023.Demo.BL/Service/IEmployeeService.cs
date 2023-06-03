@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
-    public interface IEmployeeService : IBaseService<Employee, EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
+    public interface IEmployeeService : IBaseService<EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
     {
         /// <summary>
         /// Hàm kiểm tra mã nhân viên đã tồn tại
@@ -27,10 +27,10 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// </summary>
         /// <param name="pageSize">Kích thước trang </param>
         /// <param name="pageNumber">Số thứ tự trang </param>
-        /// <param name="employeeFilter">Từ khóa tìm kiếm </param>
+        /// <param name="employeeSearchTerm">Từ khóa tìm kiếm </param>
         /// <returns>Trang nhân viên</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public Task<EmployeePage> GetPage(int pageSize, int pageNumber, string? employeeFilter);
+        public Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeSearchTerm);
 
         /// <summary>
         /// Lấy mã nhân viên mới 

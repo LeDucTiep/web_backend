@@ -34,7 +34,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <returns>Danh sách phòng ban</returns>
         /// Author: LeDucTiep (23/05/2023)
         [HttpGet]
-        public async Task<IEnumerable<Department>> Get()
+        public async Task<IEnumerable<DepartmentDto>> Get()
         {
             return await _departmentService.GetAllAsync();
         }

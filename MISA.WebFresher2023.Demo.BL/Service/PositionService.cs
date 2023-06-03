@@ -28,19 +28,12 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// </summary>
         /// <returns>Danh sách chức vụ</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<IEnumerable<Position>> GetAllAsync()
+        public async Task<IEnumerable<PositionDto>> GetAllAsync()
         {
-            // Tạo connection
-            var connection = await _baseRepository.GetOpenConnectionAsync();
-
-            // Tên procedure
-            string procedure = "Proc_Position_GetAll";
-
             // Gọi đến procedure
-            return await connection.QueryAsync<Position>(
-                procedure,
-                commandType: CommandType.StoredProcedure
-            );
+            IEnumerable<Position> myList = await _baseRepository.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<PositionDto>>(myList);
         }
         #endregion
     }
