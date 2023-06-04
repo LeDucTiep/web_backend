@@ -7,12 +7,15 @@ using MISA.WebFresher2023.Demo.DL.Entity;
 
 namespace MISA.WebFresher2023.Demo.DL.Model
 {
+    /// <summary>
+    /// Class trang nhân viên
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public class EmployeePage
     {
-
         #region Contructor
         public EmployeePage() { }
-        public EmployeePage(int totalRecord, IEnumerable<EmployeeOutPage> employees)
+        public EmployeePage(int totalRecord, IEnumerable<EmployeeInPage> employees)
         {
             TotalRecord = totalRecord;
             Data = employees;
@@ -31,7 +34,7 @@ namespace MISA.WebFresher2023.Demo.DL.Model
         /// Danh sách nhân viên trả về
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public IEnumerable<EmployeeOutPage> Data { get; set; }
+        public IEnumerable<EmployeeInPage> Data { get; set; }
         #endregion
     }
 }

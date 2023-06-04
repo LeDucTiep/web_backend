@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.DL.Entity
 {
+    /// <summary>
+    /// Class chức vụ
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public class Position : BaseEntity
     {
         /// <summary>

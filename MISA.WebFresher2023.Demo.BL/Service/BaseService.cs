@@ -31,7 +31,6 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         #endregion
 
         #region Method
-
         /// <summary>
         /// Xóa một bản ghi theo id 
         /// </summary>
@@ -45,6 +44,19 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             int errorCode = await _baseRepository.DeleteAsync(id);
             /// nếu có lỗi xảy ra thì ném lỗi 
             ProcessErrorCode.process(errorCode);
+        }
+
+        /// <summary>
+        /// Xóa một bản ghi theo id 
+        /// </summary>
+        /// <param name="id">Id của bản ghi </param>
+        /// <returns>Task</returns>
+        /// <exception cref="NotFoundException">Lỗi không tìm thấy </exception>
+        /// Author: LeDucTiep (23/05/2023)
+        public virtual async Task DeleteManyAsync(Guid[] arrayId)
+        {
+            /// Xóa và nhận về mã lỗi 
+            await _baseRepository.DeleteManyAsync(arrayId);
         }
 
         /// <summary>
@@ -81,6 +93,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 
             int errorCode = await _baseRepository.PostAsync(entity1);
 
+            // Xử lý lỗi
             ProcessErrorCode.process(errorCode);
 
             TEntityDto entity2 = _mapper.Map<TEntityDto>(entity1);
@@ -100,8 +113,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 
             int errorCode = await _baseRepository.UpdateAsync(id, _entity);
 
-            // Trùng mã nhân viên
-
+            // Xử lý lỗi
             ProcessErrorCode.process(errorCode);
         }
         #endregion

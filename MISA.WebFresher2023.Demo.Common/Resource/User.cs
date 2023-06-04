@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.Common.Resource
 {
+    /// <summary>
+    /// Class thông tin người dùng
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public class User
     {
         /// <summary>

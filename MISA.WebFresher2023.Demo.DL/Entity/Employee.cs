@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.DL.Entity
 {
+    /// <summary>
+    /// Class nhân viên
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public class Employee : BaseEntity
     {
         /// <summary>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MISA.WebFresher2023.Demo.Common.Constant
 {
     /// <summary>
-    /// Enum mã lỗi
+    /// Department mã lỗi
     /// </summary>
     /// Author: LeDucTiep (23/05/2023)
     public enum DepartmentErrorCode
@@ -19,6 +19,10 @@ namespace MISA.WebFresher2023.Demo.Common.Constant
         IdNotFound = 1003,
     }
 
+    /// <summary>
+    /// Position mã lỗi 
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public enum PositionErrorCode
     {
         /// <summary>
@@ -28,6 +32,10 @@ namespace MISA.WebFresher2023.Demo.Common.Constant
         IdNotFound = 1004,
     }
 
+    /// <summary>
+    /// Paging mã lỗi 
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public enum PagingErrorCode
     {
         /// <summary>
@@ -48,6 +56,10 @@ namespace MISA.WebFresher2023.Demo.Common.Constant
         InvalidEmployeeSearchTerm = 1007,
     }
 
+    /// <summary>
+    /// Employee mã lỗi 
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public enum EmployeeErrorCode
     {
         /// <summary>

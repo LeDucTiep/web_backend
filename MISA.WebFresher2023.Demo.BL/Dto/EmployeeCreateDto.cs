@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Dto
 {
+    /// <summary>
+    /// Class chuyển đổi dữ liệu sang nhân viên để thêm
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public class EmployeeCreateDto
     {
         /// <summary>

@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.Common.MyException
 {
+    /// <summary>
+    /// Class Exception
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public class BaseException
     {
         /// <summary>

@@ -19,10 +19,13 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
 {
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
+        #region Contructor
         public EmployeeRepository(IConfiguration configuration) : base(configuration)
         {
         }
+        #endregion
 
+        #region Method
         /// <summary>
         /// Hàm kiểm tra mã EmployeeCode đã tồn tại chưa
         /// </summary>
@@ -153,7 +156,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 parameters.Add("totalRecord", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 // Gọi procedure 
-                var res = await connection.QueryAsync<EmployeeOutPage>(
+                var res = await connection.QueryAsync<EmployeeInPage>(
                     procedure,
                     param: parameters,
                     commandType: CommandType.StoredProcedure
@@ -169,8 +172,9 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             {
                 // Dong connection
                 await connection.CloseAsync();
-                
+
             }
-        }
+        } 
+        #endregion
     }
 }

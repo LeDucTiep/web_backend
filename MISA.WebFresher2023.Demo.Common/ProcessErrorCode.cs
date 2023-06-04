@@ -4,6 +4,10 @@ using MISA.WebFresher2023.Demo.Common.Resource;
 
 namespace MISA.WebFresher2023.Demo.Common
 {
+    /// <summary>
+    /// Class xử lý mã lỗi
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public static class ProcessErrorCode
     {
         public static void process(int errorCode)

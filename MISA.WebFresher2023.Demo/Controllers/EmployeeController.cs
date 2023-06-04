@@ -66,8 +66,8 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// </summary>
         /// <returns>Mã nhân viên mới</returns>
         /// Author: LeDucTiep (23/05/2023)
-        // GET api/v1/Employees/NewEmployeeCode
-        [Route("NewEmployeeCode")]
+        // GET api/v1/Employees/new-employee-code
+        [Route("new-employee-code")]
         [HttpGet]
         public async Task<string> GetNewEmployeeCodeAsync()
         {
@@ -102,22 +102,6 @@ namespace MISA.WebFresher2023.Demo.Controllers
             await _baseService.UpdateAsync(id, employeeUpdateDto);
             return StatusCode(204);
         }
-
-        /// <summary>
-        /// API xóa nhiều nhân viên
-        /// </summary>
-        /// <param name="ids">Mã của các nhân viên cần xóa </param>
-        /// Author: LeDucTiep (23/05/2023)
-        [Route("delete-many")]
-        [HttpDelete]
-        public virtual async Task DeleteManyAsync([FromBody] Guid[] Ids)
-        {
-            foreach (Guid value in Ids)
-            {
-                await _baseService.DeleteAsync(value);
-            }
-        }
-
         #endregion
     }
 }

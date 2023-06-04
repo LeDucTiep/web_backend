@@ -2,6 +2,10 @@
 
 namespace MISA.WebFresher2023.Demo.Common.MyException
 {
+    /// <summary>
+    /// Class tham số của api phân trang
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public class PagingArgumentException : Exception
     {
         #region Field

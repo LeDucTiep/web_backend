@@ -16,7 +16,7 @@ namespace MISA.WebFresher2023.Demo.UnitTests.Service
     [TestFixture]
     public class EmployeeServiceTest
     {
-        private readonly static EmployeeOutPage _employeeOutPage = new()
+        private readonly static EmployeeInPage _employeeOutPage = new()
         {
             EmployeeCode = "NV-0012",
             FullName = "Lê Đức Tiệp",
@@ -28,7 +28,7 @@ namespace MISA.WebFresher2023.Demo.UnitTests.Service
         {
             TotalRecord = 3,
             Data =
-            new List<EmployeeOutPage>(){
+            new List<EmployeeInPage>(){
                 _employeeOutPage,
                 _employeeOutPage,
                 _employeeOutPage

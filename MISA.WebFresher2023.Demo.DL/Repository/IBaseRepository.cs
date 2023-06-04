@@ -43,6 +43,13 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         Task<int> DeleteAsync(Guid id);
 
         /// <summary>
+        /// Hàm xóa các bàn ghi
+        /// </summary>
+        /// <param name="arrayId">Id của các bản ghi</param>
+        /// Created by: LeDucTiep (21/05/2023)
+        Task DeleteManyAsync(Guid[] arrayId);
+
+        /// <summary>
         /// Hàm tạo một bàn ghi
         /// </summary>
         /// <param name="id">Id của bản ghi</param>

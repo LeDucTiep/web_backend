@@ -1,5 +1,9 @@
 ﻿namespace MISA.WebFresher2023.Demo.Common.MyException
 {
+    /// <summary>
+    /// Class lỗi từ nội bộ
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public class InternalException : Exception
     {
         #region Field

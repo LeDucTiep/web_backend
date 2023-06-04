@@ -45,7 +45,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var table = typeof(TEntity).Name;
 
             // Tên procedure
-            string procedure = ResourceProcedure.Delete(table) ;
+            string procedure = ResourceProcedure.Delete(table);
 
             // Connection với database 
             var connection = await GetOpenConnectionAsync();
@@ -71,6 +71,72 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             finally
             {
                 await connection.CloseAsync();
+            }
+        }
+        /// <summary>
+        /// Hàm xóa nhiều bản ghi
+        /// </summary>
+        /// <param name="id">Id của bản ghi</param>
+        /// <returns>Mã lỗi</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        public virtual async Task DeleteManyAsync(Guid[] arrayId)
+        {
+            // Tên bảng 
+            var table = typeof(TEntity).Name;
+
+            // Tên procedure
+            string procedure = ResourceProcedure.DeleteMany(table);
+
+            // Connection với database 
+            var connection = await GetOpenConnectionAsync();
+
+            // Chuyển thành dạng danh sách
+            List<Guid> listId = arrayId.ToList();
+
+            // Còn thở thì còn xóa
+            while (listId.Count > 0)
+            {
+                string param = "";
+                int counterFlag = 0;
+
+                // Xóa mỗi lần 10 bản ghi
+                while (listId.Count > 0 && counterFlag <= 10)
+                {
+                    Guid guid = listId[0];
+
+                    param += $"'{guid}'";
+
+                    listId.RemoveAt(0);
+
+                    counterFlag++;
+
+                    // Nếu là phần tử cuối cùng thì không cần dấu ,
+                    if (listId.Count > 0 && counterFlag <= 10)
+                    {
+                        param += ",";
+                    }
+                }
+
+                try
+                {
+                    // Khởi tạo các tham số 
+                    var dynamicParams = new DynamicParameters();
+                    dynamicParams.Add($"arrayId", param);
+
+                    await connection.ExecuteAsync(
+                        procedure,
+                        param: dynamicParams,
+                        commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch
+                {
+                    throw new InternalException($"Lỗi xóa nhiều bản ghi. Procedure: {procedure}, Param: {param}");
+                }
+                finally
+                {
+                    await connection.CloseAsync();
+                }
             }
         }
 

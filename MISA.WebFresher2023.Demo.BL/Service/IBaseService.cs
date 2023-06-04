@@ -42,5 +42,13 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <returns>Task</returns>
         /// Author: LeDucTiep (23/05/2023)
         Task DeleteAsync(Guid id);
+
+        /// <summary>
+        /// Hàm xóa nhiều bản ghi
+        /// </summary>
+        /// <param name="arrayId">Id của các bản ghi cần xóa</param>
+        /// <returns>Task</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        Task DeleteManyAsync(Guid[] arrayId);
     }
 }

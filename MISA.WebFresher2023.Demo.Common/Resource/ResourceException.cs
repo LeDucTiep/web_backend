@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.Common.Resource
 {
+    /// <summary>
+    /// Resource nội dung lỗi 
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public static class ResourceException
     {
         /// <summary>
@@ -51,6 +55,11 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// Author: LeDucTiep (27/05/2023)
         public static readonly string ExistedEmployeeCode = "Mã nhân viên đã tồn tại";
     }
+
+    /// <summary>
+    /// Thông tin lỗi phòng ban 
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public static class DepartmentErrorMessage
     {
         /// <summary>
@@ -60,6 +69,10 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         public static readonly string IdNotFound = "Không tìm thấy departmnetId";
     }
 
+    /// <summary>
+    /// Thông tin lỗi chức vụ
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public static class PositionErrorMessage
     {
         /// <summary>
@@ -69,6 +82,10 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         public static readonly string IdNotFound = "Không tìm thấy positionId";
     }
 
+    /// <summary>
+    /// Thông tin lỗi phân trang
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public static class PagingErrorMessage
     {
         /// <summary>
@@ -89,6 +106,10 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         public static readonly string InvalidEmployeeSearchTerm = "Employee không được dài quá 255 kí tự";
     }
 
+    /// <summary>
+    /// Thông tin lỗi nhân viên
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public static class EmployeeErrorMessage
     {
         /// <summary>
