@@ -100,7 +100,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 int counterFlag = 0;
 
                 // Xóa mỗi lần 10 bản ghi
-                while (listId.Count > 0 && counterFlag <= 10)
+                while (listId.Count > 0 && counterFlag < 10)
                 {
                     Guid guid = listId[0];
 
@@ -111,7 +111,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                     counterFlag++;
 
                     // Nếu là phần tử cuối cùng thì không cần dấu ,
-                    if (listId.Count > 0 && counterFlag <= 10)
+                    if (listId.Count > 0 && counterFlag < 10)
                     {
                         param += ",";
                     }
@@ -129,9 +129,9 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                         commandType: CommandType.StoredProcedure
                     );
                 }
-                catch
+                catch( Exception ex )
                 {
-                    throw new InternalException($"Lỗi xóa nhiều bản ghi. Procedure: {procedure}, Param: {param}");
+                    throw new InternalException($"Procedure: {procedure}, Param: {param}, Message: {ex.Message}");
                 }
                 finally
                 {

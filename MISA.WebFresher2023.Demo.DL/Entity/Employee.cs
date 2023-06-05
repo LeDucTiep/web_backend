@@ -91,5 +91,23 @@ namespace MISA.WebFresher2023.Demo.DL.Entity
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         public Guid DepartmentId { get; set; }
+
+        /// <summary>
+        /// Tài khoản ngân hàng
+        /// </summary>
+        /// Author: LeDucTiep (04/06/2023)
+        public string? BankAccountNumber { get; set; }
+
+        /// <summary>
+        /// Tên ngân hàng
+        /// </summary>
+        /// Author: LeDucTiep (04/06/2023)
+        public string? NameOfBank { get; set; }
+
+        /// <summary>
+        /// Chi nhánh ngân hàng
+        /// </summary>
+        /// Author: LeDucTiep (04/06/2023)
+        public string? BankAccountBranch { get; set; }
     }
 }

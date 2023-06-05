@@ -69,7 +69,14 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Author: LeDucTiep (27/05/2023)
         static long GetNumbers(string input)
         {
-            return long.Parse(new string(input.Where(c => char.IsDigit(c)).ToArray()));
+            try
+            {
+                return long.Parse(new string(input.Where(c => char.IsDigit(c)).ToArray()));
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         /// <summary>
@@ -139,7 +146,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
 
-            string procedure = ResourceProcedure.PagingByFullNameOrEmployeeCode;
+            string procedure = ResourceProcedure.Paging;
 
             try
             {
@@ -174,7 +181,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 await connection.CloseAsync();
 
             }
-        } 
+        }
         #endregion
     }
 }

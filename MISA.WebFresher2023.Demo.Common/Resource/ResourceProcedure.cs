@@ -22,7 +22,7 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// Procedure phân trang theo họ tên và mã nhân viên
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public static readonly string PagingByFullNameOrEmployeeCode = "Proc_Employee_PagingByFullNameOrEmployeeCode";
+        public static readonly string Paging = "Proc_Employee_Paging";
         #endregion
 
         #region Method
