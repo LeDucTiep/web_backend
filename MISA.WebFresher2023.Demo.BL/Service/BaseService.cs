@@ -1,18 +1,19 @@
 ﻿using AutoMapper;
+using MISA.WebFresher2023.Demo.BL.Dto;
 using MISA.WebFresher2023.Demo.Common;
-using MISA.WebFresher2023.Demo.Common.Constant;
 using MISA.WebFresher2023.Demo.Common.MyException;
-using MISA.WebFresher2023.Demo.Common.Resource;
-using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
+    /// <summary>
+    /// Class dịch vụ cơ bản
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntityDto"></typeparam>
+    /// <typeparam name="TEntityCreateDto"></typeparam>
+    /// <typeparam name="TEntityUpdateDto"></typeparam>
+    /// Author: LeDucTiep (23/05/2023)
     public class BaseService<TEntity, TEntityDto, TEntityCreateDto, TEntityUpdateDto> : IBaseService<TEntityDto, TEntityCreateDto, TEntityUpdateDto>
     {
         #region Field
@@ -100,6 +101,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 
             return entity2;
         }
+
         /// <summary>
         /// Hàm update một bản ghi
         /// </summary>
@@ -115,6 +117,19 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 
             // Xử lý lỗi
             ProcessErrorCode.process(errorCode);
+        }
+
+        /// <summary>
+        /// Hàm lấy tất cả bản ghi
+        /// </summary>
+        /// <returns>Danh sách bản ghi</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        public async Task<IEnumerable<TEntityDto>> GetAllAsync()
+        {
+            // Gọi đến procedure
+            IEnumerable<TEntity> myList = await _baseRepository.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<TEntityDto>>(myList);
         }
         #endregion
     }

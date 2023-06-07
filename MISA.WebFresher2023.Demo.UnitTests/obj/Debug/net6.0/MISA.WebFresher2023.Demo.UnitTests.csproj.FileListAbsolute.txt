@@ -345,3 +345,10 @@ D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTe
 D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\obj\Debug\net6.0\ref\MISA.WebFresher2023.Demo.UnitTests.dll
 D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\Castle.Core.dll
 D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\NSubstitute.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\ClosedXML.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\ExcelNumberFormat.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\Irony.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\SixLabors.Fonts.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\System.IO.Packaging.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo.UnitTests\bin\Debug\net6.0\XLParser.dll

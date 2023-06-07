@@ -50,12 +50,22 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// </summary>
         /// <param name="ids">Mã của các bản ghi cần xóa </param>
         /// Author: LeDucTiep (23/05/2023)
-        [Route("delete-many")]
         [HttpDelete]
         public virtual async Task DeleteManyAsync([FromBody] Guid[] arrayId)
         {
             await _baseService.DeleteManyAsync(arrayId);
-        } 
+        }
+
+        /// <summary>
+        /// API lấy tất cả danh sách bản ghi
+        /// </summary>
+        /// <returns>Danh sách bản ghi</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        [HttpGet]
+        public async Task<IEnumerable<TEntityDto>> GetAllAsync()
+        {
+            return await _baseService.GetAllAsync();
+        }
         #endregion
     }
 }

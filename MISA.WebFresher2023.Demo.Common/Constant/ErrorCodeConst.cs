@@ -53,6 +53,7 @@ namespace MISA.WebFresher2023.Demo.Common.Constant
         /// <summary>
         /// Lỗi độ dài từ khóa tìm kiếm
         /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
         InvalidEmployeeSearchTerm = 1007,
     }
 

@@ -38,7 +38,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var connection = await GetOpenConnectionAsync();
 
             // Tên procedure
-            string procedure = ResourceProcedure.EmployeeCheckExistCode;
+            string procedure = ProcedureResource.EmployeeCheckExistCode;
 
             try
             {
@@ -90,7 +90,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var connection = await GetOpenConnectionAsync();
 
             // Tên procedure
-            string procedure = ResourceProcedure.EmployeeCheckExistCode;
+            string procedure = ProcedureResource.EmployeeCheckExistCode;
 
             int numberUp = 1;
 
@@ -146,7 +146,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
 
-            string procedure = ResourceProcedure.Paging;
+            string procedure = ProcedureResource.Paging;
 
             try
             {
@@ -180,6 +180,36 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 // Dong connection
                 await connection.CloseAsync();
 
+            }
+        }
+
+        /// <summary>
+        /// Hàm lấy dữ liệu để xuất employee 
+        /// </summary>
+        /// <returns>EmployeeExport</returns>
+        /// Author: LeDucTiep (07/06/2023)
+        public async Task<IEnumerable<EmployeeExport>> GetEmployeeExportAsync()
+        {
+            // Tạo connection
+            var connection = await GetOpenConnectionAsync();
+
+            string procedure = ProcedureResource.EmployeeExport;
+
+            try
+            {
+                // Gọi procedure 
+                var res = await connection.QueryAsync<EmployeeExport>(
+                    procedure,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                // trả về kết quả
+                return res;
+            }
+            finally
+            {
+                // Dong connection
+                await connection.CloseAsync();
             }
         }
         #endregion

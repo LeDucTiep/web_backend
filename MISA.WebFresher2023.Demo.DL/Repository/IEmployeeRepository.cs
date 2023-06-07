@@ -1,5 +1,6 @@
 ﻿using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Model;
+using static Dapper.SqlMapper;
 
 namespace MISA.WebFresher2023.Demo.DL.Repository
 {
@@ -29,6 +30,13 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <returns>EmployeePage</returns>
         /// Author: LeDucTiep (23/05/2023)
         public Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeSearchTerm);
+
+        /// <summary>
+        /// Hàm lấy dữ liệu để xuất employee 
+        /// </summary>
+        /// <returns>EmployeeExport</returns>
+        /// Author: LeDucTiep (07/06/2023)
+        public Task<IEnumerable<EmployeeExport>> GetEmployeeExportAsync();
 
         /// <summary>
         /// Hàm thêm một bản ghi 

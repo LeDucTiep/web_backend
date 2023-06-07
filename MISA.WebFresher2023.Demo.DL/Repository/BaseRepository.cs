@@ -45,7 +45,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var table = typeof(TEntity).Name;
 
             // Tên procedure
-            string procedure = ResourceProcedure.Delete(table);
+            string procedure = ProcedureResource.Delete(table);
 
             // Connection với database 
             var connection = await GetOpenConnectionAsync();
@@ -85,7 +85,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var table = typeof(TEntity).Name;
 
             // Tên procedure
-            string procedure = ResourceProcedure.DeleteMany(table);
+            string procedure = ProcedureResource.DeleteMany(table);
 
             // Connection với database 
             var connection = await GetOpenConnectionAsync();
@@ -201,7 +201,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var table = typeof(TEntity).Name;
 
             // Procedure
-            string procedure = ResourceProcedure.Add(table);
+            string procedure = ProcedureResource.Add(table);
 
             // Mở kết nối tới database
             var connection = await GetOpenConnectionAsync();
@@ -240,7 +240,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 }
 
                 // Thêm người tạo 
-                dynamicParams.Add("CreatedBy", User.Name);
+                dynamicParams.Add("CreatedBy", UserResource.Name);
                 // Thêm ngày tạo 
                 dynamicParams.Add("CreatedDate", DateTime.Now);
 
@@ -290,7 +290,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var table = typeof(TEntity).Name;
 
             // Tên procedure
-            string procedure = ResourceProcedure.Update(table);
+            string procedure = ProcedureResource.Update(table);
 
             // Mở kết nối tới database
             var connection = await GetOpenConnectionAsync();
@@ -326,7 +326,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 }
 
                 // Thêm người sửa 
-                dynamicParams.Add("ModifiedBy", User.Name);
+                dynamicParams.Add("ModifiedBy", UserResource.Name);
 
                 // Thêm ngày sửa 
                 dynamicParams.Add("ModifiedDate", DateTime.Now);
@@ -376,7 +376,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var connection = await GetOpenConnectionAsync();
 
             // Tên procedure
-            string procedure = ResourceProcedure.GetAll(table);
+            string procedure = ProcedureResource.GetAll(table);
 
             // Gọi đến procedure
             return await connection.QueryAsync<TEntity>(

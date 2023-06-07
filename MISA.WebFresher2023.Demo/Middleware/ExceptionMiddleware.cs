@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using MISA.WebFresher2023.Demo.Common.MyException;
+﻿using MISA.WebFresher2023.Demo.Common.MyException;
 using MISA.WebFresher2023.Demo.Common.Resource;
-using System;
 using System.Net;
-using System.Text.Json;
 
 namespace MISA.WebFresher2023.Demo.Middleware
 {
+    /// <summary>
+    /// Class xử lý exception bằng middleware 
+    /// </summary>
+    /// Author: LeDucTiep (23/05/2023)
     public class ExceptionMiddleware
     {
         #region Field

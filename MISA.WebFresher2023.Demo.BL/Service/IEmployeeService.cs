@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using ClosedXML.Excel;
+using Dapper;
 using MISA.WebFresher2023.Demo.BL.Dto;
 using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Model;
@@ -38,5 +39,27 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <returns>Mã nhân viên mới </returns>
         /// Author: LeDucTiep (23/05/2023)
         public Task<string> GetNewEmployeeCode();
+
+        /// <summary>
+        /// Hàm lấy tất cả employee và ghi vào sheet
+        /// </summary>
+        /// <param name="sheet">Trang cần ghi dữ liệu vào</param>
+        /// <returns>Số dòng của sheet</returns>
+        /// Author: LeDucTiep (07/06/2023)
+        public Task<int> LoadEmployeeExportData(IXLWorksheet sheet);
+
+        /// <summary>
+        /// Hàm lấy danh sách employee và tạo ra file excel
+        /// </summary>
+        /// <returns>XLWorkbook</returns>
+        /// Author: LeDucTiep (07/06/2023)
+        public Task<XLWorkbook> ExportExcelAsync();
+
+        /// <summary>
+        /// Hàm lấy tất cả employee để xuất file 
+        /// </summary>
+        /// <returns>Danh sách employee</returns>
+        /// Author: LeDucTiep (07/06/2023)
+        public Task<IEnumerable<EmployeeExport>> ExportJsonAsync();
     }
 }

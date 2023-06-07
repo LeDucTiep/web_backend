@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Any;
 using MISA.WebFresher2023.Demo.BL.Dto;
 using MISA.WebFresher2023.Demo.BL.Service;
 using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Model;
+using System.Text.RegularExpressions;
+using ClosedXML.Excel;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -40,6 +41,8 @@ namespace MISA.WebFresher2023.Demo.Controllers
         [HttpGet]
         public async Task<bool> CheckIsExistedCodeAsync(string code)
         {
+            // Xóa khoảng trắng
+            code = Regex.Replace(code, @"\s+", "");
             // Tạo connection
             return await _employeeService.CheckEmployeeCode(code);
         }
@@ -102,6 +105,39 @@ namespace MISA.WebFresher2023.Demo.Controllers
             await _baseService.UpdateAsync(id, employeeUpdateDto);
             return StatusCode(204);
         }
+
+        /// <summary>
+        /// API xuất file chứa thông tin tất cả nhân viên 
+        /// </summary>
+        /// <returns>File excel xuất thông tin tất cả nhân viên </returns>
+        /// Author: LeDucTiep (23/05/2023)
+        [HttpGet("exporting-excel")]
+        public async Task<ActionResult> ExportExcelAsync()
+        {
+            // Tạo file excel 
+            XLWorkbook xlWorkbook = await _employeeService.ExportExcelAsync();
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Lưu file vào MemoryStream
+                xlWorkbook.SaveAs(ms);
+
+                // Gửi file
+                return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh_sach_nhan_vien.xlsx");
+            }
+        }
+
+        /// <summary>
+        /// API xuất tất cả nhân viên 
+        /// </summary>
+        /// <returns>Danh sách tất cả nhân viên</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        [HttpGet("exporting-json")]
+        public async Task<IEnumerable<EmployeeExport>> ExportJsonAsync()
+        {
+            return await _employeeService.ExportJsonAsync();
+        }
+
         #endregion
     }
 }

@@ -10,6 +10,12 @@ namespace MISA.WebFresher2023.Demo.Common
     /// Author: LeDucTiep (23/05/2023)
     public static class ProcessErrorCode
     {
+        /// <summary>
+        /// Hàm xử lý mã lỗi
+        /// </summary>
+        /// <param name="errorCode">Mã lỗi</param>
+        /// <exception cref="ExsistedException">Lỗi đã tồn tại (mã bản ghi)</exception>
+        /// <exception cref="NotFoundException">Lỗi không tìm thấy (mã bản ghi)</exception>
         public static void process(int errorCode)
         {
             switch (errorCode)

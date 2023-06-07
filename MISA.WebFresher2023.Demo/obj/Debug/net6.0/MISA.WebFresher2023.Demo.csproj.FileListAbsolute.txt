@@ -106,3 +106,10 @@ D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\De
 D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\MISA.WebFresher2023.Demo.DL.pdb
 D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\AutoMapper.dll
 D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\ClosedXML.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\ExcelNumberFormat.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\Irony.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\SixLabors.Fonts.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\System.IO.Packaging.dll
+D:\Misa\ThucTap\backend\MISA.WebFresher2023.Demo\MISA.WebFresher2023.Demo\bin\Debug\net6.0\XLParser.dll
