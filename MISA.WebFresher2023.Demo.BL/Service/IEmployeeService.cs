@@ -61,5 +61,13 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <returns>Danh sách employee</returns>
         /// Author: LeDucTiep (07/06/2023)
         public Task<IEnumerable<EmployeeExport>> ExportJsonAsync();
+
+        /// <summary>
+        /// Hàm kiểm tra mã EmployeeCode muốn sửa đã tồn tại chưa
+        /// </summary>
+        /// <param name="employeeCode">EmployeeCode</param>
+        /// <returns>bool</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        public Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, string itsCode);
     }
 }

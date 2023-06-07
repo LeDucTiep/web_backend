@@ -12,6 +12,7 @@ using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Office2016.Excel;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
@@ -44,6 +45,17 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         public async Task<bool> CheckEmployeeCode(string code)
         {
             return await _employeeRepository.CheckEmployeeCode(code);
+        }
+
+        /// <summary>
+        /// Hàm kiểm tra mã EmployeeCode muốn sửa đã tồn tại chưa
+        /// </summary>
+        /// <param name="employeeCode">EmployeeCode</param>
+        /// <returns>bool</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        public async Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, string itsCode)
+        {
+            return await _employeeRepository.CheckDuplicatedEmployeeEditCode(employeeCode, itsCode);
         }
 
         /// <summary>

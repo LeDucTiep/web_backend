@@ -37,7 +37,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <param name="code"></param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
-        [Route("is-existed-code")]
+        [Route("is-code-duplicated")]
         [HttpGet]
         public async Task<bool> CheckIsExistedCodeAsync(string code)
         {
@@ -45,6 +45,23 @@ namespace MISA.WebFresher2023.Demo.Controllers
             code = Regex.Replace(code, @"\s+", "");
             // Tạo connection
             return await _employeeService.CheckEmployeeCode(code);
+        }
+
+        /// <summary>
+        /// API kiểm tra trùng mã sửa ngoại trừ mã cũ 
+        /// </summary>
+        /// <param name="employeeCode"></param>
+        /// <param name="itsCode"></param>
+        /// <returns></returns>
+        /// Author: LeDucTiep (23/05/2023)
+        [Route("is-edit-code-duplicated")]
+        [HttpGet]
+        public async Task<bool> CheckDuplicatedEmployeeEditCodeAsync(string employeeCode, string itsCode)
+        {
+            // Xóa khoảng trắng
+            employeeCode = Regex.Replace(employeeCode, @"\s+", "");
+            // Tạo connection
+            return await _employeeService.CheckDuplicatedEmployeeEditCode(employeeCode, itsCode);
         }
 
         /// <summary>

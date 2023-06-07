@@ -17,8 +17,14 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// Procedure kiểm cha employeeCode đã tồn tại chưa 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public static readonly string EmployeeCheckExistCode = "Proc_Employee_CheckDuplicatedCode";
+        public static readonly string CheckDuplicatedCode = "Proc_Employee_CheckDuplicatedCode";
 
+        /// <summary>
+        /// Procedure kiểm cha employeeCode muốn sửa đã tồn tại chưa, ngoại trừ mã trước khi sửa
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string CheckDuplicatedCodeExceptItsCode = "Proc_Employee_CheckDuplicatedCodeExceptItsCode";
+        
         /// <summary>
         /// Procedure phân trang theo họ tên và mã nhân viên
         /// </summary>

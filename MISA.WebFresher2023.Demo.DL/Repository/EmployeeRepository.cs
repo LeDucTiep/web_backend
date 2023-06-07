@@ -38,13 +38,49 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var connection = await GetOpenConnectionAsync();
 
             // Tên procedure
-            string procedure = ProcedureResource.EmployeeCheckExistCode;
+            string procedure = ProcedureResource.CheckDuplicatedCode;
 
             try
             {
                 // Tạo các tham số 
                 var parameters = new DynamicParameters();
                 parameters.Add("employeeCode", employeeCode);
+
+                // Gọi đến procedure
+                bool result = await connection.QueryFirstAsync<bool>(
+                    procedure,
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        /// <summary>
+        /// Hàm kiểm tra mã EmployeeCode muốn sửa đã tồn tại chưa
+        /// </summary>
+        /// <param name="employeeCode">EmployeeCode</param>
+        /// <returns>bool</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        public async Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, string itsCode)
+        {
+            // Tạo connection
+            var connection = await GetOpenConnectionAsync();
+
+            // Tên procedure
+            string procedure = ProcedureResource.CheckDuplicatedCodeExceptItsCode;
+
+            try
+            {
+                // Tạo các tham số 
+                var parameters = new DynamicParameters();
+                parameters.Add("employeeCode", employeeCode);
+                parameters.Add("itsCode", itsCode);
 
                 // Gọi đến procedure
                 bool result = await connection.QueryFirstAsync<bool>(
@@ -90,7 +126,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             var connection = await GetOpenConnectionAsync();
 
             // Tên procedure
-            string procedure = ProcedureResource.EmployeeCheckExistCode;
+            string procedure = ProcedureResource.CheckDuplicatedCode;
 
             int numberUp = 1;
 
