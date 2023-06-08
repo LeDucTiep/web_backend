@@ -37,14 +37,11 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// </summary>
         /// <param name="id">Id của bản ghi </param>
         /// <returns>Task</returns>
-        /// <exception cref="NotFoundException">Lỗi không tìm thấy </exception>
         /// Author: LeDucTiep (23/05/2023)
         public virtual async Task DeleteAsync(Guid id)
         {
-            /// Xóa và nhận về mã lỗi 
-            int errorCode = await _baseRepository.DeleteAsync(id);
-            /// nếu có lỗi xảy ra thì ném lỗi 
-            ProcessErrorCode.process(errorCode);
+            /// Xóa 
+            await _baseRepository.DeleteAsync(id);
         }
 
         /// <summary>
@@ -85,17 +82,12 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// </summary>
         /// <param name="entity">Loại bản ghi </param>
         /// <returns>TEntity</returns>
-        /// <exception cref="NotFoundException">Lỗi không tìm thấy</exception>
-        /// <exception cref="ExsistedException">Lỗi đã tồn tại</exception>
         /// Author: LeDucTiep (23/05/2023)
         public virtual async Task<TEntityDto> PostAsync(TEntityCreateDto entity)
         {
             TEntity entity1 = _mapper.Map<TEntity>(entity);
 
-            int errorCode = await _baseRepository.PostAsync(entity1);
-
-            // Xử lý lỗi
-            ProcessErrorCode.process(errorCode);
+            await _baseRepository.PostAsync(entity1);
 
             TEntityDto entity2 = _mapper.Map<TEntityDto>(entity1);
 
@@ -107,16 +99,14 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// </summary>
         /// <param name="id">Id của bản ghi</param>
         /// <param name="entity">Giá trị bản ghi</param>
-        /// <returns>Mã lỗi</returns>
         /// Author: LeDucTiep (23/05/2023)
         public virtual async Task UpdateAsync(Guid id, TEntityUpdateDto entity)
         {
+            // Thêm trường id để trả về
             TEntity _entity = _mapper.Map<TEntity>(entity);
 
-            int errorCode = await _baseRepository.UpdateAsync(id, _entity);
-
-            // Xử lý lỗi
-            ProcessErrorCode.process(errorCode);
+            // Update
+            await _baseRepository.UpdateAsync(id, _entity);
         }
 
         /// <summary>

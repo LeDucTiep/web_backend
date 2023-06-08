@@ -30,17 +30,15 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// </summary>
         /// <param name="id">Id của bản ghi</param>
         /// <param name="entity">Giá trị của bản ghi</param>
-        /// <returns>TEntity</returns>
         /// Created by: LeDucTiep (21/05/2023)
-        Task<int> UpdateAsync(Guid id, TEntity entity);
+        Task UpdateAsync(Guid id, TEntity entity);
 
         /// <summary>
         /// Hàm xóa một bàn ghi
         /// </summary>
         /// <param name="id">Id của bản ghi</param>
-        /// <returns>Mã lỗi</returns>
         /// Created by: LeDucTiep (21/05/2023)
-        Task<int> DeleteAsync(Guid id);
+        Task DeleteAsync(Guid id);
 
         /// <summary>
         /// Hàm xóa các bàn ghi
@@ -55,7 +53,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="id">Id của bản ghi</param>
         /// <returns>Mã lỗi</returns>
         /// Created by: LeDucTiep (22/05/2023)
-        Task<int> PostAsync(TEntity entity);
+        Task PostAsync(TEntity entity);
 
         /// <summary>
         /// Hàm lấy tất cả bản ghi
@@ -63,5 +61,12 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <returns>Danh sách bản ghi</returns>
         /// Author: LeDucTiep (27/05/2023)
         Task<IEnumerable<TEntity>> GetAllAsync();
+
+        /// <summary>
+        /// Hàm kiểm tra có tồn tại không
+        /// </summary>
+        /// <returns>bool</returns>
+        /// Author: LeDucTiep (08/05/2023)
+        Task<bool> CheckExistedAsync(Guid id, string table = "");
     }
 }

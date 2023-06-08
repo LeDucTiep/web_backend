@@ -56,7 +56,6 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// </summary>
         /// <returns>Danh sách bản ghi</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public Task<IEnumerable<TEntityDto>> GetAllAsync();
-
+        Task<IEnumerable<TEntityDto>> GetAllAsync();
     }
 }

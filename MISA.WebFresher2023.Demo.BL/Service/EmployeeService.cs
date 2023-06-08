@@ -9,10 +9,7 @@ using MISA.WebFresher2023.Demo.DL.Repository;
 using MISA.WebFresher2023.Demo.Enum;
 using System.Globalization;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml.Office2016.Excel;
-using DocumentFormat.OpenXml.EMMA;
+using MISA.WebFresher2023.Demo.Common;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
@@ -37,6 +34,97 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 
         #region Method
         /// <summary>
+        /// Thêm một bản ghi
+        /// </summary>
+        /// <param name="entity">Loại bản ghi </param>
+        /// <returns>TEntity</returns>
+        /// <exception cref="NotFoundException">Lỗi không tìm thấy</exception>
+        /// <exception cref="ExsistedException">Lỗi đã tồn tại</exception>
+        /// Author: LeDucTiep (23/05/2023)
+        public override async Task<EmployeeDto> PostAsync(EmployeeCreateDto entity)
+        {
+            // Kiểm tra tồn tại phòng ban 
+            bool isExisted = await _employeeRepository.CheckExistedAsync(entity.DepartmentId, "Department");
+
+            if (!isExisted)
+                ProcessErrorCode.process((int)DepartmentErrorCode.IdNotFound);
+
+            // Kiểm tra tồn tại chức vụ
+            if (entity.PositionId != null)
+            {
+                isExisted = await _employeeRepository.CheckExistedAsync((Guid)entity.PositionId, "Position");
+
+                if (!isExisted)
+                    ProcessErrorCode.process((int)PositionErrorCode.IdNotFound);
+            }
+
+
+            // Kiểm tra phải chưa tồn tại mã nhân viên 
+            isExisted = await _employeeRepository.CheckExistedEmployeeCode(entity.EmployeeCode);
+            if (isExisted)
+                ProcessErrorCode.process((int)EmployeeErrorCode.CodeDuplicated);
+
+            return await base.PostAsync(entity);
+        }
+
+        /// <summary>
+        /// Hàm update một bản ghi
+        /// </summary>
+        /// <param name="id">Id của bản ghi</param>
+        /// <param name="entity">Giá trị bản ghi</param>
+        /// Author: LeDucTiep (08/06/2023)
+        public override async Task UpdateAsync(Guid id, EmployeeUpdateDto entity)
+        {
+            // Kiểm tra tồn tại phòng ban 
+            bool isExisted = await _employeeRepository.CheckExistedAsync(entity.DepartmentId, "Department");
+            if (!isExisted)
+                // Xử lý lỗi
+                ProcessErrorCode.process((int)DepartmentErrorCode.IdNotFound);
+
+
+            // Kiểm tra tồn tại chức vụ
+            if (entity.PositionId != null)
+            {
+                isExisted = await _employeeRepository.CheckExistedAsync((Guid)entity.PositionId, "Position");
+                if (!isExisted)
+                    ProcessErrorCode.process((int)PositionErrorCode.IdNotFound);
+            }
+
+            // Kiểm tra phải chưa tồn tại mã nhân viên, ngoại trừ mã trước khi sửa
+            isExisted = await _employeeRepository.CheckDuplicatedEmployeeEditCode(entity.EmployeeCode, id);
+            if (isExisted)
+                ProcessErrorCode.process((int)EmployeeErrorCode.CodeDuplicated);
+
+            // Kiểm tra có nhân viên cần sửa không
+            isExisted = await _baseRepository.CheckExistedAsync(id);
+            if (!isExisted)
+                ProcessErrorCode.process((int)EmployeeErrorCode.IdNotFound);
+
+
+            await base.UpdateAsync(id, entity);
+        }
+
+        /// <summary>
+        /// Xóa một bản ghi theo id 
+        /// </summary>
+        /// <param name="id">Id của bản ghi </param>
+        /// <returns>Task</returns>
+        /// <exception cref="NotFoundException">Lỗi không tìm thấy </exception>
+        /// Author: LeDucTiep (23/05/2023)
+        public override async Task DeleteAsync(Guid id)
+        {
+            // Kiểm tra có tồn tại bản ghi không 
+            bool isExistedCode = await _baseRepository.CheckExistedAsync(id);
+
+            if (!isExistedCode)
+                // Nếu có lỗi xảy ra thì ném lỗi 
+                ProcessErrorCode.process((int)EmployeeErrorCode.IdNotFound);
+            else
+                // Delete
+                await base.DeleteAsync(id);
+        }
+
+        /// <summary>
         /// Hàm kiểm tra mã nhân viên đã tồn tại chưa
         /// </summary>
         /// <param name="code">Mã nhân viên</param>
@@ -44,7 +132,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// Author: LeDucTiep (23/05/2023)
         public async Task<bool> CheckEmployeeCode(string code)
         {
-            return await _employeeRepository.CheckEmployeeCode(code);
+            return await _employeeRepository.CheckExistedEmployeeCode(code);
         }
 
         /// <summary>
@@ -164,7 +252,9 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             tempRangeStyle.Font.FontSize = 11;
             tempRangeStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
             tempRangeStyle.Alignment.Vertical = XLAlignmentVerticalValues.Bottom;
-            tempRangeStyle.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+
+            // Căn giữa ngày tháng
+            sheet1.Column(5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
             // Trả về workbook 
             return xlWorkbook;
@@ -176,7 +266,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="sheet">Trang cần ghi dữ liệu vào</param>
         /// <returns>Số dòng của sheet</returns>
         /// Author: LeDucTiep (07/06/2023)
-        public async Task<int> LoadEmployeeExportData(IXLWorksheet sheet)
+        private async Task<int> LoadEmployeeExportData(IXLWorksheet sheet)
         {
             // Tiêu đề của bảng
             sheet.Cell("A1").Value = ExportExcelResource.SheetTitle;

@@ -32,7 +32,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="employeeCode">EmployeeCode</param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<bool> CheckEmployeeCode(string employeeCode)
+        public async Task<bool> CheckExistedEmployeeCode(string employeeCode)
         {
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
@@ -65,6 +65,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Hàm kiểm tra mã EmployeeCode muốn sửa đã tồn tại chưa
         /// </summary>
         /// <param name="employeeCode">EmployeeCode</param>
+        /// <param name="itsCode">EmployeeCode trước khi sửa</param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
         public async Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, string itsCode)
@@ -97,6 +98,43 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             }
         }
 
+        /// <summary>
+        /// Hàm kiểm tra mã EmployeeCode muốn sửa đã tồn tại chưa
+        /// </summary>
+        /// <param name="employeeCode">EmployeeCode</param>
+        /// <param name="itsId">Id của bản ghi</param>
+        /// <returns>bool</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        public async Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, Guid itsId)
+        {
+            // Tạo connection
+            var connection = await GetOpenConnectionAsync();
+
+            // Tên procedure
+            string procedure = ProcedureResource.CheckDuplicatedCodeExceptItsId;
+
+            try
+            {
+                // Tạo các tham số 
+                var parameters = new DynamicParameters();
+                parameters.Add("employeeCode", employeeCode);
+                parameters.Add("itsId", itsId);
+
+                // Gọi đến procedure
+                bool result = await connection.QueryFirstAsync<bool>(
+                    procedure,
+                    param: parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+        
         /// <summary>
         /// Hàm chuyển chuỗi sang số 
         /// </summary>

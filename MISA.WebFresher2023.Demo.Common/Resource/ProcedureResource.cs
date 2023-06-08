@@ -24,7 +24,13 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         public static readonly string CheckDuplicatedCodeExceptItsCode = "Proc_Employee_CheckDuplicatedCodeExceptItsCode";
-        
+
+        /// <summary>
+        /// Procedure kiểm cha employeeCode muốn sửa đã tồn tại chưa, ngoại trừ mã trước khi sửa
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string CheckDuplicatedCodeExceptItsId = "Proc_Employee_CheckDuplicatedCodeExceptItsId";
+
         /// <summary>
         /// Procedure phân trang theo họ tên và mã nhân viên
         /// </summary>
@@ -36,10 +42,20 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         public static readonly string EmployeeExport = "Proc_Employee_Export";
-
         #endregion
 
         #region Method
+        /// <summary>
+        /// Procedure Kiểm tra bản ghi có tồn tại không bằng id bản ghi
+        /// </summary>
+        /// <param name="tableName">Tên của bảng</param>
+        /// <returns>Procedure</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        public static string CheckExistedById(string tableName)
+        {
+            return $"Proc_{tableName}_CheckExistedById";
+        }
+
         /// <summary>
         /// Procedure lấy tất cả bản ghi
         /// </summary>
@@ -50,6 +66,19 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         {
             return $"Proc_{tableName}_GetAll";
         }
+
+        /// <summary>
+        /// Procedure lấy một bản ghi
+        /// </summary>
+        /// <param name="tableName">Tên của bảng</param>
+        /// <returns>Procedure</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        public static string Get(string tableName)
+        {
+            return $"Proc_{tableName}_GetById";
+        }
+
+
 
         /// <summary>
         /// Procedure cập nhật bản ghi
