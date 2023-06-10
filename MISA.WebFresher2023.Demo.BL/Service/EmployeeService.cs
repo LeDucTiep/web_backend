@@ -9,7 +9,7 @@ using MISA.WebFresher2023.Demo.DL.Repository;
 using MISA.WebFresher2023.Demo.Enum;
 using System.Globalization;
 using ClosedXML.Excel;
-using MISA.WebFresher2023.Demo.Common;
+using MISA.WebFresher2023.Demo.Common.Attribute;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
@@ -34,20 +34,19 @@ namespace MISA.WebFresher2023.Demo.BL.Service
 
         #region Method
         /// <summary>
-        /// Thêm một bản ghi
+        /// Kiểm tra bản ghi cần thêm 
         /// </summary>
-        /// <param name="entity">Loại bản ghi </param>
-        /// <returns>TEntity</returns>
-        /// <exception cref="NotFoundException">Lỗi không tìm thấy</exception>
-        /// <exception cref="ExsistedException">Lỗi đã tồn tại</exception>
+        /// <param name="entity">Bản ghi</param>
+        /// <exception cref="BadRequestException">Thông tin không đúng</exception>
         /// Author: LeDucTiep (23/05/2023)
-        public override async Task<EmployeeDto> PostAsync(EmployeeCreateDto entity)
+        public override async void PostValidate(EmployeeDto entity)
         {
+            List<int> errorList = new();
+
             // Kiểm tra tồn tại phòng ban 
             bool isExisted = await _employeeRepository.CheckExistedAsync(entity.DepartmentId, "Department");
-
             if (!isExisted)
-                ProcessErrorCode.process((int)DepartmentErrorCode.IdNotFound);
+                errorList.Add((int)DepartmentErrorCode.IdNotFound);
 
             // Kiểm tra tồn tại chức vụ
             if (entity.PositionId != null)
@@ -55,31 +54,35 @@ namespace MISA.WebFresher2023.Demo.BL.Service
                 isExisted = await _employeeRepository.CheckExistedAsync((Guid)entity.PositionId, "Position");
 
                 if (!isExisted)
-                    ProcessErrorCode.process((int)PositionErrorCode.IdNotFound);
+                    errorList.Add((int)PositionErrorCode.IdNotFound);
             }
-
 
             // Kiểm tra phải chưa tồn tại mã nhân viên 
             isExisted = await _employeeRepository.CheckExistedEmployeeCode(entity.EmployeeCode);
             if (isExisted)
-                ProcessErrorCode.process((int)EmployeeErrorCode.CodeDuplicated);
+                errorList.Add((int)EmployeeErrorCode.CodeDuplicated);
 
-            return await base.PostAsync(entity);
+
+            // Nếu có lỗi 
+            if (errorList.Count > 0)
+                throw new BadRequestException(errorList);
         }
 
         /// <summary>
-        /// Hàm update một bản ghi
+        /// Validate update một bản ghi
         /// </summary>
         /// <param name="id">Id của bản ghi</param>
         /// <param name="entity">Giá trị bản ghi</param>
         /// Author: LeDucTiep (08/06/2023)
-        public override async Task UpdateAsync(Guid id, EmployeeUpdateDto entity)
+        public override async void UpdateValidate(Guid id, EmployeeDto entity)
         {
+            List<int> errorList = new();
+
             // Kiểm tra tồn tại phòng ban 
             bool isExisted = await _employeeRepository.CheckExistedAsync(entity.DepartmentId, "Department");
             if (!isExisted)
                 // Xử lý lỗi
-                ProcessErrorCode.process((int)DepartmentErrorCode.IdNotFound);
+                errorList.Add((int)DepartmentErrorCode.IdNotFound);
 
 
             // Kiểm tra tồn tại chức vụ
@@ -87,41 +90,45 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             {
                 isExisted = await _employeeRepository.CheckExistedAsync((Guid)entity.PositionId, "Position");
                 if (!isExisted)
-                    ProcessErrorCode.process((int)PositionErrorCode.IdNotFound);
+                    errorList.Add((int)PositionErrorCode.IdNotFound);
             }
 
             // Kiểm tra phải chưa tồn tại mã nhân viên, ngoại trừ mã trước khi sửa
             isExisted = await _employeeRepository.CheckDuplicatedEmployeeEditCode(entity.EmployeeCode, id);
             if (isExisted)
-                ProcessErrorCode.process((int)EmployeeErrorCode.CodeDuplicated);
+                errorList.Add((int)EmployeeErrorCode.CodeDuplicated);
 
             // Kiểm tra có nhân viên cần sửa không
             isExisted = await _baseRepository.CheckExistedAsync(id);
             if (!isExisted)
-                ProcessErrorCode.process((int)EmployeeErrorCode.IdNotFound);
+                errorList.Add((int)EmployeeErrorCode.IdNotFound);
 
-
-            await base.UpdateAsync(id, entity);
+            // Nếu có lỗi 
+            if (errorList.Count > 0)
+                throw new BadRequestException(errorList);
         }
 
         /// <summary>
         /// Xóa một bản ghi theo id 
         /// </summary>
         /// <param name="id">Id của bản ghi </param>
-        /// <returns>Task</returns>
-        /// <exception cref="NotFoundException">Lỗi không tìm thấy </exception>
+        /// <exception cref="BadRequestException">Lỗi không tìm thấy </exception>
         /// Author: LeDucTiep (23/05/2023)
-        public override async Task DeleteAsync(Guid id)
+        public override async void DeleteValidate(Guid id)
         {
             // Kiểm tra có tồn tại bản ghi không 
             bool isExistedCode = await _baseRepository.CheckExistedAsync(id);
 
+            // Nếu có lỗi xảy ra thì ném lỗi 
             if (!isExistedCode)
-                // Nếu có lỗi xảy ra thì ném lỗi 
-                ProcessErrorCode.process((int)EmployeeErrorCode.IdNotFound);
-            else
-                // Delete
-                await base.DeleteAsync(id);
+            {
+                List<int> errorList = new()
+                {
+                    (int)EmployeeErrorCode.IdNotFound
+                };
+
+                throw new BadRequestException(errorList);
+            }
         }
 
         /// <summary>
@@ -154,27 +161,42 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="employeeSearchTerm">Từ khóa tìm kiếm</param>
         /// <returns>EmployeePage</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeSearchTerm)
+        public async Task<EmployeePage> GetPageAsync(EmployeePageArgument employeePageArgument)
         {
+            List<int> errorCodes = new();
+
             // Lỗi kích thước trang 
-            if (pageSize <= 0)
+            if (employeePageArgument.PageSize <= 0)
             {
-                throw new PagingArgumentException(PagingErrorMessage.InvalidPageSize, (int)PagingErrorCode.InvalidPageSize);
+                errorCodes.Add((int)PagingErrorCode.InvalidPageSize);
             }
 
             // Lỗi số thứ tự trang 
-            if (pageNumber <= 0)
+            if (employeePageArgument.PageNumber <= 0)
             {
-                throw new PagingArgumentException(PagingErrorMessage.InvalidPageNumber, (int)PagingErrorCode.InvalidPageNumber);
+                errorCodes.Add((int)PagingErrorCode.InvalidPageNumber);
             }
 
-            // Lỗi độ dài từ khóa tìm kiếm
-            if (employeeSearchTerm != null && employeeSearchTerm.Length > 255)
+            // Kiểm tra độ dài chuỗi tìm kiếm 
+            System.Reflection.PropertyInfo[] properties = typeof(EmployeePageArgument).GetProperties();
+            foreach (System.Reflection.PropertyInfo property in properties)
             {
-                throw new PagingArgumentException(PagingErrorMessage.InvalidEmployeeSearchTerm, (int)PagingErrorCode.InvalidEmployeeSearchTerm);
+                var value = property.GetValue(employeePageArgument, null);
+
+                // Lỗi độ dài từ khóa tìm kiếm
+                var attributeMaxLength = (MSMaxLengthAttribute?)property.GetCustomAttributes(typeof(MSMaxLengthAttribute), false).FirstOrDefault();
+
+                if (attributeMaxLength != null && value != null && value.ToString().Length > attributeMaxLength.Length)
+                {
+                    errorCodes.Add(attributeMaxLength.ErrorCode);
+                }
             }
 
-            return await _employeeRepository.GetPageAsync(pageSize, pageNumber, employeeSearchTerm);
+            // Nếu có lỗi 
+            if (errorCodes.Count > 0)
+                throw new BadRequestException(errorCodes);
+
+            return await _employeeRepository.GetPageAsync(employeePageArgument);
         }
 
         /// <summary>
@@ -205,7 +227,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         public async Task<XLWorkbook> ExportExcelAsync()
         {
             // Tạo ra workbook 
-            XLWorkbook xlWorkbook = new XLWorkbook();
+            XLWorkbook xlWorkbook = new();
 
             // Tạo sheet 
             IXLWorksheet sheet1 = xlWorkbook.Worksheets.Add(ExportExcelResource.SheetName);

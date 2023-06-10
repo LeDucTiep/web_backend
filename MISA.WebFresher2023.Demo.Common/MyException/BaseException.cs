@@ -1,10 +1,6 @@
 ﻿using MISA.WebFresher2023.Demo.Common.Constant;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using MISA.WebFresher2023.Demo.Common.Resource;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.Common.MyException
 {
@@ -12,38 +8,59 @@ namespace MISA.WebFresher2023.Demo.Common.MyException
     /// Class Exception
     /// </summary>
     /// Author: LeDucTiep (23/05/2023)
-    public class BaseException
+    public class BaseException : Exception
     {
+        #region Field
         /// <summary>
         /// Mã lỗi
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public int ErrorCode { get; set; }
+        public List<int> ErrorCode { get; set; }
 
         /// <summary>
         /// Thông báo cho người dùng
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public string? UserMessage { get; set; }
+        public List<string> UserMessage { get; set; }
 
         /// <summary>
         /// Thông báo cho dev 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public string? DevMessage { get; set; }
+        public List<string> DevMessage { get; set; }
 
         /// <summary>
         /// Id để truy vết 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public string? TraceId { get; set; }
+        public string TraceId { get; set; }
 
         /// <summary>
         /// Thông tin thêm
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public string? MoreInfo { get; set; }
+        public string MoreInfo { get; set; }
+        #endregion
 
+        #region Contructor
+        public BaseException() : base()
+        {
+
+            ErrorCode = new List<int>() { (int)InternalErrorCode.Unknown };
+            UserMessage = new List<string>() { InternalUserMessage.Unknown };
+            DevMessage = new List<string>() { base.Message };
+            MoreInfo = base.HelpLink ?? "";
+        }
+        public BaseException(List<int> errorCode) : base()
+        {
+            ErrorCode = errorCode;
+            UserMessage = new();
+            DevMessage = new();
+            MoreInfo = base.HelpLink ?? "";
+        }
+        #endregion
+
+        #region Method
         /// <summary>
         /// Chuyển sang dạng json
         /// </summary>
@@ -51,7 +68,17 @@ namespace MISA.WebFresher2023.Demo.Common.MyException
         /// Author: LeDucTiep (23/05/2023)
         public override string ToString()
         {
-            return JsonSerializer.Serialize(this);
+            return JsonSerializer.Serialize(
+                    new
+                    {
+                        ErrorCode = ErrorCode.ToArray(),
+                        UserMessage = UserMessage.ToArray(),
+                        DevMessage = DevMessage.ToArray(),
+                        TraceId,
+                        MoreInfo
+                    }
+                );
         }
+        #endregion
     }
 }

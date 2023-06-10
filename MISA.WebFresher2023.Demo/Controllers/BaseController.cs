@@ -27,10 +27,11 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// Author: LeDucTiep (23/05/2023)
         // GET api/<EmployeeController>/guid
         [HttpGet("{id}")]
-        public virtual async Task<TEntityDto?> GetAsync(Guid id)
+        public virtual async Task<IActionResult> GetAsync(Guid id)
         {
             var entityDto = await _baseService.GetAsync(id);
-            return entityDto;
+
+            return Ok(entityDto);
         }
 
         /// <summary>
@@ -40,9 +41,10 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <returns>Mã lỗi trả về</returns>
         /// Author: LeDucTiep (23/05/2023)
         [HttpDelete("{id}")]
-        public virtual async Task DeleteAsync(Guid id)
+        public virtual async Task<IActionResult> DeleteAsync(Guid id)
         {
-            await _baseService.DeleteAsync(id);
+            int deleteCount = await _baseService.DeleteAsync(id);
+            return Ok(deleteCount);
         }
 
         /// <summary>
@@ -51,9 +53,10 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <param name="ids">Mã của các bản ghi cần xóa </param>
         /// Author: LeDucTiep (23/05/2023)
         [HttpDelete]
-        public virtual async Task DeleteManyAsync([FromBody] Guid[] arrayId)
+        public virtual async Task<IActionResult> DeleteManyAsync([FromBody] Guid[] arrayId)
         {
-            await _baseService.DeleteManyAsync(arrayId);
+            int deleteCount = await _baseService.DeleteManyAsync(arrayId);
+            return Ok(deleteCount);
         }
 
         /// <summary>
@@ -62,10 +65,29 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <returns>Danh sách bản ghi</returns>
         /// Author: LeDucTiep (23/05/2023)
         [HttpGet]
-        public async Task<IEnumerable<TEntityDto>> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync()
         {
-            return await _baseService.GetAllAsync();
+            IEnumerable<TEntityDto> list = await _baseService.GetAllAsync();
+
+            if (!list.Any())
+                return NoContent();
+
+            return Ok(list);
         }
+
+        /// <summary>
+        /// API sửa thông tin bản ghi 
+        /// </summary>
+        /// <param name="id">Mã của bản ghi cần sửa </param>
+        /// <param name="entity">Thông tin bản ghi</param>
+        /// <returns>Số bản ghi thay đổi</returns>
+        /// Author: LeDucTiep (23/05/2023)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync([FromRoute] Guid id, TEntityUpdateDto entityUpdateDto)
+        {
+            return Ok(await _baseService.UpdateAsync(id, entityUpdateDto));
+        }
+
         #endregion
     }
 }

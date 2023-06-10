@@ -1,4 +1,6 @@
-﻿using MISA.WebFresher2023.Demo.BL.Service;
+﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Microsoft.AspNetCore.Mvc;
+using MISA.WebFresher2023.Demo.BL.Service;
 using MISA.WebFresher2023.Demo.DL.Repository;
 using MISA.WebFresher2023.Demo.Middleware;
 
@@ -29,6 +31,11 @@ builder.Services.AddCors(options =>
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                       });
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
 });
 
 // Sử dụng automapper

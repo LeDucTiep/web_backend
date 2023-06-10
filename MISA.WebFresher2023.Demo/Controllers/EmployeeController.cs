@@ -34,17 +34,17 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <summary>
         /// API kiểm tra employee code đã tồn tại chưa
         /// </summary>
-        /// <param name="code"></param>
+        /// <param name="code">Mã nhân viên</param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
         [Route("is-code-duplicated")]
         [HttpGet]
-        public async Task<bool> CheckIsExistedCodeAsync(string code)
+        public async Task<IActionResult> CheckIsExistedCodeAsync(string code)
         {
             // Xóa khoảng trắng
             code = Regex.Replace(code, @"\s+", "");
             // Tạo connection
-            return await _employeeService.CheckEmployeeCode(code);
+            return Ok(await _employeeService.CheckEmployeeCode(code));
         }
 
         /// <summary>
@@ -56,12 +56,12 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// Author: LeDucTiep (23/05/2023)
         [Route("is-edit-code-duplicated")]
         [HttpGet]
-        public async Task<bool> CheckDuplicatedEmployeeEditCodeAsync(string employeeCode, string itsCode)
+        public async Task<IActionResult> CheckDuplicatedEmployeeEditCodeAsync(string employeeCode, string itsCode)
         {
             // Xóa khoảng trắng
             employeeCode = Regex.Replace(employeeCode, @"\s+", "");
             // Tạo connection
-            return await _employeeService.CheckDuplicatedEmployeeEditCode(employeeCode, itsCode);
+            return Ok(await _employeeService.CheckDuplicatedEmployeeEditCode(employeeCode, itsCode));
         }
 
         /// <summary>
@@ -75,10 +75,10 @@ namespace MISA.WebFresher2023.Demo.Controllers
         // GET: api/employees/paging
         [Route("paging")]
         [HttpGet]
-        public async Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeSearchTerm)
+        public async Task<IActionResult> GetPageAsync([FromQuery] EmployeePageArgument employeePageArgument)
         {
             // Trả về trang nhân viên
-            return await _employeeService.GetPageAsync(pageSize, pageNumber, employeeSearchTerm);
+            return Ok(await _employeeService.GetPageAsync(employeePageArgument));
         }
 
         /// <summary>
@@ -89,9 +89,9 @@ namespace MISA.WebFresher2023.Demo.Controllers
         // GET api/v1/Employees/new-employee-code
         [Route("new-employee-code")]
         [HttpGet]
-        public async Task<string> GetNewEmployeeCodeAsync()
+        public async Task<IActionResult> GetNewEmployeeCodeAsync()
         {
-            return await _employeeService.GetNewEmployeeCode();
+            return Ok(await _employeeService.GetNewEmployeeCode());
         }
 
         /// <summary>
@@ -105,22 +105,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         public async Task<IActionResult> PostAsync(EmployeeCreateDto employeeCreateDto)
         {
             EmployeeDto employee = await _employeeService.PostAsync(employeeCreateDto);
-            return StatusCode(200, employee.EmployeeId);
-        }
-
-        /// <summary>
-        /// API sửa thông tin nhân viên 
-        /// </summary>
-        /// <param name="id">Mã của nhân viên cần sửa </param>
-        /// <param name="employee">Thông tin nhân viên</param>
-        /// <returns>Mã lỗi trả về</returns>
-        /// Author: LeDucTiep (23/05/2023)
-        // PUT api/<EmployeeController>/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync([FromRoute] Guid id, EmployeeUpdateDto employeeUpdateDto)
-        {
-            await _baseService.UpdateAsync(id, employeeUpdateDto);
-            return StatusCode(204);
+            return Ok(employee.EmployeeId);
         }
 
         /// <summary>
@@ -134,14 +119,13 @@ namespace MISA.WebFresher2023.Demo.Controllers
             // Tạo file excel 
             XLWorkbook xlWorkbook = await _employeeService.ExportExcelAsync();
 
-            using (MemoryStream ms = new MemoryStream())
-            {
-                // Lưu file vào MemoryStream
-                xlWorkbook.SaveAs(ms);
+            using MemoryStream ms = new();
 
-                // Gửi file
-                return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh_sach_nhan_vien.xlsx");
-            }
+            // Lưu file vào MemoryStream
+            xlWorkbook.SaveAs(ms);
+
+            // Gửi file
+            return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh_sach_nhan_vien.xlsx");
         }
 
         /// <summary>
@@ -150,9 +134,12 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <returns>Danh sách tất cả nhân viên</returns>
         /// Author: LeDucTiep (23/05/2023)
         [HttpGet("exporting-json")]
-        public async Task<IEnumerable<EmployeeExport>> ExportJsonAsync()
+        public async Task<IActionResult> ExportJsonAsync()
         {
-            return await _employeeService.ExportJsonAsync();
+            IEnumerable<EmployeeExport> employees = await _employeeService.ExportJsonAsync();
+            if (employees == null || !employees.Any())
+                return NoContent();
+            return Ok(employees);
         }
 
         #endregion

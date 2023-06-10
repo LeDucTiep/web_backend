@@ -215,7 +215,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="employeeSearchTerm">Từ khóa cần tìm kiếm theo tên hoặc theo mã nhân viên</param>
         /// <returns>Trang nhân viên</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeSearchTerm)
+        public async Task<EmployeePage> GetPageAsync(EmployeePageArgument employeePageArgument)
         {
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
@@ -230,10 +230,10 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 // IN employeeSearchTerm: Từ khóa tìm kiếm, theo employeeCode hoặc FullName
                 // OUT TotalRecord: Tổng số bản ghi tìm thấy
                 var parameters = new DynamicParameters();
-                int offset = (pageNumber - 1) * pageSize;
+                int offset = (employeePageArgument.PageNumber - 1) * employeePageArgument.PageSize;
                 parameters.Add("_offset", offset);
-                parameters.Add("_limit", pageSize);
-                parameters.Add("employeeSearchTerm", employeeSearchTerm ?? "");
+                parameters.Add("_limit", employeePageArgument.PageSize);
+                parameters.Add("employeeSearchTerm", employeePageArgument.EmployeeSearchTerm ?? "");
                 parameters.Add("totalRecord", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 // Gọi procedure 
@@ -253,7 +253,6 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             {
                 // Dong connection
                 await connection.CloseAsync();
-
             }
         }
 

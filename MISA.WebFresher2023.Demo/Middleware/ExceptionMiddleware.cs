@@ -59,66 +59,35 @@ namespace MISA.WebFresher2023.Demo.Middleware
             if (exception is NotFoundException exception1)
             {
                 // Ghi mã lỗi
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                context.Response.StatusCode = exception1.StatusCode;
+                exception1.TraceId = context.TraceIdentifier;
+
                 // Ghi nội dung lỗi 
                 await context.Response.WriteAsync(
-                    text: new BaseException()
-                    {
-                        ErrorCode = exception1.ErrorCode,
-                        UserMessage = UserMessage.NotFoundError,
-                        DevMessage = exception.Message,
-                        TraceId = context.TraceIdentifier,
-                        MoreInfo = exception.HelpLink,
-                    }.ToString()
+                    text: exception1.ToString()
                     );
             }
             else if (exception is InternalException exception2)
             {
                 // Ghi mã lỗi
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = exception2.StatusCode;
+                exception2.TraceId = context.TraceIdentifier;
+
                 // Ghi nội dung lỗi
                 await context.Response.WriteAsync(
-                    text: new BaseException()
-                    {
-                        ErrorCode = exception2.ErrorCode,
-                        UserMessage = UserMessage.InternalError,
-                        DevMessage = exception.Message,
-                        TraceId = context.TraceIdentifier,
-                        MoreInfo = exception.HelpLink,
-                    }.ToString()
+                    text: exception2.ToString()
                     );
             }
-            else if (
-                exception is PagingArgumentException exception3)
+
+            else if (exception is BadRequestException exception3)
             {
                 // Ghi mã lỗi
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.Response.StatusCode = exception3.StatusCode;
+                exception3.TraceId = context.TraceIdentifier;
+
                 // Ghi nội dung lỗi 
                 await context.Response.WriteAsync(
-                    text: new BaseException()
-                    {
-                        ErrorCode = exception3.ErrorCode,
-                        UserMessage = UserMessage.PagingArgumentError,
-                        DevMessage = exception.Message,
-                        TraceId = context.TraceIdentifier,
-                        MoreInfo = exception.HelpLink,
-                    }.ToString()
-                    );
-            }
-            else if (exception is ExsistedException exception4)
-            {
-                // Ghi mã lỗi
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                // Ghi nội dung lỗi 
-                await context.Response.WriteAsync(
-                    text: new BaseException()
-                    {
-                        ErrorCode = exception4.ErrorCode,
-                        UserMessage = UserMessage.ExistedEmployeeCode,
-                        DevMessage = exception.Message,
-                        TraceId = context.TraceIdentifier,
-                        MoreInfo = exception.HelpLink,
-                    }.ToString()
+                    text: exception3.ToString()
                     );
             }
         }

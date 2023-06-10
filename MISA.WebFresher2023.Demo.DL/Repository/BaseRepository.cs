@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using MISA.WebFresher2023.Demo.Common.Constant;
 using MISA.WebFresher2023.Demo.Common.MyException;
 using MISA.WebFresher2023.Demo.Common.Resource;
 using MISA.WebFresher2023.Demo.DL.Entity;
@@ -38,9 +39,9 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Hàm xóa một bản ghi
         /// </summary>
         /// <param name="id">Id của bản ghi</param>
-        /// <returns>Mã lỗi</returns>
+        /// <returns>Số bản ghi đã xóa</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public virtual async Task DeleteAsync(Guid id)
+        public virtual async Task<int> DeleteAsync(Guid id)
         {
             // Tên bảng 
             var table = typeof(TEntity).Name;
@@ -57,15 +58,17 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 var dynamicParams = new DynamicParameters();
                 dynamicParams.Add($"{table}Id", id);
 
-                await connection.ExecuteAsync(
+                var countChanged = await connection.ExecuteAsync(
                     procedure,
                     param: dynamicParams,
                     commandType: CommandType.StoredProcedure
                 );
+
+                return countChanged;
             }
             catch
             {
-                throw new InternalException("Lỗi procedure xóa");
+                throw new InternalException();
             }
             finally
             {
@@ -77,10 +80,13 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Hàm xóa nhiều bản ghi
         /// </summary>
         /// <param name="id">Id của bản ghi</param>
-        /// <returns>Mã lỗi</returns>
+        /// <returns>Số bản ghi đã xóa</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public virtual async Task DeleteManyAsync(Guid[] arrayId)
+        public virtual async Task<int> DeleteManyAsync(Guid[] arrayId)
         {
+            // Số lượng bản ghi bị xóa
+            int countChanged = 0;
+
             // Tên bảng 
             var table = typeof(TEntity).Name;
 
@@ -90,53 +96,55 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             // Connection với database 
             var connection = await GetOpenConnectionAsync();
 
-            // Chuyển thành dạng danh sách
-            List<Guid> listId = arrayId.ToList();
-
-            // Còn thở thì còn xóa
-            while (listId.Count > 0)
+            try
             {
-                string param = "";
-                int counterFlag = 0;
+                // Chuyển thành dạng danh sách
+                List<Guid> listId = arrayId.ToList();
 
-                // Xóa mỗi lần 10 bản ghi
-                while (listId.Count > 0 && counterFlag < 10)
+                // Còn thở thì còn xóa
+                while (listId.Count > 0)
                 {
-                    Guid guid = listId[0];
+                    string param = "";
+                    int counterFlag = 0;
 
-                    param += $"'{guid}'";
-
-                    listId.RemoveAt(0);
-
-                    counterFlag++;
-
-                    // Nếu là phần tử cuối cùng thì không cần dấu ,
-                    if (listId.Count > 0 && counterFlag < 10)
+                    // Xóa mỗi lần 10 bản ghi
+                    while (listId.Count > 0 && counterFlag < 10)
                     {
-                        param += ",";
-                    }
-                }
+                        Guid guid = listId[0];
 
-                try
-                {
+                        param += $"'{guid}'";
+
+                        listId.RemoveAt(0);
+
+                        counterFlag++;
+
+                        // Nếu là phần tử cuối cùng thì không cần dấu ,
+                        if (listId.Count > 0 && counterFlag < 10)
+                        {
+                            param += ",";
+                        }
+                    }
+
                     // Khởi tạo các tham số 
                     var dynamicParams = new DynamicParameters();
                     dynamicParams.Add($"arrayId", param);
 
-                    await connection.ExecuteAsync(
+                    countChanged += await connection.ExecuteAsync(
                         procedure,
                         param: dynamicParams,
                         commandType: CommandType.StoredProcedure
                     );
+
                 }
-                catch (Exception ex)
-                {
-                    throw new InternalException($"Procedure: {procedure}, Param: {param}, Message: {ex.Message}");
-                }
-                finally
-                {
-                    await connection.CloseAsync();
-                }
+                return countChanged;
+            }
+            catch (Exception ex)
+            {
+                throw new InternalException();
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -173,7 +181,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             }
             catch
             {
-                throw new InternalException($"Procedure: {procedure}, Param: {id}");
+                throw new InternalException();
             }
             finally
             {
@@ -201,7 +209,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
             }
             catch
             {
-                throw new InternalException("Không kết nối được với cơ sở dữ liệu");
+                throw new InternalException(new() { (int)InternalErrorCode.ConnectDbError });
             }
         }
 
@@ -293,7 +301,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="entity">Giá trị của bản ghi</param>
         /// <returns>Mã lỗi</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public virtual async Task UpdateAsync(Guid id, TEntity entity)
+        public virtual async Task<int> UpdateAsync(Guid id, TEntity entity)
         {
             // Tên bảng 
             var table = typeof(TEntity).Name;
@@ -343,7 +351,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 try
                 {
                     // Gọi procedure
-                    await connection.ExecuteAsync(
+                    int changedCount = await connection.ExecuteAsync(
                         procedure,
                         param: dynamicParams,
                         commandType: CommandType.StoredProcedure,
@@ -351,6 +359,8 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                     );
 
                     myTransaction.Commit();
+
+                    return changedCount;
                 }
                 catch
                 {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
@@ -33,23 +34,23 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="updateDto">Nội dung sửa</param>
         /// <returns></returns>
         /// Author: LeDucTiep (23/05/2023)
-        Task UpdateAsync(Guid id, TEntityUpdateDto updateDto);
+        Task<int> UpdateAsync(Guid id, TEntityUpdateDto updateDto);
 
         /// <summary>
         /// Hàm xóa một bản ghi
         /// </summary>
         /// <param name="id">Id của bản ghi cần xóa</param>
-        /// <returns>Task</returns>
+        /// <returns>Số bản ghi đã xóa</returns>
         /// Author: LeDucTiep (23/05/2023)
-        Task DeleteAsync(Guid id);
+        Task<int> DeleteAsync(Guid id);
 
         /// <summary>
         /// Hàm xóa nhiều bản ghi
         /// </summary>
         /// <param name="arrayId">Id của các bản ghi cần xóa</param>
-        /// <returns>Task</returns>
+        /// <returns>Số bản ghi đã xóa</returns>
         /// Author: LeDucTiep (23/05/2023)
-        Task DeleteManyAsync(Guid[] arrayId);
+        Task<int> DeleteManyAsync(Guid[] arrayId);
 
         /// <summary>
         /// Hàm lấy tất cả bản ghi 
@@ -57,5 +58,23 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <returns>Danh sách bản ghi</returns>
         /// Author: LeDucTiep (23/05/2023)
         Task<IEnumerable<TEntityDto>> GetAllAsync();
+
+        /// <summary>
+        /// Hàm kiểm tra bản ghi cần thêm 
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        void PostValidate(TEntityDto entity);
+
+        /// <summary>
+        /// Hàm kiểm tra thông tin sửa 
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        void UpdateValidate(Guid id, TEntityDto entity);
+
+        /// <summary>
+        /// Hàm kiểm tra Id xóa 
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        void DeleteValidate(Guid id);
     }
 }

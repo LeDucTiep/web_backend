@@ -22,7 +22,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="employeeSearchTerm">Từ khóa tìm kiếm </param>
         /// <returns>Trang nhân viên</returns>
         /// Author: LeDucTiep (23/05/2023)
-        Task<EmployeePage> GetPageAsync(int pageSize, int pageNumber, string? employeeSearchTerm);
+        Task<EmployeePage> GetPageAsync(EmployeePageArgument employeePageArgument);
 
         /// <summary>
         /// Lấy mã nhân viên mới 
