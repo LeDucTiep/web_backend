@@ -36,8 +36,6 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         public static readonly string Unknown = "Có lỗi xảy ra vui lòng liên hệ Misa để được hỗ trợ";
-
-
     }
 
     /// <summary>
@@ -50,7 +48,7 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// Lỗi không tìm thấy Id phòng ban 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public static readonly string IdNotFound = "Không tìm thấy Id phòng ban";
+        public static readonly string IdNotFound = "Không tìm thấy phòng ban";
     }
     /// <summary>
     /// Thông tin lỗi phòng ban 
@@ -76,7 +74,7 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// Lỗi không tìm thấy Id chức vụ
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public static readonly string IdNotFound = "Không tìm thấy Id chức vụ";
+        public static readonly string IdNotFound = "Chức vụ không tồn tại";
     }
     /// <summary>
     /// Thông tin lỗi chức vụ
@@ -151,7 +149,7 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// Lỗi không tìm thấy Id nhân viên
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        public static readonly string IdNotFound = "Id nhân viên không tồn tại";
+        public static readonly string IdNotFound = "Nhân viên không tồn tại";
 
         /// <summary>
         /// Lỗi trùng mã nhân viên 
@@ -230,6 +228,30 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         public static readonly string BankAccountBranchTooLong = "Chi nhánh ngân hàng không được dài quá 255 ký tự";
+
+        /// <summary>
+        /// Ngày sinh không được phép lớn hơn ngày hiện tại
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string DateOfBirthInvalidTime = "Ngày sinh không được lớn hơn ngày hiện tại";
+
+        /// <summary>
+        /// Ngày cấp không được phép lớn hơn ngày hiện tại
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string IdentityDateInvalidTime = "Ngày cấp không được lớn hơn ngày hiện tại";
+
+        /// <summary>
+        /// Email không đúng định dạng
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string EmailInvalid = "Email không đúng định dạng";
+
+        /// <summary>
+        /// Guid không đúng định dạng
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string GuidInvalid = "Có lỗi xảy ra vui lòng liên hệ Misa để được hỗ trợ";
     }
 
     /// <summary>
@@ -321,5 +343,30 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         public static readonly string BankAccountBranchTooLong = "Chi nhánh ngân hàng không được dài quá 255 ký tự";
+
+        /// <summary>
+        /// Ngày sinh không được phép lớn hơn ngày hiện tại
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string DateOfBirthInvalidTime = "Ngày sinh không được lớn hơn ngày hiện tại";
+
+        /// <summary>
+        /// Ngày cấp không được phép lớn hơn ngày hiện tại
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string IdentityDateInvalidTime = "Ngày cấp không được lớn hơn ngày hiện tại";
+
+        /// <summary>
+        /// Email không đúng định dạng
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string EmailInvalid = "Email không đúng định dạng";
+
+        /// <summary>
+        /// Guid không đúng định dạng
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        public static readonly string GuidInvalid = "Id không đúng định dạng";
+        
     }
 }

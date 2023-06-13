@@ -3,8 +3,8 @@ using MISA.WebFresher2023.Demo.BL.Dto;
 using MISA.WebFresher2023.Demo.BL.Service;
 using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Model;
-using System.Text.RegularExpressions;
 using ClosedXML.Excel;
+using MISA.WebFresher2023.Demo.Common.MyException;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -41,8 +41,6 @@ namespace MISA.WebFresher2023.Demo.Controllers
         [HttpGet]
         public async Task<IActionResult> CheckIsExistedCodeAsync(string code)
         {
-            // Xóa khoảng trắng
-            code = Regex.Replace(code, @"\s+", "");
             // Tạo connection
             return Ok(await _employeeService.CheckEmployeeCode(code));
         }
@@ -50,16 +48,14 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <summary>
         /// API kiểm tra trùng mã sửa ngoại trừ mã cũ 
         /// </summary>
-        /// <param name="employeeCode"></param>
-        /// <param name="itsCode"></param>
-        /// <returns></returns>
+        /// <param name="employeeCode">Mã cần kiểm tra</param>
+        /// <param name="itsCode">Mã trước khi sửa</param>
+        /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
         [Route("is-edit-code-duplicated")]
         [HttpGet]
         public async Task<IActionResult> CheckDuplicatedEmployeeEditCodeAsync(string employeeCode, string itsCode)
         {
-            // Xóa khoảng trắng
-            employeeCode = Regex.Replace(employeeCode, @"\s+", "");
             // Tạo connection
             return Ok(await _employeeService.CheckDuplicatedEmployeeEditCode(employeeCode, itsCode));
         }
@@ -104,8 +100,13 @@ namespace MISA.WebFresher2023.Demo.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync(EmployeeCreateDto employeeCreateDto)
         {
+            if(employeeCreateDto == null)
+            {
+                throw new BadRequestException();
+            }
             EmployeeDto employee = await _employeeService.PostAsync(employeeCreateDto);
-            return Ok(employee.EmployeeId);
+            
+            return StatusCode(201, employee.EmployeeId);
         }
 
         /// <summary>

@@ -219,7 +219,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="entity">Giá trị của bản ghi</param>
         /// <returns>Mã lỗi</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public virtual async Task PostAsync(TEntity entity)
+        public virtual async Task<int> PostAsync(TEntity entity)
         {
             // Tên bảng
             var table = typeof(TEntity).Name;
@@ -272,7 +272,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                 try
                 {
                     //Gọi procedure
-                    await connection.ExecuteAsync(
+                    int changedCount = await connection.ExecuteAsync(
                         procedure,
                         param: dynamicParams,
                         commandType: CommandType.StoredProcedure,
@@ -280,6 +280,8 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
                     );
 
                     myTransaction.Commit();
+
+                    return changedCount;
                 }
                 catch
                 {

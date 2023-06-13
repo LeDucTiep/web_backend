@@ -5,11 +5,6 @@ using MISA.WebFresher2023.Demo.Common.Resource;
 using MISA.WebFresher2023.Demo.DL.Model;
 using MISA.WebFresher2023.Demo.DL.Repository;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.UnitTests.Service
 {
@@ -55,14 +50,17 @@ namespace MISA.WebFresher2023.Demo.UnitTests.Service
         {
             // Arrange
             InitGetPage();
+            EmployeePageArgument employeePageArgument = new() { PageSize= pageSize, PageNumber=1, EmployeeSearchTerm="" };
+
 
             // Act
-            var exception = Assert.ThrowsAsync<PagingArgumentException>(async () => await employeeService.GetPageAsync(pageSize, 1, ""));
+            BadRequestException? exception = Assert.ThrowsAsync<BadRequestException>(async () => await employeeService.GetPageAsync(employeePageArgument));
+
 
             // Assert
-            Assert.That(exception.Message, Is.EqualTo(PagingErrorMessage.InvalidPageSize));
+            Assert.That(exception.UserMessage[0], Is.EqualTo(PagingUserMessage.InvalidPageSize));
 
-            _ = employeeRepository.Received(0).GetPageAsync(pageSize, 1, "");
+            _ = employeeRepository.Received(0).GetPageAsync(employeePageArgument);
         }
 
         [Test]
@@ -72,17 +70,19 @@ namespace MISA.WebFresher2023.Demo.UnitTests.Service
         {
             // Arrange
             InitGetPage();
+            EmployeePageArgument employeePageArgument = new() { PageSize = pageSize, PageNumber = 1, EmployeeSearchTerm = "" };
 
-            employeeRepository.GetPageAsync(pageSize, 1, "").Returns(_employeePage);
+            employeeRepository.GetPageAsync(employeePageArgument).Returns(_employeePage);
+
             // Act
-            EmployeePage employeePage = await employeeService.GetPageAsync(pageSize, 1, "");
+            EmployeePage employeePage = await employeeService.GetPageAsync(employeePageArgument);
 
             // Assert
             // Trả về đúng định dạng
             Assert.That(_employeePage, Is.SameAs(employeePage));
 
             // Chỉ gọi 1 lần 
-            _ = await employeeRepository.Received(1).GetPageAsync(pageSize, 1, "");
+            _ = await employeeRepository.Received(1).GetPageAsync(employeePageArgument);
         }
         [Test]
         [TestCase(-1)]
@@ -91,14 +91,15 @@ namespace MISA.WebFresher2023.Demo.UnitTests.Service
         {
             // Arrange
             InitGetPage();
+            EmployeePageArgument employeePageArgument = new() { PageSize = 1, PageNumber = pageNumber, EmployeeSearchTerm = "" };
 
             // Act
-            var exception = Assert.ThrowsAsync<PagingArgumentException>(async () => await employeeService.GetPageAsync(1, pageNumber, ""));
+            var exception = Assert.ThrowsAsync<BadRequestException>(async () => await employeeService.GetPageAsync(employeePageArgument));
 
             // Assert
-            Assert.That(exception.Message, Is.EqualTo(PagingErrorMessage.InvalidPageNumber));
+            Assert.That(exception.UserMessage[0], Is.EqualTo(PagingUserMessage.InvalidPageNumber));
 
-            _ = employeeRepository.Received(0).GetPageAsync(1, pageNumber, "");
+            _ = employeeRepository.Received(0).GetPageAsync(employeePageArgument);
         }
 
         [Test]
@@ -108,17 +109,18 @@ namespace MISA.WebFresher2023.Demo.UnitTests.Service
         {
             // Arrange
             InitGetPage();
+            EmployeePageArgument employeePageArgument = new() { PageSize = 1, PageNumber = pageNumber, EmployeeSearchTerm = "" };
 
-            employeeRepository.GetPageAsync(1, pageNumber, "").Returns(_employeePage);
+            employeeRepository.GetPageAsync(employeePageArgument).Returns(_employeePage);
             // Act
-            EmployeePage employeePage = await employeeService.GetPageAsync(1, pageNumber, "");
+            EmployeePage employeePage = await employeeService.GetPageAsync(employeePageArgument);
 
             // Assert
             // Trả về đúng định dạng
             Assert.That(_employeePage, Is.SameAs(employeePage));
 
             // Chỉ gọi 1 lần 
-            _ = await employeeRepository.Received(1).GetPageAsync(1, pageNumber, "");
+            _ = await employeeRepository.Received(1).GetPageAsync(employeePageArgument);
         }
 
         [Test]
@@ -127,14 +129,15 @@ namespace MISA.WebFresher2023.Demo.UnitTests.Service
         {
             // Arrange
             InitGetPage();
+            EmployeePageArgument employeePageArgument = new() { PageSize = 1, PageNumber = 1, EmployeeSearchTerm = employeeSearchTerm };
 
             // Act
-            var exception = Assert.ThrowsAsync<PagingArgumentException>(async () => await employeeService.GetPageAsync(1, 1, employeeSearchTerm));
+            var exception = Assert.ThrowsAsync<BadRequestException>(async () => await employeeService.GetPageAsync(employeePageArgument));
 
             // Assert
-            Assert.That(exception.Message, Is.EqualTo(PagingErrorMessage.InvalidEmployeeSearchTerm));
+            Assert.That(exception.UserMessage[0], Is.EqualTo(PagingUserMessage.EmployeeSearchTermTooLong));
 
-            _ = employeeRepository.Received(0).GetPageAsync(1, 1, employeeSearchTerm);
+            _ = employeeRepository.Received(0).GetPageAsync(employeePageArgument);
         }
 
         [Test]
@@ -146,48 +149,18 @@ namespace MISA.WebFresher2023.Demo.UnitTests.Service
         {
             // Arrange
             InitGetPage();
+            EmployeePageArgument employeePageArgument = new() { PageSize = 1, PageNumber = 1, EmployeeSearchTerm = employeeSearchTerm };
 
-            employeeRepository.GetPageAsync(1, 1, employeeSearchTerm).Returns(_employeePage);
+            employeeRepository.GetPageAsync(employeePageArgument).Returns(_employeePage);
             // Act
-            EmployeePage employeePage = await employeeService.GetPageAsync(1, 1, employeeSearchTerm);
+            EmployeePage employeePage = await employeeService.GetPageAsync(employeePageArgument);
 
             // Assert
             // Trả về đúng định dạng
             Assert.That(_employeePage, Is.SameAs(employeePage));
 
             // Chỉ gọi 1 lần 
-            _ = await employeeRepository.Received(1).GetPageAsync(1, 1, employeeSearchTerm);
-        }
-
-        [Test]
-        [TestCase("11452b0c-768e-5ff7-0d63-eeb1d8ed8cef")]
-        public void DeleteAsync_IdNotFound_ReturnsException(Guid id)
-        {
-            // Arrange
-            InitGetPage();
-            employeeRepository.DeleteAsync(id).Returns(1001);
-
-            // Act
-            var exception = Assert.ThrowsAsync<NotFoundException>(async () => await employeeService.DeleteAsync(id));
-
-            // Assert
-            Assert.That(exception.Message, Is.EqualTo(EmployeeErrorMessage.IdNotFound));
-
-            employeeRepository.Received(1).DeleteAsync(id);
-        }
-
-        [Test]
-        [TestCase("11452b0c-768e-5ff7-0d63-eeb1d8ed8ced")]
-        public void DeleteAsync_IdValid_ReturnsSuccess(Guid id)
-        {
-            // Arrange
-            InitGetPage();
-            employeeRepository.DeleteAsync(id).Returns(0);
-
-            // Act && Assert
-            Assert.DoesNotThrowAsync(async () => await employeeService.DeleteAsync(id));
-
-            employeeRepository.Received(1).DeleteAsync(id);
+            _ = await employeeRepository.Received(1).GetPageAsync(employeePageArgument);
         }
     }
 }

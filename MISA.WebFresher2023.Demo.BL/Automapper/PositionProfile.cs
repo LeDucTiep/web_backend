@@ -18,6 +18,12 @@ namespace MISA.WebFresher2023.Demo.BL.Automapper
             CreateMap<PositionCreateDto, Position>();
             // Map positionUpdateDto sang Position
             CreateMap<PositionUpdateDto, Position>();
+
+            CreateMap<PositionUpdateDto, Position>();
+
+            CreateMap<PositionCreateDto, PositionDto>();
+
+            CreateMap<PositionUpdateDto, PositionDto>();
         }
     }
 }

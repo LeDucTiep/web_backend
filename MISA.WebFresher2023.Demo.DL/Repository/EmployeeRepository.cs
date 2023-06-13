@@ -1,17 +1,7 @@
 ﻿using MISA.WebFresher2023.Demo.DL.Entity;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
 using System.Data;
-using System.Text;
-using System.Threading.Tasks;
-using MySqlConnector;
-using MISA.WebFresher2023.Demo.Common.MyException;
-using System.IO;
-using System.Net;
 using MISA.WebFresher2023.Demo.DL.Model;
 using MISA.WebFresher2023.Demo.Common.Resource;
 

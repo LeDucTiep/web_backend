@@ -166,5 +166,29 @@ namespace MISA.WebFresher2023.Demo.Common.Constant
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         BankAccountBranchTooLong = 1014,
+
+        /// <summary>
+        /// Ngày sinh không được phép lớn hơn ngày hiện tại
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        DateOfBirthInvalidTime = 1015,
+
+        /// <summary>
+        /// Ngày cấp không được phép lớn hơn ngày hiện tại
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        IdentityDateInvalidTime = 1016,
+
+        /// <summary>
+        /// Email không đúng
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        EmailInvalid = 1017,
+
+        /// <summary>
+        /// Guid không đúng
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        GuidInvalid = 1018,
     }
 }

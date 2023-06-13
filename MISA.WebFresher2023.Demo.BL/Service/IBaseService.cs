@@ -63,18 +63,18 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// Hàm kiểm tra bản ghi cần thêm 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        void PostValidate(TEntityDto entity);
+        Task<List<int>> PostValidate(TEntityDto entity);
 
         /// <summary>
         /// Hàm kiểm tra thông tin sửa 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        void UpdateValidate(Guid id, TEntityDto entity);
+        Task<List<int>> UpdateValidate(Guid id, TEntityDto entity);
 
         /// <summary>
         /// Hàm kiểm tra Id xóa 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
-        void DeleteValidate(Guid id);
+        Task<List<int>> DeleteValidate(Guid id);
     }
 }

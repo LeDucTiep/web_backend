@@ -17,13 +17,15 @@ namespace MISA.WebFresher2023.Demo.BL.Dto
     /// Author: LeDucTiep (23/05/2023)
     public class EmployeeUpdateDto
     {
+        private string employeeCode;
+
         /// <summary>
         /// Mã nhân viên 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         [MSRequired(ErrorCode = (int)EmployeeErrorCode.CodeIsRequired)]
         [MSMaxLength(Length = 20, ErrorCode = (int)EmployeeErrorCode.EmployeeCodeTooLong)]
-        public string EmployeeCode { get; set; }
+        public string EmployeeCode { get => employeeCode; set => employeeCode = Regex.Replace(value, @"\s+", ""); }
 
         /// <summary>
         /// Họ và tên 
@@ -43,6 +45,7 @@ namespace MISA.WebFresher2023.Demo.BL.Dto
         /// Ngày sinh 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
+        [MSValidDateInThePast(ErrorCode = (int)EmployeeErrorCode.DateOfBirthInvalidTime)]
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
@@ -50,6 +53,7 @@ namespace MISA.WebFresher2023.Demo.BL.Dto
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         [MSMaxLength(Length = 50, ErrorCode = (int)EmployeeErrorCode.EmailTooLong)]
+        [MSEmail(ErrorCode = (int)EmployeeErrorCode.EmailInvalid)]
         public string? Email { get; set; }
 
         /// <summary>
@@ -76,6 +80,7 @@ namespace MISA.WebFresher2023.Demo.BL.Dto
         /// Ngày cấp chứng minh thư 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
+        [MSValidDateInThePast(ErrorCode = (int)EmployeeErrorCode.IdentityDateInvalidTime)]
         public DateTime? IdentityDate { get; set; }
 
         /// <summary>

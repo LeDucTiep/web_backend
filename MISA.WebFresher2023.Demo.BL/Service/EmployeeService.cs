@@ -10,6 +10,7 @@ using MISA.WebFresher2023.Demo.Enum;
 using System.Globalization;
 using ClosedXML.Excel;
 using MISA.WebFresher2023.Demo.Common.Attribute;
+using System.Reflection;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
@@ -39,7 +40,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="entity">Bản ghi</param>
         /// <exception cref="BadRequestException">Thông tin không đúng</exception>
         /// Author: LeDucTiep (23/05/2023)
-        public override async void PostValidate(EmployeeDto entity)
+        public override async Task<List<int>> PostValidate(EmployeeDto entity)
         {
             List<int> errorList = new();
 
@@ -63,9 +64,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
                 errorList.Add((int)EmployeeErrorCode.CodeDuplicated);
 
 
-            // Nếu có lỗi 
-            if (errorList.Count > 0)
-                throw new BadRequestException(errorList);
+            return errorList;
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="id">Id của bản ghi</param>
         /// <param name="entity">Giá trị bản ghi</param>
         /// Author: LeDucTiep (08/06/2023)
-        public override async void UpdateValidate(Guid id, EmployeeDto entity)
+        public override async Task<List<int>> UpdateValidate(Guid id, EmployeeDto entity)
         {
             List<int> errorList = new();
 
@@ -98,14 +97,12 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             if (isExisted)
                 errorList.Add((int)EmployeeErrorCode.CodeDuplicated);
 
-            // Kiểm tra có nhân viên cần sửa không
+            // Kiểm tra có Id nhân viên cần sửa không
             isExisted = await _baseRepository.CheckExistedAsync(id);
             if (!isExisted)
                 errorList.Add((int)EmployeeErrorCode.IdNotFound);
 
-            // Nếu có lỗi 
-            if (errorList.Count > 0)
-                throw new BadRequestException(errorList);
+            return errorList;
         }
 
         /// <summary>
@@ -114,21 +111,20 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="id">Id của bản ghi </param>
         /// <exception cref="BadRequestException">Lỗi không tìm thấy </exception>
         /// Author: LeDucTiep (23/05/2023)
-        public override async void DeleteValidate(Guid id)
+        public override async Task<List<int>> DeleteValidate(Guid id)
         {
+            List<int> errorList = new();
+
             // Kiểm tra có tồn tại bản ghi không 
             bool isExistedCode = await _baseRepository.CheckExistedAsync(id);
 
             // Nếu có lỗi xảy ra thì ném lỗi 
             if (!isExistedCode)
             {
-                List<int> errorList = new()
-                {
-                    (int)EmployeeErrorCode.IdNotFound
-                };
-
-                throw new BadRequestException(errorList);
+                errorList.Add((int)EmployeeErrorCode.IdNotFound);
             }
+
+            return errorList;
         }
 
         /// <summary>
@@ -139,6 +135,27 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// Author: LeDucTiep (23/05/2023)
         public async Task<bool> CheckEmployeeCode(string code)
         {
+            PropertyInfo? property = typeof(EmployeeDto).GetProperty("EmployeeCode");
+
+            if (property != null)
+            {
+
+                // Xét độ dài 
+                var attributeMaxLength = (MSMaxLengthAttribute?)property.GetCustomAttributes(typeof(MSMaxLengthAttribute), false).FirstOrDefault();
+
+                if (attributeMaxLength != null && code != null)
+                {
+                    int valueLength = code.Length;
+                    int maxLength = attributeMaxLength.Length;
+                    bool isTooLong = valueLength > maxLength;
+                    if (isTooLong)
+                    {
+                        List<int> errorList = new() { (int)EmployeeErrorCode.EmployeeCodeTooLong };
+                        throw new BadRequestException(errorList);
+                    }
+                }
+            }
+
             return await _employeeRepository.CheckExistedEmployeeCode(code);
         }
 
@@ -150,6 +167,27 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// Author: LeDucTiep (23/05/2023)
         public async Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, string itsCode)
         {
+            PropertyInfo? property = typeof(EmployeeDto).GetProperty("EmployeeCode");
+
+            if (property != null)
+            {
+
+                // Xét độ dài 
+                var attributeMaxLength = (MSMaxLengthAttribute?)property.GetCustomAttributes(typeof(MSMaxLengthAttribute), false).FirstOrDefault();
+
+                if (attributeMaxLength != null && employeeCode != null)
+                {
+                    int valueLength = employeeCode.Length;
+                    int maxLength = attributeMaxLength.Length;
+                    bool isTooLong = valueLength > maxLength;
+                    if (isTooLong)
+                    {
+                        List<int> errorList = new() { (int)EmployeeErrorCode.EmployeeCodeTooLong };
+                        throw new BadRequestException(errorList);
+                    }
+                }
+            }
+
             return await _employeeRepository.CheckDuplicatedEmployeeEditCode(employeeCode, itsCode);
         }
 

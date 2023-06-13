@@ -37,7 +37,6 @@ namespace MISA.WebFresher2023.Demo.Middleware
             try
             {
                 await _next(context);
-
             }
             catch (Exception exception)
             {
@@ -89,6 +88,10 @@ namespace MISA.WebFresher2023.Demo.Middleware
                 await context.Response.WriteAsync(
                     text: exception3.ToString()
                     );
+            }
+            else
+            {
+                await Console.Out.WriteLineAsync(exception.Message);
             }
         }
         #endregion

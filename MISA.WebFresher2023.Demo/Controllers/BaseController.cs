@@ -29,7 +29,10 @@ namespace MISA.WebFresher2023.Demo.Controllers
         [HttpGet("{id}")]
         public virtual async Task<IActionResult> GetAsync(Guid id)
         {
-            var entityDto = await _baseService.GetAsync(id);
+            TEntityDto? entityDto = await _baseService.GetAsync(id);
+
+            if (entityDto == null)
+                return NoContent();
 
             return Ok(entityDto);
         }
@@ -38,7 +41,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// API xóa một bản ghi
         /// </summary>
         /// <param name="id">Mã của bản ghi cần xóa </param>
-        /// <returns>Mã lỗi trả về</returns>
+        /// <returns>Số bản ghi thay đổi</returns>
         /// Author: LeDucTiep (23/05/2023)
         [HttpDelete("{id}")]
         public virtual async Task<IActionResult> DeleteAsync(Guid id)
@@ -51,6 +54,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// API xóa nhiều bản ghi
         /// </summary>
         /// <param name="ids">Mã của các bản ghi cần xóa </param>
+        /// <returns>Số bản ghi thay đổi</returns>
         /// Author: LeDucTiep (23/05/2023)
         [HttpDelete]
         public virtual async Task<IActionResult> DeleteManyAsync([FromBody] Guid[] arrayId)
@@ -65,7 +69,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <returns>Danh sách bản ghi</returns>
         /// Author: LeDucTiep (23/05/2023)
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public virtual async Task<IActionResult> GetAllAsync()
         {
             IEnumerable<TEntityDto> list = await _baseService.GetAllAsync();
 
@@ -83,9 +87,10 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <returns>Số bản ghi thay đổi</returns>
         /// Author: LeDucTiep (23/05/2023)
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync([FromRoute] Guid id, TEntityUpdateDto entityUpdateDto)
+        public virtual async Task<IActionResult> PutAsync([FromRoute] Guid id, TEntityUpdateDto entityUpdateDto)
         {
-            return Ok(await _baseService.UpdateAsync(id, entityUpdateDto));
+            int rowChanged = await _baseService.UpdateAsync(id, entityUpdateDto);
+            return Ok(rowChanged);
         }
 
         #endregion

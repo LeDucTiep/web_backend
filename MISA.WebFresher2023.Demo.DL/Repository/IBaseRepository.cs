@@ -53,9 +53,9 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// Hàm tạo một bàn ghi
         /// </summary>
         /// <param name="id">Id của bản ghi</param>
-        /// <returns>Mã lỗi</returns>
+        /// <returns>Số bản ghi thay đổi</returns>
         /// Created by: LeDucTiep (22/05/2023)
-        Task PostAsync(TEntity entity);
+        Task<int> PostAsync(TEntity entity);
 
         /// <summary>
         /// Hàm lấy tất cả bản ghi

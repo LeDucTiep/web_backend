@@ -1,14 +1,7 @@
 ﻿using MISA.WebFresher2023.Demo.Common.Attribute;
 using MISA.WebFresher2023.Demo.Common.Constant;
 using MISA.WebFresher2023.Demo.Enum;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MISA.WebFresher2023.Demo.DL.Entity
 {
@@ -18,6 +11,8 @@ namespace MISA.WebFresher2023.Demo.DL.Entity
     /// Author: LeDucTiep (23/05/2023)
     public class Employee : BaseEntity
     {
+        private string employeeCode;
+
         /// <summary>
         /// Id phòng ban 
         /// </summary>
@@ -30,7 +25,7 @@ namespace MISA.WebFresher2023.Demo.DL.Entity
         /// Author: LeDucTiep (23/05/2023)
         [MSRequired(ErrorCode = (int)EmployeeErrorCode.CodeIsRequired)]
         [MSMaxLength(Length = 20, ErrorCode = (int)EmployeeErrorCode.EmployeeCodeTooLong)]
-        public string EmployeeCode { get; set; }
+        public string EmployeeCode { get => employeeCode; set => employeeCode = Regex.Replace(value, @"\s+", ""); }
 
         /// <summary>
         /// Họ và tên 
@@ -50,6 +45,7 @@ namespace MISA.WebFresher2023.Demo.DL.Entity
         /// Ngày sinh 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
+        [MSValidDateInThePast(ErrorCode = (int)EmployeeErrorCode.DateOfBirthInvalidTime)]
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
@@ -57,6 +53,7 @@ namespace MISA.WebFresher2023.Demo.DL.Entity
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         [MSMaxLength(Length = 50, ErrorCode = (int)EmployeeErrorCode.EmailTooLong)]
+        [MSEmail(ErrorCode = (int)EmployeeErrorCode.EmailInvalid)]
         public string? Email { get; set; }
 
         /// <summary>
@@ -83,6 +80,7 @@ namespace MISA.WebFresher2023.Demo.DL.Entity
         /// Ngày cấp chứng minh thư 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
+        [MSValidDateInThePast(ErrorCode = (int)EmployeeErrorCode.IdentityDateInvalidTime)]
         public DateTime? IdentityDate { get; set; }
 
         /// <summary>

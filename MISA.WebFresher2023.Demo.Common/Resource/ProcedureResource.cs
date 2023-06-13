@@ -78,8 +78,6 @@ namespace MISA.WebFresher2023.Demo.Common.Resource
             return $"Proc_{tableName}_GetById";
         }
 
-
-
         /// <summary>
         /// Procedure cập nhật bản ghi
         /// </summary>

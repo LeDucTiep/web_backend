@@ -32,10 +32,14 @@ namespace MISA.WebFresher2023.Demo.Common.MyException
             {
                 switch (code)
                 {
+                    case (int)EmployeeErrorCode.GuidInvalid:
+                        userMessage.Add(EmployeeUserMessage.GuidInvalid);
+                        devMessage.Add(EmployeeDevMessage.GuidInvalid);
+                        break;
                     // Nhân viên 
                     case (int)EmployeeErrorCode.CodeDuplicated:
                         userMessage.Add(EmployeeUserMessage.CodeDuplicated);
-                        devMessage.Add(EmployeeUserMessage.CodeDuplicated);
+                        devMessage.Add(EmployeeDevMessage.CodeDuplicated);
                         break;
 
                     case (int)EmployeeErrorCode.IdNotFound:
@@ -101,6 +105,21 @@ namespace MISA.WebFresher2023.Demo.Common.MyException
                     case (int)EmployeeErrorCode.BankAccountBranchTooLong:
                         userMessage.Add(EmployeeUserMessage.BankAccountBranchTooLong);
                         devMessage.Add(EmployeeDevMessage.BankAccountBranchTooLong);
+                        break;
+
+                    case (int)EmployeeErrorCode.DateOfBirthInvalidTime:
+                        userMessage.Add(EmployeeUserMessage.DateOfBirthInvalidTime);
+                        devMessage.Add(EmployeeDevMessage.DateOfBirthInvalidTime);
+                        break;
+
+                    case (int)EmployeeErrorCode.IdentityDateInvalidTime:
+                        userMessage.Add(EmployeeUserMessage.IdentityDateInvalidTime);
+                        devMessage.Add(EmployeeDevMessage.IdentityDateInvalidTime);
+                        break;
+
+                    case (int)EmployeeErrorCode.EmailInvalid:
+                        userMessage.Add(EmployeeUserMessage.EmailInvalid);
+                        devMessage.Add(EmployeeDevMessage.EmailInvalid);
                         break;
 
                     // Phòng ban 

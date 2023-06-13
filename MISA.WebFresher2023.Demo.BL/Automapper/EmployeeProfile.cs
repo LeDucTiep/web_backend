@@ -18,6 +18,13 @@ namespace MISA.WebFresher2023.Demo.BL.Automapper
             CreateMap<EmployeeCreateDto, Employee>();
             // Map employeeUpdateDto sang employee
             CreateMap<EmployeeUpdateDto, Employee>();
+
+            CreateMap<EmployeeUpdateDto, Employee>();
+
+            CreateMap<EmployeeCreateDto, EmployeeDto>();
+
+            CreateMap<EmployeeUpdateDto, EmployeeDto>();
+            
         }
     }
 }

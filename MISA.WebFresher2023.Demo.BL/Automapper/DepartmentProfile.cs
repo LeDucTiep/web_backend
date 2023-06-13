@@ -18,6 +18,12 @@ namespace MISA.WebFresher2023.Demo.BL.Automapper
             CreateMap<DepartmentCreateDto, Department>();
             /// Map departmentUpdateDto sang department
             CreateMap<DepartmentUpdateDto, Department>();
+            
+            CreateMap<DepartmentUpdateDto, Department>();
+
+            CreateMap<DepartmentCreateDto, DepartmentDto>();
+
+            CreateMap<DepartmentUpdateDto, DepartmentDto>();
         }
     }
 }

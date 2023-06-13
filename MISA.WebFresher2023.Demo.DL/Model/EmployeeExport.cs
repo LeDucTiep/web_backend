@@ -17,13 +17,15 @@ namespace MISA.WebFresher2023.Demo.DL.Model
     /// Author: LeDucTiep (07/06/2023)
     public class EmployeeExport
     {
+        private string employeeCode;
+
         /// <summary>
         /// Mã nhân viên 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
         [MSRequired(ErrorCode = (int)EmployeeErrorCode.CodeIsRequired)]
         [MSMaxLength(Length = 20, ErrorCode = (int)EmployeeErrorCode.EmployeeCodeTooLong)]
-        public string EmployeeCode { get; set; }
+        public string EmployeeCode { get => employeeCode; set => employeeCode = Regex.Replace(value, @"\s+", ""); }
 
         /// <summary>
         /// Họ và tên
@@ -43,6 +45,7 @@ namespace MISA.WebFresher2023.Demo.DL.Model
         /// Ngày sinh 
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
+        [MSValidDateInThePast(ErrorCode = (int)EmployeeErrorCode.DateOfBirthInvalidTime)]
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
