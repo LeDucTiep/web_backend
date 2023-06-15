@@ -11,6 +11,8 @@ using System.Globalization;
 using ClosedXML.Excel;
 using MISA.WebFresher2023.Demo.Common.Attribute;
 using System.Reflection;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.Collections.Generic;
 
 namespace MISA.WebFresher2023.Demo.BL.Service
 {
@@ -59,7 +61,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             }
 
             // Kiểm tra phải chưa tồn tại mã nhân viên 
-            isExisted = await _employeeRepository.CheckExistedEmployeeCode(entity.EmployeeCode);
+            isExisted = await _employeeRepository.CheckExistedEmployeeCodeAsync(entity.EmployeeCode);
             if (isExisted)
                 errorList.Add((int)EmployeeErrorCode.CodeDuplicated);
 
@@ -93,7 +95,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             }
 
             // Kiểm tra phải chưa tồn tại mã nhân viên, ngoại trừ mã trước khi sửa
-            isExisted = await _employeeRepository.CheckDuplicatedEmployeeEditCode(entity.EmployeeCode, id);
+            isExisted = await _employeeRepository.CheckDuplicatedEmployeeEditCodeAsync(entity.EmployeeCode, id);
             if (isExisted)
                 errorList.Add((int)EmployeeErrorCode.CodeDuplicated);
 
@@ -133,7 +135,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="code">Mã nhân viên</param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<bool> CheckEmployeeCode(string code)
+        public async Task<bool> CheckEmployeeCodeAsync(string code)
         {
             PropertyInfo? property = typeof(EmployeeDto).GetProperty("EmployeeCode");
 
@@ -156,7 +158,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
                 }
             }
 
-            return await _employeeRepository.CheckExistedEmployeeCode(code);
+            return await _employeeRepository.CheckExistedEmployeeCodeAsync(code);
         }
 
         /// <summary>
@@ -165,7 +167,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="employeeCode">EmployeeCode</param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, string itsCode)
+        public async Task<bool> CheckDuplicatedEmployeeEditCodeAsync(string employeeCode, string itsCode)
         {
             PropertyInfo? property = typeof(EmployeeDto).GetProperty("EmployeeCode");
 
@@ -188,7 +190,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
                 }
             }
 
-            return await _employeeRepository.CheckDuplicatedEmployeeEditCode(employeeCode, itsCode);
+            return await _employeeRepository.CheckDuplicatedEmployeeEditCodeAsync(employeeCode, itsCode);
         }
 
         /// <summary>
@@ -242,9 +244,9 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// </summary>
         /// <returns>Mã nhân viên mới </returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<string> GetNewEmployeeCode()
+        public async Task<string> GetNewEmployeeCodeAsync()
         {
-            return await _employeeRepository.GetNewEmployeeCode();
+            return await _employeeRepository.GetNewEmployeeCodeAsync();
         }
 
         /// <summary>
@@ -270,54 +272,77 @@ namespace MISA.WebFresher2023.Demo.BL.Service
             // Tạo sheet 
             IXLWorksheet sheet1 = xlWorkbook.Worksheets.Add(ExportExcelResource.SheetName);
 
-            // Ghi thông tin lên sheet 
-            int rowNumber = await LoadEmployeeExportData(sheet1);
+            // Nạp dữ liêu cho table 
+            // Lấy danh sách các nhân viên 
+            IEnumerable<EmployeeExport> employeeList = await _employeeRepository.GetEmployeeExportAsync();
 
+            // Ghi thông tin lên sheet 
+            LoadEmployeeExportData(sheet1, employeeList);
+
+            // Thêm style
+            StyleSheet(sheet1, employeeList);
+
+            // Trả về workbook 
+            return xlWorkbook;
+        }
+
+        /// <summary>
+        /// Hàm định dạng, căn chỉnh excel
+        /// </summary>
+        /// <param name="sheet">Trang tính</param>
+        /// <param name="employeeList">Danh sách nhân viên</param>
+        private void StyleSheet(IXLWorksheet sheet, IEnumerable<EmployeeExport> employeeList)
+        {
+            int rowNumber = employeeList.Count() + 3;
+            int columnNumber = new EmployeeExport().GetType().GetProperties().Length + 1;
             // Định dạng lại sheet 
+            // Định dạng border 2 dòng đầu 
+            sheet.Range(1, 1, 1, columnNumber).Style.Border.OutsideBorderColor = XLColor.LightGray;
+            sheet.Range(2, 1, 2, columnNumber).Style.Border.OutsideBorderColor = XLColor.LightGray;
+            sheet.Range(1, 1, 1, columnNumber).Merge();
+            sheet.Range(2, 1, 2, columnNumber).Merge();
+
+            // Độ cao của 2 dòng tiêu đề 
+            sheet.Row(1).Height = 20.5;
+            sheet.Row(2).Height = 22;
+            sheet.Rows(3, rowNumber).Height = 15;
+
             // Định dạng cho toàn trang
-            var tempRangeStyle = sheet1.Range(1, 1, rowNumber, 9).Style;
+            var tempRangeStyle = sheet.Range(1, 1, rowNumber, columnNumber).Style;
             tempRangeStyle.Alignment.WrapText = true;
             tempRangeStyle.Border.InsideBorder = XLBorderStyleValues.Thin;
             tempRangeStyle.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
             // Định dạng cho 3 dòng đầu
-            tempRangeStyle = sheet1.Range(1, 1, 3, 9).Style;
+            tempRangeStyle = sheet.Range(1, 1, 3, columnNumber).Style;
             tempRangeStyle.Alignment.Vertical = XLAlignmentVerticalValues.Center;
             tempRangeStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
             tempRangeStyle.Font.FontName = "Arial";
             tempRangeStyle.Font.Bold = true;
 
-            // Định dạng border 2 dòng đầu 
-            sheet1.Range("A1:I1").Style.Border.OutsideBorderColor = XLColor.LightGray;
-            sheet1.Range("A2:I2").Style.Border.OutsideBorderColor = XLColor.LightGray;
-
             // Định dạng table có border màu đen 
-            tempRangeStyle = sheet1.Range(3, 1, rowNumber, 9).Style;
+            tempRangeStyle = sheet.Range(3, 1, rowNumber, columnNumber).Style;
             tempRangeStyle.Border.InsideBorderColor = XLColor.Black;
             tempRangeStyle.Border.OutsideBorderColor = XLColor.Black;
 
-
             // Định dạng Font cho dòng đầu 
-            tempRangeStyle = sheet1.Cell("A1").Style;
+            tempRangeStyle = sheet.Cell("A1").Style;
             tempRangeStyle.Font.FontSize = 16;
 
             // Định dạng Font cho tên cột  
-            tempRangeStyle = sheet1.Range(3, 1, 3, 9).Style;
+            tempRangeStyle = sheet.Range(3, 1, 3, columnNumber).Style;
             tempRangeStyle.Font.FontSize = 10;
             tempRangeStyle.Fill.BackgroundColor = XLColor.FromArgb(255, 216, 216, 216);
 
             // Định dạng Text cho dữ liệu trong bảng 
-            tempRangeStyle = sheet1.Range(4, 1, rowNumber, 9).Style;
+            tempRangeStyle = sheet.Range(4, 1, rowNumber, columnNumber).Style;
             tempRangeStyle.Font.FontName = "Times New Roman";
             tempRangeStyle.Font.FontSize = 11;
             tempRangeStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
             tempRangeStyle.Alignment.Vertical = XLAlignmentVerticalValues.Bottom;
 
             // Căn giữa ngày tháng
-            sheet1.Column(5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-
-            // Trả về workbook 
-            return xlWorkbook;
+            sheet.Column(5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
         }
 
         /// <summary>
@@ -326,16 +351,10 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="sheet">Trang cần ghi dữ liệu vào</param>
         /// <returns>Số dòng của sheet</returns>
         /// Author: LeDucTiep (07/06/2023)
-        private async Task<int> LoadEmployeeExportData(IXLWorksheet sheet)
+        private void LoadEmployeeExportData(IXLWorksheet sheet, IEnumerable<EmployeeExport> employeeList)
         {
             // Tiêu đề của bảng
             sheet.Cell("A1").Value = ExportExcelResource.SheetTitle;
-            sheet.Range("A1", "I1").Merge();
-            sheet.Range("A2", "I2").Merge();
-
-            // Độ cao của 2 dòng tiêu đề 
-            sheet.Row(1).Height = 20.5;
-            sheet.Row(2).Height = 22;
 
             // Danh sách tên các cột 
             string[] headers = new string[]
@@ -345,29 +364,23 @@ namespace MISA.WebFresher2023.Demo.BL.Service
                 ExportExcelResource.FullName,
                 ExportExcelResource.Gender,
                 ExportExcelResource.DateOfBirth,
+                ExportExcelResource.IdentityNumber,
                 ExportExcelResource.PositionName,
                 ExportExcelResource.DeparmentName,
                 ExportExcelResource.BankAccountNumber,
                 ExportExcelResource.NameOfBank,
+                ExportExcelResource.BankAccountBranch,
             };
 
             // Gán tên cho các cột 
-            sheet.Cell("A3").Value = headers[0];
-            sheet.Cell("B3").Value = headers[1];
-            sheet.Cell("C3").Value = headers[2];
-            sheet.Cell("D3").Value = headers[3];
-            sheet.Cell("E3").Value = headers[4];
-            sheet.Cell("F3").Value = headers[5];
-            sheet.Cell("G3").Value = headers[6];
-            sheet.Cell("H3").Value = headers[7];
-            sheet.Cell("I3").Value = headers[8];
+            for (int i = 0; i < headers.Length; i++)
+                sheet.Cell(3, i + 1).Value = headers[i];
+
 
             // Danh sách độ rộng của các cột 
-            int[] arrayColumnWidth = new int[9];
+            int[] arrayColumnWidth = new int[headers.Length];
 
-            // Nạp dữ liêu cho table 
-            // Lấy danh sách các nhân viên 
-            IEnumerable<EmployeeExport> employeeList = await _employeeRepository.GetEmployeeExportAsync();
+
 
             // Duyệt qua các thuộc tính của nhân viên 
             System.Reflection.PropertyInfo[] properties = new EmployeeExport().GetType().GetProperties();
@@ -452,9 +465,6 @@ namespace MISA.WebFresher2023.Demo.BL.Service
                 else
                     sheet.Column(index + 1).Width = arrayColumnWidth[index] > 25 ? 25 : arrayColumnWidth[index] * 1.5;
             }
-
-            // trả về số lượng dòng 
-            return rowCount + 3;
         }
         #endregion
     }

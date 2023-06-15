@@ -12,7 +12,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="employeeCode">Mã nhân viên </param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
-        Task<bool> CheckEmployeeCode(string employeeCode);
+        Task<bool> CheckEmployeeCodeAsync(string employeeCode);
 
         /// <summary>
         /// Hàm lấy danh sách nhân viên theo trang
@@ -29,7 +29,7 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// </summary>
         /// <returns>Mã nhân viên mới </returns>
         /// Author: LeDucTiep (23/05/2023)
-        Task<string> GetNewEmployeeCode();
+        Task<string> GetNewEmployeeCodeAsync();
 
         /// <summary>
         /// Hàm lấy danh sách employee và tạo ra file excel
@@ -51,6 +51,6 @@ namespace MISA.WebFresher2023.Demo.BL.Service
         /// <param name="employeeCode">EmployeeCode</param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
-        Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, string itsCode);
+        Task<bool> CheckDuplicatedEmployeeEditCodeAsync(string employeeCode, string itsCode);
     }
 }

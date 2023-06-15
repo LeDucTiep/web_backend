@@ -64,22 +64,6 @@ namespace MISA.WebFresher2023.Demo.Controllers
         }
 
         /// <summary>
-        /// API lấy tất cả danh sách bản ghi
-        /// </summary>
-        /// <returns>Danh sách bản ghi</returns>
-        /// Author: LeDucTiep (23/05/2023)
-        [HttpGet]
-        public virtual async Task<IActionResult> GetAllAsync()
-        {
-            IEnumerable<TEntityDto> list = await _baseService.GetAllAsync();
-
-            if (!list.Any())
-                return NoContent();
-
-            return Ok(list);
-        }
-
-        /// <summary>
         /// API sửa thông tin bản ghi 
         /// </summary>
         /// <param name="id">Mã của bản ghi cần sửa </param>

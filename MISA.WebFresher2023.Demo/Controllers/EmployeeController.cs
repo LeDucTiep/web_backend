@@ -5,6 +5,7 @@ using MISA.WebFresher2023.Demo.DL.Entity;
 using MISA.WebFresher2023.Demo.DL.Model;
 using ClosedXML.Excel;
 using MISA.WebFresher2023.Demo.Common.MyException;
+using MISA.WebFresher2023.Demo.Common.Resource;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -42,7 +43,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         public async Task<IActionResult> CheckIsExistedCodeAsync(string code)
         {
             // Tạo connection
-            return Ok(await _employeeService.CheckEmployeeCode(code));
+            return Ok(await _employeeService.CheckEmployeeCodeAsync(code));
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
         public async Task<IActionResult> CheckDuplicatedEmployeeEditCodeAsync(string employeeCode, string itsCode)
         {
             // Tạo connection
-            return Ok(await _employeeService.CheckDuplicatedEmployeeEditCode(employeeCode, itsCode));
+            return Ok(await _employeeService.CheckDuplicatedEmployeeEditCodeAsync(employeeCode, itsCode));
         }
 
         /// <summary>
@@ -80,14 +81,14 @@ namespace MISA.WebFresher2023.Demo.Controllers
         /// <summary>
         /// API lấy mã nhân viên mới 
         /// </summary>
-        /// <returns>Mã nhân viên mới</returns>
+        /// <returns>Mã nhân viên mới</returns>%
         /// Author: LeDucTiep (23/05/2023)
         // GET api/v1/Employees/new-employee-code
         [Route("new-employee-code")]
         [HttpGet]
         public async Task<IActionResult> GetNewEmployeeCodeAsync()
         {
-            return Ok(await _employeeService.GetNewEmployeeCode());
+            return Ok(await _employeeService.GetNewEmployeeCodeAsync());
         }
 
         /// <summary>
@@ -100,12 +101,12 @@ namespace MISA.WebFresher2023.Demo.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync(EmployeeCreateDto employeeCreateDto)
         {
-            if(employeeCreateDto == null)
+            if (employeeCreateDto == null)
             {
                 throw new BadRequestException();
             }
             EmployeeDto employee = await _employeeService.PostAsync(employeeCreateDto);
-            
+
             return StatusCode(201, employee.EmployeeId);
         }
 
@@ -126,7 +127,7 @@ namespace MISA.WebFresher2023.Demo.Controllers
             xlWorkbook.SaveAs(ms);
 
             // Gửi file
-            return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh_sach_nhan_vien.xlsx");
+            return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ExportExcelResource.FileName);
         }
 
         /// <summary>

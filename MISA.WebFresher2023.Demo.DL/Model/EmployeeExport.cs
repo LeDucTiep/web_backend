@@ -49,6 +49,13 @@ namespace MISA.WebFresher2023.Demo.DL.Model
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
+        /// Số chứng minh nhân dân 
+        /// </summary>
+        /// Author: LeDucTiep (23/05/2023)
+        [MSMaxLength(Length = 25, ErrorCode = (int)EmployeeErrorCode.IdentityNumberTooLong)]
+        public string? IdentityNumber { get; set; }
+
+        /// <summary>
         /// Tên chức vụ
         /// </summary>
         /// Author: LeDucTiep (23/05/2023)
@@ -75,5 +82,13 @@ namespace MISA.WebFresher2023.Demo.DL.Model
         /// Author: LeDucTiep (04/06/2023)
         [MSMaxLength(Length = 255, ErrorCode = (int)EmployeeErrorCode.NameOfBankTooLong)]
         public string? NameOfBank { get; set; }
+
+        /// <summary>
+        /// Chi nhánh ngân hàng
+        /// </summary>
+        /// Author: LeDucTiep (04/06/2023)
+        [MSMaxLength(Length = 255, ErrorCode = (int)EmployeeErrorCode.BankAccountBranchTooLong)]
+        public string? BankAccountBranch { get; set; }
+
     }
 }

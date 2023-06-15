@@ -22,7 +22,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="employeeCode">EmployeeCode</param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<bool> CheckExistedEmployeeCode(string employeeCode)
+        public async Task<bool> CheckExistedEmployeeCodeAsync(string employeeCode)
         {
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
@@ -58,7 +58,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="itsCode">EmployeeCode trước khi sửa</param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, string itsCode)
+        public async Task<bool> CheckDuplicatedEmployeeEditCodeAsync(string employeeCode, string itsCode)
         {
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
@@ -95,7 +95,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// <param name="itsId">Id của bản ghi</param>
         /// <returns>bool</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<bool> CheckDuplicatedEmployeeEditCode(string employeeCode, Guid itsId)
+        public async Task<bool> CheckDuplicatedEmployeeEditCodeAsync(string employeeCode, Guid itsId)
         {
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
@@ -148,7 +148,7 @@ namespace MISA.WebFresher2023.Demo.DL.Repository
         /// </summary>
         /// <returns>Mã employeeCode mới</returns>
         /// Author: LeDucTiep (23/05/2023)
-        public async Task<string> GetNewEmployeeCode()
+        public async Task<string> GetNewEmployeeCodeAsync()
         {
             // Tạo connection
             var connection = await GetOpenConnectionAsync();
